@@ -1,0 +1,15 @@
+# dependencies
+/client/node_modules
+/server/node_modules
+/client/package-lock.json
+/server/package-lock.json
+/.idea
+
+# production
+
+
+# misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
