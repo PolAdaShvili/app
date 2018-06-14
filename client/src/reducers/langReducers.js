@@ -61,7 +61,7 @@ function changeLangReducer ( state = initialState, action ) {
   switch (action.type) {
     case CHANGE_LANG:
       return Object.assign({}, state, {
-        fixedLang: 'ru'
+        fixedLang: action.payload.fixedLang
       });
     default :
       return state;

@@ -3,12 +3,12 @@ import { Dropdown } from 'semantic-ui-react';
 import DropDownItem from './DropdownItem'
 
 
-const LangDropdown = ({ configLang, setLang }) => {
-  const handleChangeLang = (e) => {
-    setLang( e.target.getAttribute('data-lang') )
-  };
 
-  console.log(setLang);
+const LangDropdown = ({ configLang, setLang }) => {
+  function handleChangeLang (e) {
+    const val = e.target.getAttribute('data-lang');
+    setLang( val );
+  }
   return (
     <div className='lang-box'>
       <Dropdown

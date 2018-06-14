@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { USERS_FROM_DB } from '../constans';
 import { langReducer } from "../actions/changeLang";
 import Main from './MainContent'
 import Header from '../components/Header/Header';
@@ -10,16 +11,15 @@ import store from "../store";
 
 class Container extends Component{
   componentDidMount(){
-    axios.get('http://localhost:3001/api/users')
+    axios.get( USERS_FROM_DB )
       .then((res) => {
-        console.log('USERS-->', res.data);
+        console.log('USERS--in DB-->', res.data);
       })
       .catch((err) => {
         console.log('Connection error. -> USERS', err);
       });
   }
   render(){
-    console.log(this.props);
     const {fixedLang, lang, setLang } = this.props;
     return (
       <div className='App'>
@@ -27,7 +27,7 @@ class Container extends Component{
           configLang={ lang[fixedLang].header }
           setLang={ setLang }
         />
-        <button onClick={ setLang }>ss</button>
+        <button onClick={ setLang }>test</button>
         <Main />
         <Footer
           configLang={ lang[fixedLang].footer }
@@ -46,16 +46,16 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
  return {
-   setLang: (val) => {
-     console.log('!!!--->',val);
+   setLang: (payload) => {
+     console.log('!!!--->',payload);
      dispatch(langReducer({
-       fixedLang: val
+       fixedLang: payload
      }))
    }
  }
 };
 store.subscribe(() => {
-  console.log(store.getState());
+  console.log('subscribe --->', store.getState());
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);
