@@ -24,11 +24,11 @@ const LangDropdown = () => {
             English
           </Dropdown.Item>
           <Dropdown.Item
-            data-lang='us'
+            data-lang='ua'
             onClick={handleChangeLang}
           >
-            <Flag name='us'/>
-            American
+            <Flag name='ua'/>
+            Ukrainian
           </Dropdown.Item>
           <Dropdown.Item
             data-lang='ru'

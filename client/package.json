@@ -7,11 +7,16 @@
     "start": "webpack-dev-server --open"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-hot-loader": "^4.0.0",
     "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-router-redux": "^4.0.8",
     "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.81.1",
     "webpack": "^4.11.1",
