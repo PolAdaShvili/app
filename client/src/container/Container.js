@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { USERS_FROM_DB } from '../constans';
 import { langReducer } from "../actions/changeLang";
-import Main from './MainContent'
+import MainContent from './MainContent'
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import store from "../store";
@@ -27,8 +27,7 @@ class Container extends Component{
           configLang={ lang[fixedLang].header }
           setLang={ setLang }
         />
-        <button onClick={ setLang }>test</button>
-        <Main />
+        <MainContent configLang={ lang[fixedLang].main } />
         <Footer
           configLang={ lang[fixedLang].footer }
         />
@@ -47,7 +46,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
  return {
    setLang: (payload) => {
-     console.log('!!!--->',payload);
      dispatch(langReducer({
        fixedLang: payload
      }))

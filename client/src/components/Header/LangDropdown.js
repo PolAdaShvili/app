@@ -3,8 +3,7 @@ import { Dropdown } from 'semantic-ui-react';
 import DropDownItem from './DropdownItem'
 
 
-
-const LangDropdown = ({ configLang, setLang }) => {
+const LangDropDown = ({ configLang, setLang }) => {
   function handleChangeLang (e) {
     const val = e.target.getAttribute('data-lang');
     setLang( val );
@@ -16,7 +15,10 @@ const LangDropdown = ({ configLang, setLang }) => {
         direction='left'
         button className='lang'>
         <Dropdown.Menu>
-          <Dropdown.Header icon='tags' content={ configLang.select } />
+          <Dropdown.Header
+            icon='tags'
+            content={ configLang.select }
+          />
           <Dropdown.Divider />
           { Object.keys(configLang).map((lang, index) => {
             if(index) {
@@ -36,4 +38,4 @@ const LangDropdown = ({ configLang, setLang }) => {
   )
 };
 
-export default LangDropdown;
+export default LangDropDown;

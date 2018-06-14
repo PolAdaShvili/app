@@ -4,12 +4,17 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background: sandybrown;
 
   .Header{
     height: 50px;
     display: flex;
     background-color: $accent-color;
 
+    .ui.google.plus.button{
+      height: 75%;
+      margin-top: 5px;
+    }
     .headerContainer{
       display: flex;
       color: $text-color;
@@ -62,7 +67,7 @@
           @for $i from 1 through 3 {
             &:nth-child(#{$i}) { transform: rotate(-60deg * $i) }
           }
-          &:nth-child(3):before{
+          &:nth-child(2):before{
             width: 3px;
             height: 3px;
             opacity: 1;
@@ -117,6 +122,19 @@
   }
   .MainContent{
     flex-grow: 1;
+
+    .FormBox{
+      width: 40%;
+      padding: 15px;
+      margin: 25px auto 0;
+      border-radius: 15px;
+      background: #263238;
+      box-shadow: 0 7px 20px 5px rgba(50, 50, 50, 0.75);
+
+      label{
+        color: white;
+      }
+    }
   }
   .Footer{
     height: 30px;

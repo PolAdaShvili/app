@@ -1,12 +1,19 @@
 import React from 'react';
+import { Route, Switch } from "react-router";
+import Form from '../components/Main/Form/Form';
 
 
-const MainContent = () => {
+const MainContent = ({ configLang }) => {
   return (
     <div className='MainContent'>
-      <main>
-        Content
-      </main>
+      <div>
+        <Switch>
+          <Route
+            exact
+            path="/registration"
+            render={ () => <Form configLang={ configLang.form } />} />
+        </Switch>
+      </div>
     </div>
   )
 };

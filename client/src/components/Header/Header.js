@@ -1,8 +1,12 @@
 import React from 'react';
-import { Divider, Container } from 'semantic-ui-react';
+import { Divider, Container, Button } from 'semantic-ui-react';
 import LangDropDown from './LangDropdown';
 import LogoReact from './LogoReact';
 
+
+const handleClickReg = () => {
+  console.log('click registration');
+};
 
 const Header = ({ configLang, setLang }) => {
   return (
@@ -10,7 +14,12 @@ const Header = ({ configLang, setLang }) => {
       <LogoReact />
       <Container className='headerContainer'>
         <span>{ configLang.title }</span>
-        <span>{ configLang.btnReg }</span>
+        <Button
+          color='google plus'
+          size='mini'
+          content={ configLang.btnReg }
+          onClick={ handleClickReg }
+        />
       </Container>
       <LangDropDown
         configLang={ configLang.langParams }

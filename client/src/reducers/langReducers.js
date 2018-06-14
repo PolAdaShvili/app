@@ -2,7 +2,6 @@ import { CHANGE_LANG } from '../constans';
 
 
 const initialState = {
-  authorizationUser: false,
   fixedLang: 'gb',
   lang: {
     gb: {
@@ -16,7 +15,22 @@ const initialState = {
           ru: 'Russian'
         }
       },
-      main: {},
+      main: {
+        form: {
+          name: 'First Name',
+          middle: 'Middle Name',
+          surname: 'Last Name',
+          email: 'Email',
+          gender: {
+            title: 'gender',
+            male: 'Male',
+            female: 'Female'
+          },
+          age: 'Age',
+          file: 'Upload file',
+          button: 'Create account'
+        }
+      },
       footer: {
         title: 'Footer title'
       }
@@ -32,7 +46,22 @@ const initialState = {
           ru: 'Русский'
         }
       },
-      main: {},
+      main: {
+        form: {
+          name: 'Имя',
+          middle: 'Отчество',
+          surname: 'Фамилия',
+          email: 'Почта',
+          gender: {
+            title: 'Пол',
+            male: 'Мужской',
+            female: 'Женский'
+          },
+          age: 'Возраст',
+          file: 'Загрузить фото',
+          button: 'Создать аккаунт'
+        }
+      },
       footer: {
         title: 'Заголовк подвала'
       }
@@ -48,20 +77,34 @@ const initialState = {
           ru: 'Російський'
         }
       },
-      main: {},
+      main: {
+        form: {
+          name: 'Ім\'я',
+          middle: 'Отчество',
+          surname: 'Фамілія',
+          email: 'Почта',
+          gender: {
+            title: 'Стать',
+            male: 'Чоловічий',
+            female: 'Жіночий'
+          },
+          age: 'Вік',
+          file: 'Додати зображення',
+          button: 'Стваорити аккаунт'
+        }
+      },
       footer: {
         title: 'Заголовк підвалу'
       }
     }
-  },
-  users: []
+  }
 };
 
 function changeLangReducer ( state = initialState, action ) {
   switch (action.type) {
     case CHANGE_LANG:
       return Object.assign({}, state, {
-        fixedLang: action.payload.fixedLang
+        fixedLang: action.lang.fixedLang
       });
     default :
       return state;
