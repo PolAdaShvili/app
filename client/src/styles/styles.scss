@@ -134,6 +134,22 @@
       label{
         color: white;
       }
+      .buttonBox {
+        position: relative;
+
+        .dowLand{
+          z-index: 5;
+          position: relative;
+          bottom: 8px;
+          margin-bottom: 10px;
+        }
+        input {
+          z-index: 10;
+          position: absolute;
+          opacity: 0;
+          color: red;
+        }
+      }
     }
   }
   .Footer{
