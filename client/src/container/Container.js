@@ -1,9 +1,17 @@
 import React from 'react';
+import Main from './MainContent'
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 
 
 const Container = () => {
-  console.log('Hello world');
-  return <h1>Hello World!</h1>
+  return (
+    <div className='App'>
+      <Header />
+      <Main />
+      <Footer />
+    </div>
+  )
 };
 
 export default Container;

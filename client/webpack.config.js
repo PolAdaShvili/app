@@ -34,11 +34,20 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/, use: ['style-loader', 'css-loader'],
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.scss$/,
+        use: ["style-loader", "css-loader", "sass-loader"]
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: ['file-loader']
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        loader: "file-loader"
       },
       {
         test: /\.js|.jsx?$/,
