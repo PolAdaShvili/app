@@ -1,12 +1,14 @@
 import React from 'react';
-import { Dropdown, Flag } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
+import DropDownItem from './DropdownItem'
 
 
-const handleChangeLang = (e) => {
-  console.log(e.target);
-};
+const LangDropdown = ({ configLang, setLang }) => {
+  const handleChangeLang = (e) => {
+    setLang( e.target.getAttribute('data-lang') )
+  };
 
-const LangDropdown = () => {
+  console.log(setLang);
   return (
     <div className='lang-box'>
       <Dropdown
@@ -14,29 +16,20 @@ const LangDropdown = () => {
         direction='left'
         button className='lang'>
         <Dropdown.Menu>
-          <Dropdown.Header icon='tags' content='Select language' />
+          <Dropdown.Header icon='tags' content={ configLang.select } />
           <Dropdown.Divider />
-          <Dropdown.Item
-            data-lang='gb'
-            onClick={handleChangeLang}
-          >
-            <Flag name='gb'/>
-            English
-          </Dropdown.Item>
-          <Dropdown.Item
-            data-lang='ua'
-            onClick={handleChangeLang}
-          >
-            <Flag name='ua'/>
-            Ukrainian
-          </Dropdown.Item>
-          <Dropdown.Item
-            data-lang='ru'
-            onClick={handleChangeLang}
-          >
-            <Flag name='ru'/>
-            Russian
-          </Dropdown.Item>
+          { Object.keys(configLang).map((lang, index) => {
+            if(index) {
+              return (
+                <DropDownItem
+                  key={ index }
+                  lang={ lang }
+                  val={ configLang[lang] }
+                  handleEvent={ handleChangeLang }
+                />
+               )
+            }
+          }) }
         </Dropdown.Menu>
       </Dropdown>
     </div>

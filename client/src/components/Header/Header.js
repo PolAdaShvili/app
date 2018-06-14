@@ -1,18 +1,21 @@
 import React from 'react';
 import { Divider, Container } from 'semantic-ui-react';
-import LangDropdown from './LangDropdown';
+import LangDropDown from './LangDropdown';
 import LogoReact from './LogoReact';
 
 
-const Header = () => {
+const Header = ({ configLang, setLang }) => {
   return (
     <header className='Header'>
       <LogoReact />
       <Container className='headerContainer'>
-        <span>title</span>
-        <span>registration</span>
+        <span>{ configLang.title }</span>
+        <span>{ configLang.btnReg }</span>
       </Container>
-      <LangDropdown />
+      <LangDropDown
+        configLang={ configLang.langParams }
+        setLang={ setLang }
+      />
       <Divider />
     </header>
   )
