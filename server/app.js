@@ -1,5 +1,6 @@
 const express = require( 'express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const CONST = require('./constans');
 const Schema = require('./model/User/userSchema');
 
@@ -9,7 +10,7 @@ const db = mongoose.connection;
 const { PORT, URL_DB } = CONST;
 const { User } = Schema;
 
-
+app.use(cors());
 mongoose.connect(URL_DB);
 db.on('error', console.error.bind(console, 'Connection db error:'));
 db.once('open', () => {
