@@ -1,7 +1,7 @@
 const express = require( 'express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const CONST = require('./constans');
+const CONST = require('./constants');
 const Schema = require('./model/User/userSchema');
 
 

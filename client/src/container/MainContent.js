@@ -11,7 +11,8 @@ const MainContent = ({ configLang }) => {
           <Route
             exact
             path="/registration"
-            render={ () => <Form configLang={ configLang.form } />} />
+            render={ () => <Form configLang={ configLang.form } />}
+          />
         </Switch>
       </div>
     </div>

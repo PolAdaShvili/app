@@ -1,21 +1,21 @@
+const path = require ( 'path' );
+const webpack = require ( 'webpack' );
 const publicPath = '/dist/build/';
-const path = require('path');
-const webpack = require('webpack');
 
 module.exports = {
   entry: './index.js',
   output: {
-    path: path.join(__dirname, '/dist/assets'),
+    path: path.join ( __dirname, '/dist/assets' ),
     filename: '[name].bundle.js',
     publicPath: publicPath,
     sourceMapFilename: '[name].map'
   },
   plugins: [
-    new webpack.LoaderOptionsPlugin({
+    new webpack.LoaderOptionsPlugin ( {
       minimize: true,
       debug: false
-    }),
-    new webpack.optimize.UglifyJsPlugin({
+    } ),
+    new webpack.optimize.UglifyJsPlugin ( {
       beautify: false,
       mangle: {
         screw_ie8: true,
@@ -25,6 +25,6 @@ module.exports = {
         screw_ie8: true
       },
       comments: false
-    })
+    } )
   ]
 };

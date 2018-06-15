@@ -1,4 +1,4 @@
-import { CHANGE_LANG } from '../constans';
+import { CHANGE_LANG } from '../constants';
 
 
 export function langReducer(lang) {

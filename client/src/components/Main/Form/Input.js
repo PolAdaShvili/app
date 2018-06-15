@@ -1,8 +1,9 @@
 import React from 'react';
-import { Form,  Message } from 'semantic-ui-react';
+import { Form } from 'semantic-ui-react';
 
 
-const InputBox = ({ label, placeHolder, type = 'text', onChange, name, required = true }) => {
+const InputBox = ({ label, placeHolder, type = 'text', onChange, name, required = true}) => {
+
   return (
     <Form.Field>
       <label>{ label }</label>
