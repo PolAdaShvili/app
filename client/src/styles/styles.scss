@@ -124,30 +124,34 @@
     flex-grow: 1;
 
     .FormBox{
-      width: 40%;
+      width: 30%;
       padding: 15px;
       margin: 25px auto 0;
       border-radius: 15px;
       background: #263238;
       box-shadow: 0 7px 20px 5px rgba(50, 50, 50, 0.75);
 
-      label{
-        color: white;
-      }
-      .buttonBox {
-        position: relative;
-
-        .dowLand{
-          z-index: 5;
-          position: relative;
-          bottom: 8px;
-          margin-bottom: 10px;
+      .Form{
+        label{
+          color: white;
         }
-        input {
-          z-index: 10;
-          position: absolute;
-          opacity: 0;
-          color: red;
+        .err{
+          box-shadow: 0 0 10px 6px rgba(227, 11, 11, 0.75);
+        }
+        .buttonBox {
+          position: relative;
+          .dowLand{
+            color: darkorange;
+            z-index: 5;
+            position: relative;
+            bottom: 8px;
+            margin-bottom: 10px;
+          }
+          input {
+            z-index: 10;
+            position: absolute;
+            opacity: 0;
+          }
         }
       }
     }
