@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { USERS_FROM_DB } from '../constans';
+import { USERS_FROM_DB } from '../constants';
 import { langReducer } from "../actions/changeLang";
 import MainContent from './MainContent'
 import Header from '../components/Header/Header';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Select, Form, Button } from 'semantic-ui-react';
-import { regExp } from '../../../constans';
+import { regExp } from '../../../constants';
 import Input from './Input';
 
 
@@ -14,14 +14,11 @@ class FormControl extends Component {
       email: '',
       gender: '',
       age: '',
-      photo: '',
-      err: false
+      photo: ''
     };
 
     this.handlerInput = this.handlerInput.bind(this);
-    this.handlerSelect = this.handlerSelect.bind(this);
-    FormControl.handlerInputFile = FormControl.handlerInputFile.bind(this);
-    FormControl.clickRegister = FormControl.clickRegister.bind(this);
+    FormControl.handlerSelect = FormControl.handlerSelect.bind(this);
   }
 
   static handlerInputFile(e){
@@ -30,58 +27,47 @@ class FormControl extends Component {
     elem.style.backgroundColor = '#2185d0';
     console.log(e.target.parentNode.nextSibling);
   }
-  static validate(regExp, name, value,){
+  static validate(regExp, name, value){
     return regExp[name].test(value);
   }
-  static validateName(regExp, name, value,){
+  static validateName(regExp, name, value){
     return (value.search(regExp.name) !== -1) ;
-  }
-  static clickRegister(e){
-    console.log(this.state);
-    console.log(e.target)
-  }
-
-  handlerInput(e){
-    const {type, value, name} = e.target;
-
-    if(type === 'text' && name !== 'age'){
-      if( FormControl.validateName(regExp, name, value) ){
-        this.setState( {[name]: value} );
-        e.target.classList.remove('err');
-      } else {
-        e.target.classList.add('err');
-      }
+ }
+  static handlerSelect(e) {
+    if ( e.target.children[ 0 ].innerText ) {
+      e.target.classList.remove( 'err' );
     } else {
-      if(FormControl.validate(regExp, name, value)){
-        this.setState( {[name]: value} );
-        e.target.classList.remove('err');
-      } else {
-        e.target.classList.add('err');
-      }
+      this.setState({gender: e.target.children[ 0 ].innerText});
+      e.target.classList.add( 'err' );
     }
   }
-  handlerSelect(e){
-    if(e.target.children[0].innerText){
-      e.target.classList.remove('err');
-      this.setState({gender: e.target.children[0].innerText});
-    } else {
-      if(!this.state.gender){
-        this.setState( {err: true} );
-        e.target.classList.add('err');
+
+  handlerInput(e) {
+     const { type, value, name } = e.target;
+
+    if ( type === 'text' && name !== 'age' ) {
+      if ( FormControl.validateName( regExp, name, value ) ) {
+        this.setState( { [ name ]: value } );
+        e.target.classList.remove( 'err' );
       } else {
-        this.setState( {err: true} );
-        e.target.classList.add('err');
+        e.target.classList.add( 'err' );
+      }
+    } else {
+      if ( FormControl.validate( regExp, name, value ) ) {
+        this.setState( { [ name ]: value } );
+        e.target.classList.remove( 'err' );
+      } else {
+        e.target.classList.add( 'err' );
       }
     }
   }
 
   render() {
-    const {configLang} = this.props;
+    const { configLang } = this.props;
     const options = [
-      {key: 'm', text: configLang.gender.male, value: 'male'},
-      {key: 'f', text: configLang.gender.female, value: 'female'},
+      { key: 'm', text: configLang.gender.male, value: 'male' },
+      { key: 'f', text: configLang.gender.female, value: 'female' },
     ];
-    console.log(this.state);
     return (
       <div className='FormBox'>
         <Form className='Form' size='mini'>
@@ -108,6 +94,7 @@ class FormControl extends Component {
             />
             <Input
               name='age'
+              type='number'
               label={ configLang.age }
               placeHolder={ configLang.age }
               onChange={ this.handlerInput }
@@ -115,6 +102,7 @@ class FormControl extends Component {
           </Form.Group>
           <Input
             name='middle'
+            required={ false }
             label={ configLang.middle }
             placeHolder={ configLang.middle }
             onChange={ this.handlerInput }
@@ -125,26 +113,16 @@ class FormControl extends Component {
             label={ configLang.email }
             placeHolder={ configLang.email }
             onChange={ this.handlerInput }
-
           />
-          <div className='buttonBox'>
-            <Input
-              name='file'
-              type='file'
-              label={ configLang.file }
-              placeHolder={ configLang.file }
-              className='uploadFile'
-              onChange={ FormControl.handlerInputFile }
-            />
-            <Button fluid icon='download' className='dowLand'/>
-          </div>
             <Button
-              fluid color='blue'
-              size='small'
-              onClick={ FormControl.clickRegister }
+              fluid icon='download' className='dowLand'/>
+          <Button
+            fluid color='blue'
+            size='small'
+            onClick={ FormControl.clickRegister }
             >
-              {configLang.button}
-            </Button>
+            {configLang.button}
+          </Button>
         </Form>
       </div>
     )

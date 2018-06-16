@@ -1,47 +1,47 @@
 @import "const";
 
-.App{
+.App {
   height: 100vh;
   display: flex;
   flex-direction: column;
   background: sandybrown;
 
-  .Header{
+  .Header {
     height: 50px;
     display: flex;
     background-color: $accent-color;
 
-    .ui.google.plus.button{
+    .ui.google.plus.button {
       height: 75%;
       margin-top: 5px;
     }
-    .headerContainer{
+    .headerContainer {
       display: flex;
       color: $text-color;
       font-family: Lato, sans-serif;
       justify-content: space-between;
     }
-    .lang-box{
+    .lang-box {
       top: 5px;
       right: 25px;
       position: absolute;
 
-      .ui .menu>.header{
+      .ui .menu > .header {
         text-transform: none;
       }
-      .lang{
+      .lang {
         color: $text-color;
         font-size: 1rem;
         border-radius: 50%;
         background-color: transparent;
 
-        i{
+        i {
           opacity: 1;
         }
       }
     }
-    .logoReact{
-      button{
+    .logoReact {
+      button {
         border: 0;
         width: 45px;
         height: 45px;
@@ -65,9 +65,11 @@
           transition: all 300ms cubic-bezier(.61, .01, .42, 1);
 
           @for $i from 1 through 3 {
-            &:nth-child(#{$i}) { transform: rotate(-60deg * $i) }
+            &:nth-child(#{$i}) {
+              transform: rotate(-60deg * $i)
+            }
           }
-          &:nth-child(2):before{
+          &:nth-child(2):before {
             width: 3px;
             height: 3px;
             opacity: 1;
@@ -120,10 +122,10 @@
       }
     }
   }
-  .MainContent{
+  .MainContent {
     flex-grow: 1;
 
-    .FormBox{
+    .FormBox {
       width: 30%;
       padding: 15px;
       margin: 25px auto 0;
@@ -156,7 +158,7 @@
       }
     }
   }
-  .Footer{
+  .Footer {
     height: 30px;
     overflow: hidden;
     background-color: $accent-color;
