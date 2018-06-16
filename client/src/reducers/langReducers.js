@@ -1,4 +1,4 @@
-import { CHANGE_LANG } from '../constants';
+import { CHANGE_LANG } from '../constans';
 
 
 const initialState = {
