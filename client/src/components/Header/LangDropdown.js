@@ -22,14 +22,12 @@ const LangDropDown = ({ configLang, setLang }) => {
           <Dropdown.Divider />
           { Object.keys(configLang).map((lang, index) => {
             if(index) {
-              return (
-                <DropDownItem
+              return (<DropDownItem
                   key={ index }
                   lang={ lang }
                   val={ configLang[lang] }
                   handleEvent={ handleChangeLang }
-                />
-               )
+                />);
             }
           }) }
         </Dropdown.Menu>

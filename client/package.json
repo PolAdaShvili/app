@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "author": "George PolAdaShvili",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack",
     "start": "webpack-dev-server --open"
   },
   "dependencies": {

@@ -7,13 +7,24 @@
   background: sandybrown;
 
   .Header {
-    height: 50px;
+    min-height: 50px;
     display: flex;
     background-color: $accent-color;
 
-    .ui.google.plus.button {
-      height: 75%;
-      margin-top: 5px;
+    .regBox{
+      position: relative;
+
+      .ui.google.plus.button {
+        height: 75%;
+        margin-top: 5px;
+      }
+      .LinkReg{
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        position: absolute;
+      }
     }
     .headerContainer {
       display: flex;
@@ -122,7 +133,8 @@
       }
     }
   }
-  .MainContent {
+
+  .Content{
     flex-grow: 1;
 
     .FormBox {
@@ -149,7 +161,9 @@
             bottom: 8px;
             margin-bottom: 10px;
           }
-          input {
+          input[type=file] {
+            top: 0;
+            height: 100%;
             z-index: 10;
             position: absolute;
             opacity: 0;
@@ -158,8 +172,9 @@
       }
     }
   }
+
   .Footer {
-    height: 30px;
+    min-height: 30px;
     overflow: hidden;
     background-color: $accent-color;
   }

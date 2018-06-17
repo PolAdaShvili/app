@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { USERS_FROM_DB } from '../constants';
+import { Route,Switch } from "react-router";
 import { langReducer } from "../actions/changeLang";
-import MainContent from './MainContent'
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import Form from '../components/Main/Form/Form';
 import store from "../store";
 
 
@@ -19,17 +20,27 @@ class Container extends Component{
         console.log('Connection error. -> USERS', err);
       });
   }
+
   render(){
-    const {fixedLang, lang, setLang } = this.props;
+    const { translations,setLang } = this.props;
+    console.log(translations);
     return (
       <div className='App'>
         <Header
-          configLang={ lang[fixedLang].header }
+          configLang={ translations.header }
           setLang={ setLang }
         />
-        <MainContent configLang={ lang[fixedLang].main } />
+        <div className='Content'>
+          <Switch>
+            <Route
+              exact
+              path="/registration"
+              render={()=><Form configLang={translations.main.form}/>}
+            />
+          </Switch>
+        </div>
         <Footer
-          configLang={ lang[fixedLang].footer }
+          configLang={ translations.footer }
         />
       </div>
     )
@@ -39,8 +50,7 @@ class Container extends Component{
 const mapStateToProps = state => {
   return {
     authorizationUser: state.changeLang.authorizationUser,
-    lang: state.changeLang.lang,
-    fixedLang: state.changeLang.fixedLang
+    translations: state.changeLang.translations
   }
 };
 const mapDispatchToProps = dispatch => {
