@@ -62,65 +62,65 @@ class FormControl extends Component {
     }
   }
 
-  render() {
-    const { configLang } = this.props;
-    const options = [
-      { key: 'm', text: configLang.gender.male, value: 'male' },
-      { key: 'f', text: configLang.gender.female, value: 'female' },
-    ];
-    return (
-      <div className='FormBox'>
+  render(){
+    const {configLang}=this.props;
+    const options=[{key:'m',text:configLang.gender.male,value:'male'},{
+      key:'f',
+      text:configLang.gender.female,
+      value:'female'
+    },];
+    return (<div className='FormBox'>
         <Form className='Form' size='mini'>
           <Input
-            label={ configLang.name }
+            label={configLang.name}
             name='first'
-            placeHolder={ configLang.name }
-            onChange={ this.handlerInput }
+            placeHolder={configLang.name}
+            onChange={this.handlerInput}
           />
           <Input
             name='surname'
-            label={ configLang.surname }
-            placeHolder={ configLang.surname }
-            onChange={ this.handlerInput }
+            label={configLang.surname}
+            placeHolder={configLang.surname}
+            onChange={this.handlerInput}
           />
           <Form.Group widths={2}>
             <Form.Field
-              control={ Select }
+              control={Select}
               name='gender'
-              label={ configLang.gender.title }
-              options={ options }
-              onChange={ FormControl.handlerSelect }
-              placeholder={ configLang.gender.title }
+              label={configLang.gender.title}
+              options={options}
+              onChange={FormControl.handlerSelect}
+              placeholder={configLang.gender.title}
             />
             <Input
               name='age'
               type='number'
-              label={ configLang.age }
-              placeHolder={ configLang.age }
-              onChange={ this.handlerInput }
+              label={configLang.age}
+              placeHolder={configLang.age}
+              onChange={this.handlerInput}
             />
           </Form.Group>
           <Input
             name='middle'
-            required={ false }
-            label={ configLang.middle }
-            placeHolder={ configLang.middle }
-            onChange={ this.handlerInput }
+            required={false}
+            label={configLang.middle}
+            placeHolder={configLang.middle}
+            onChange={this.handlerInput}
           />
           <Input
             name='email'
             type='email'
-            label={ configLang.email }
-            placeHolder={ configLang.email }
-            onChange={ this.handlerInput }
+            label={configLang.email}
+            placeHolder={configLang.email}
+            onChange={this.handlerInput}
           />
-            <Button
-              fluid icon='download' className='dowLand'/>
+          <Button
+            fluid icon='download' className='dowLand'/>
           <Button
             fluid color='blue'
             size='small'
-            onClick={ FormControl.clickRegister }
-            >
+            onClick={FormControl.clickRegister}
+          >
             {configLang.button}
           </Button>
         </Form>
