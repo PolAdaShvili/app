@@ -5,12 +5,6 @@ import LangDropDown from './LangDropdown';
 import LogoReact from './LogoReact';
 
 
-
-const handleClickReg = () => {
-
-  console.log('click registration');
-};
-
 const Header = ({ configLang, setLang }) => {
   return (
     <header className='Header'>
@@ -23,7 +17,6 @@ const Header = ({ configLang, setLang }) => {
             color='google plus'
             size='mini'
             content={ configLang.btnReg }
-            onClick={ handleClickReg }
           />
           <Link to='/registration' className='LinkReg' >Reg </Link>
         </div>

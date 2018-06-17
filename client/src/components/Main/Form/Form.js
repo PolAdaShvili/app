@@ -65,7 +65,7 @@ class FormControl extends Component {
     const clickRegister = () => {
       console.log(this.state)
     };
-    const onPhotoChange = (e) => {
+    const onPhotoChange = () => {
       const file = this.fileUpload.files[0];
 
       if(file.size > 40 && file.size < 5000) {
