@@ -1,4 +1,5 @@
 import React,{ Component } from 'react';
+import axios from 'axios';
 import { Select,Form,Button } from 'semantic-ui-react';
 import { regExp } from '../../../constants';
 import Input from './Input';
@@ -56,16 +57,34 @@ class FormControl extends Component {
     }
   }
 
-  clickRegister(){
-    Object.keys(this.state).filter(field =>{
-
-      if(this.state[field]){
-        console.log('Field ready', this.state[field])
-      } else{
-        console.log('Field not ready', this.state[field]);
-      }
-
+  clickRegister(e){
+    let requiredFields = Object.keys(this.state).filter(field => field !== 'photo' && field !== 'middle' );
+    const result = requiredFields.map(field => {
+      return this.state[field];
     });
+    let errForm = result.every((item) => {
+      if(item) {
+        return true;
+      }
+    });
+
+    console.log(errForm, requiredFields);
+
+    if(errForm){
+      e.preventDefault();
+      console.log(this.state);
+      const data = this.state;
+      axios({
+        method: 'post',
+        url: 'http://localhost:3001/user',
+        data: {
+          data
+        }
+      }).then(res => {
+        console.log(res);
+      })
+    }
+
   };
 
   render(){
@@ -85,7 +104,7 @@ class FormControl extends Component {
       console.log(file);
     };
     return (<div className='FormBox'>
-      <Form className='Form' size='mini'>
+      <Form className='Form' size='mini' onSubmit={this.testSend}>
         <Input
           label={configLang.name}
           name='first'
@@ -141,12 +160,14 @@ class FormControl extends Component {
         />
       </form>
       <Button
+        type='submit'
         fluid color='blue'
         size='small'
         onClick={this.clickRegister}
       >
         {configLang.button}
       </Button>
+      <form onSubmit={this.clickRegister.bind(this)}/>
     </div>)
   }
 }
