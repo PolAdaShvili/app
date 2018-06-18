@@ -1,0 +1,181 @@
+@import "const";
+
+.App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: sandybrown;
+
+  .Header {
+    min-height: 50px;
+    display: flex;
+    background-color: $accent-color;
+
+    .regBox{
+      position: relative;
+
+      .ui.google.plus.button {
+        height: 75%;
+        margin-top: 5px;
+      }
+      .LinkReg{
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        position: absolute;
+      }
+    }
+    .headerContainer {
+      display: flex;
+      color: $text-color;
+      font-family: Lato, sans-serif;
+      justify-content: space-between;
+    }
+    .lang-box {
+      top: 5px;
+      right: 25px;
+      position: absolute;
+
+      .ui .menu > .header {
+        text-transform: none;
+      }
+      .lang {
+        color: $text-color;
+        font-size: 1rem;
+        border-radius: 50%;
+        background-color: transparent;
+
+        i {
+          opacity: 1;
+        }
+      }
+    }
+    .logoReact {
+      button {
+        border: 0;
+        width: 45px;
+        height: 45px;
+        cursor: pointer;
+        position: relative;
+        background: transparent;
+        transition-delay: 100ms;
+        transform: scale(0.9, 0.9);
+        transition: all 200ms cubic-bezier(.61, .01, .42, 1);
+
+        div {
+          bottom: 18px;
+          right: 10px;
+          height: 9px;
+          width: 25px;
+          display: block;
+          position: absolute;
+          border: 1.5px solid $text-color;
+          border-radius: 50%;
+          animation: atom 300ms linear 1;
+          transition: all 300ms cubic-bezier(.61, .01, .42, 1);
+
+          @for $i from 1 through 3 {
+            &:nth-child(#{$i}) {
+              transform: rotate(-60deg * $i)
+            }
+          }
+          &:nth-child(2):before {
+            width: 3px;
+            height: 3px;
+            opacity: 1;
+            content: '';
+            display: block;
+            position: relative;
+            border-radius: 50%;
+            border: 2px solid $text-color;
+            animation: ball 1.5s linear infinite;
+          }
+        }
+      }
+      @keyframes ball {
+        0% {
+          left: -20%;
+          top: 10%;
+        }
+        10% {
+          left: 10%;
+          top: -35%;
+        }
+        25% {
+          left: 45%;
+          top: -50%;
+        }
+        40% {
+          left: 80%;
+          top: -20%;
+        }
+        50% {
+          left: 98%;
+          top: 18%;
+        }
+        60% {
+          left: 80%;
+          top: 50%;
+        }
+        75% {
+          left: 45%;
+          top: 80%;
+        }
+        90% {
+          left: 0;
+          top: 60%;
+        }
+        100% {
+          left: -20%;
+          top: 10%;
+        }
+      }
+    }
+  }
+
+  .Content{
+    flex-grow: 1;
+
+    .FormBox {
+      width: 30%;
+      padding: 15px;
+      margin: 25px auto 0;
+      border-radius: 15px;
+      background: #263238;
+      box-shadow: 0 7px 20px 5px rgba(50, 50, 50, 0.75);
+
+      .Form{
+        label{
+          color: white;
+        }
+        .err{
+          box-shadow: 0 0 10px 6px rgba(227, 11, 11, 0.75);
+        }
+        .buttonBox {
+          position: relative;
+          .dowLand{
+            color: darkorange;
+            z-index: 5;
+            position: relative;
+            bottom: 8px;
+            margin-bottom: 10px;
+          }
+          input[type=file] {
+            top: 0;
+            height: 100%;
+            z-index: 10;
+            position: absolute;
+            opacity: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .Footer {
+    min-height: 30px;
+    overflow: hidden;
+    background-color: $accent-color;
+  }
+}
