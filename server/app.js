@@ -73,10 +73,9 @@ app.post("/api/user", urlencodedParser, (request, response) => {
     .catch(err => {
       console.log('ERROR ADD USER', err);
     });
-
   } else{
     debugger;
-    response.err('Error! not validation');
+    console.log('Error! not validation');
   }
 });
 

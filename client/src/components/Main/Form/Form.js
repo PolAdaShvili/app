@@ -2,8 +2,10 @@ import React,{ Component } from 'react';
 import axios from 'axios';
 import { Select, Form, Button } from 'semantic-ui-react';
 import { regExp } from '../../../constants';
-import { browserHistory } from 'react-router';
+
 import Input from './Input';
+import { Route, Redirect } from 'react-router'
+import browserHistory from '../../../browserHistory'
 
 
 class FormControl extends Component {
@@ -81,6 +83,7 @@ class FormControl extends Component {
         data: {data}
       }).then(res => {
         addUserFunc(res);
+        browserHistory.push({pathname: "/home"});
         console.log('ADD user info to server -->', res);
       }).catch(err => {
         console.log('ERROR user info to server -->', err);
