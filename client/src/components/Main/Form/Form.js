@@ -2,10 +2,8 @@ import React,{ Component } from 'react';
 import axios from 'axios';
 import { Select, Form, Button } from 'semantic-ui-react';
 import { regExp } from '../../../constants';
-
 import Input from './Input';
-import { Route, Redirect } from 'react-router'
-import browserHistory from '../../../browserHistory'
+import browserHistory from '../../../browserHistory';
 
 
 class FormControl extends Component {
@@ -48,7 +46,6 @@ class FormControl extends Component {
       if(FormControl.validateName(regExp,name,value)){
         this.setState({[name]:value});
         e.target.classList.remove('err');
-        //console.log(this.state)
       }else{
         e.target.classList.add('err');
       }
@@ -65,9 +62,9 @@ class FormControl extends Component {
   clickRegister(e){
     const data = this.state;
     const { addUserFunc } = this.props;
-    let requiredFields = Object.keys(this.state).filter(field => field !== 'photo' && field !== 'middle' );
+    const requiredFields = Object.keys(this.state).filter(field => field !== 'photo' && field !== 'middle' );
     const result = requiredFields.map(field => { return this.state[field] });
-    let errForm = result.every((item) => {
+    const errForm = result.every((item) => {
       if(item) {
         return true;
       }
@@ -83,7 +80,7 @@ class FormControl extends Component {
         data: {data}
       }).then(res => {
         addUserFunc(res);
-        browserHistory.push({pathname: "/home"});
+        browserHistory.push({pathname: "/"});
         console.log('ADD user info to server -->', res);
       }).catch(err => {
         console.log('ERROR user info to server -->', err);
