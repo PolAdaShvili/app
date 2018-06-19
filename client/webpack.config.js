@@ -24,6 +24,10 @@ module.exports = {
   devServer: {
     port: 3000,
     host: 'localhost',
+    clientLogLevel: 'info',
+    proxy: {
+      '/api': 'http://localhost:3001'
+    },
     historyApiFallback: true,
     noInfo: false,
     stats: 'minimal',

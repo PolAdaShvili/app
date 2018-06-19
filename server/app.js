@@ -1,11 +1,10 @@
 const express = require( 'express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const http = require('http');
 const bodyParser = require('body-parser');
+const validator = require('validator');
 const CONST = require( './constants' );
 const Schema = require('./model/User/userSchema');
-
 
 const app = express();
 const db = mongoose.connection;
@@ -19,15 +18,8 @@ app.use('/static', express.static(__dirname + '/public'));
 
 mongoose.connect(URL_DB);
 
-db.on('error', console.error.bind(console, 'Connection db error:'));
-db.once('open', () => {
-  console.log('Connect db');
-});
-
-app.get('/', (req, res) => {
-  console.log('Hello world');
-  res.send('Hello world');
-});
+db.on('error', console.error.bind(console, 'CONNECT DB ERROR:'));
+db.once('open', () => { console.log('CONNECT DB') });
 
 app.get('/api/users', (req, res) => {
   User.find().then(users => {
@@ -36,15 +28,58 @@ app.get('/api/users', (req, res) => {
     });
   })
     .catch(err => {
-      res.status(500).send('Error');
-      console.log(err);
+      res.status(500).send('Error', err);
     });
+});
+
+
+app.post("/api/user", urlencodedParser, (request, response) => {
+  const {email, age, first, middle, surname, photo, gender} = request.body.data;
+  const isReadyGender = validator.isLength(gender, {min: 4, max: 6});
+  const isReadyEmail = validator.isEmail(email);
+  let isReadyFirstName, isReadySurName, isReadyAge;
+
+  if(validator.isAlpha(first)){
+    isReadyFirstName = validator.isLength(first, {minimum: 3, maximum: 32});
+  }
+  if(validator.isAlpha(surname)){
+    isReadySurName = validator.isLength(surname, {minimum: 3, maximum: 32});
+  }
+  if(validator.isNumeric(age)){
+    isReadyAge = validator.isInt(age, {min: 1, max: 99});
+  }
+
+  const requiredFields = [isReadyFirstName, isReadySurName, isReadyAge, isReadyEmail, isReadyGender];
+  const errors = requiredFields.every(value => {
+    if(value){
+      return true;
+    } else{
+      return false;
+    }
+  });
+
+  if(errors){
+    const user = new User({
+      name: first,
+      age, email, surname, middle, gender, photo,
+      password: String(Math.random()).slice(-5)
+    });
+
+    user
+    .save()
+    .then(res => {
+      response.send(res);
+    })
+    .catch(err => {
+      console.log('ERROR ADD USER', err);
+    });
+
+  } else{
+    debugger;
+    response.err('Error! not validation');
+  }
 });
 
 app.listen(PORT, () => {
   console.log(`listening on port ${ PORT }`);
-});
-
-app.post("/user", urlencodedParser, (request, response) => {
-  response.send(response.data);
 });

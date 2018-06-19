@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { USERS_FROM_DB } from '../constants';
 import { Route,Switch } from "react-router";
 import { langReducer } from "../actions/changeLang";
+import { addUserReducer } from "../actions/addUser";
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Form from '../components/Main/Form/Form';
@@ -22,8 +23,7 @@ class Container extends Component{
   }
 
   render(){
-    const { translations,setLang } = this.props;
-    console.log(translations);
+    const { translations,setLang, addUser } = this.props;
     return (
       <div className='App'>
         <Header
@@ -35,7 +35,7 @@ class Container extends Component{
             <Route
               exact
               path="/registration"
-              render={()=><Form configLang={translations.main.form}/>}
+              render={()=><Form configLang={translations.main.form} addUserFunc={addUser}/>}
             />
           </Switch>
         </div>
@@ -55,9 +55,15 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
  return {
-   setLang: (payload) => {
+   setLang: payload => {
      dispatch(langReducer({
        fixedLang: payload
+     }))
+   },
+   addUser: payload => {
+     dispatch(addUserReducer({
+       authorization : true,
+       user: payload.data
      }))
    }
  }

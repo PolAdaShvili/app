@@ -1,8 +1,10 @@
 import React,{ Component } from 'react';
 import axios from 'axios';
-import { Select,Form,Button } from 'semantic-ui-react';
+import { Select, Form, Button } from 'semantic-ui-react';
 import { regExp } from '../../../constants';
+import { browserHistory } from 'react-router';
 import Input from './Input';
+
 
 class FormControl extends Component {
   constructor(props){
@@ -10,6 +12,7 @@ class FormControl extends Component {
     this.state = {
       first:'',surname:'',middle:'',email:'',gender:'',age:'',photo:''
     };
+    this.clickRegister = this.clickRegister.bind(this);
     this.clickRegister = this.clickRegister.bind(this);
     this.handlerInput = this.handlerInput.bind(this);
     FormControl.handlerSelect = FormControl.handlerSelect.bind(this);
@@ -58,33 +61,31 @@ class FormControl extends Component {
   }
 
   clickRegister(e){
+    const data = this.state;
+    const { addUserFunc } = this.props;
     let requiredFields = Object.keys(this.state).filter(field => field !== 'photo' && field !== 'middle' );
-    const result = requiredFields.map(field => {
-      return this.state[field];
-    });
+    const result = requiredFields.map(field => { return this.state[field] });
     let errForm = result.every((item) => {
       if(item) {
         return true;
       }
     });
 
-    console.log(errForm, requiredFields);
+    console.log("disabled button");
 
     if(errForm){
       e.preventDefault();
-      console.log(this.state);
-      const data = this.state;
       axios({
         method: 'post',
-        url: 'http://localhost:3001/user',
-        data: {
-          data
-        }
+        url: '/api/user',
+        data: {data}
       }).then(res => {
-        console.log(res);
+        addUserFunc(res);
+        console.log('ADD user info to server -->', res);
+      }).catch(err => {
+        console.log('ERROR user info to server -->', err);
       })
     }
-
   };
 
   render(){
@@ -94,6 +95,7 @@ class FormControl extends Component {
     },{
       key:'f',text:configLang.gender.female,value:'female'
     }];
+
     const onPhotoChange = () =>{
       const file = this.fileUpload.files[0];
       if(file.size > 40 && file.size < 5000){
@@ -103,8 +105,9 @@ class FormControl extends Component {
       }
       console.log(file);
     };
+
     return (<div className='FormBox'>
-      <Form className='Form' size='mini' onSubmit={this.testSend}>
+      <Form className='Form' size='mini'>
         <Input
           label={configLang.name}
           name='first'
@@ -113,6 +116,7 @@ class FormControl extends Component {
         />
         <Input
           name='surname'
+          className='required'
           label={configLang.surname}
           placeHolder={configLang.surname}
           onChange={this.handlerInput}
@@ -130,21 +134,24 @@ class FormControl extends Component {
           <Input
             name='age'
             type='number'
+            className='required'
             label={configLang.age}
             placeHolder={configLang.age}
             onChange={this.handlerInput}
           />
         </Form.Group>
-        <Input
-          name='middle'
-          required={false}
-          label={configLang.middle}
-          placeHolder={configLang.middle}
-          onChange={this.handlerInput}
-        />
+        <div className='no-required'>
+          <Input
+            name='middle'
+            label={configLang.middle}
+            placeHolder={configLang.middle}
+            onChange={this.handlerInput}
+          />
+        </div>
         <Input
           name='email'
           type='email'
+          className='required'
           label={configLang.email}
           placeHolder={configLang.email}
           onChange={this.handlerInput}
@@ -167,7 +174,7 @@ class FormControl extends Component {
       >
         {configLang.button}
       </Button>
-      <form onSubmit={this.clickRegister.bind(this)}/>
+      <form onSubmit={this.clickRegister}/>
     </div>)
   }
 }
