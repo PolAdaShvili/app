@@ -31,12 +31,10 @@ class FormControl extends Component {
     return (value.search(regExp.name) !== - 1);
   }
   static handlerSelect(e){
-    if(e.target.children[0].innerText){
-      this.setState({gender:e.target.children[0].innerText});
-      e.target.classList.remove('err');
-    }else{
-      this.setState({gender:e.target.children[0].innerText});
-      e.target.classList.add('err');
+    if(e.target.getAttribute('aria-checked')){
+      this.setState({gender: e.target.children[0].innerText});
+    } else{
+      this.setState({gender: false});
     }
   }
 
@@ -59,6 +57,16 @@ class FormControl extends Component {
     }
   }
 
+  onPhotoChange(){
+    const file = this.fileUpload.files[0];
+    if(file.size > 40 && file.size < 5000){
+      console.log('file dow')
+    }else{
+      console.log('file err size')
+    }
+    console.log(file);
+  };
+
   clickRegister(e){
     const data = this.state;
     const { addUserFunc } = this.props;
@@ -70,7 +78,7 @@ class FormControl extends Component {
       }
     });
 
-    console.log("disabled button");
+    console.log("disabled button", this.state);
 
     if(errForm){
       e.preventDefault();
@@ -78,11 +86,13 @@ class FormControl extends Component {
         method: 'post',
         url: '/api/user',
         data: {data}
-      }).then(res => {
+      })
+      .then(res => {
         addUserFunc(res);
         browserHistory.push({pathname: "/"});
         console.log('ADD user info to server -->', res);
-      }).catch(err => {
+      })
+      .catch(err => {
         console.log('ERROR user info to server -->', err);
       })
     }
@@ -91,20 +101,12 @@ class FormControl extends Component {
   render(){
     const {configLang} = this.props;
     const options = [{
-      key:'m',text:configLang.gender.male,value:'male'
+      key:'m',
+      text:configLang.gender.male,
+      value:'male'
     },{
       key:'f',text:configLang.gender.female,value:'female'
     }];
-
-    const onPhotoChange = () =>{
-      const file = this.fileUpload.files[0];
-      if(file.size > 40 && file.size < 5000){
-        console.log('file dow')
-      }else{
-        console.log('file err size')
-      }
-      console.log(file);
-    };
 
     return (<div className='FormBox'>
       <Form className='Form' size='mini'>
@@ -157,11 +159,11 @@ class FormControl extends Component {
           onChange={this.handlerInput}
         />
       </Form>
-      <form className='buttonBox' encType="multipart/form-data">
+      <form className='buttonBox' encType="multipart/form-data" method='post'>
         <Button fluid icon='download' className='dowLand'/>
         <input
           type="file"
-          onChange={onPhotoChange}
+          onChange={this.onPhotoChange}
           ref={(ref) => this.fileUpload = ref}
           accept=".png, .jpg, .jpeg"
         />

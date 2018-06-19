@@ -62,7 +62,7 @@ app.post("/api/user", urlencodedParser, (request, response) => {
     const user = new User({
       name: first,
       age, email, surname, middle, gender, photo,
-      password: String(Math.random()).slice(-5)
+      password: Math.random().toString(36).slice(-8)
     });
 
     user
