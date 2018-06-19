@@ -8,30 +8,17 @@ const Schema = require('./model/User/userSchema');
 
 const app = express();
 const db = mongoose.connection;
+const urlencodedParser = bodyParser.urlencoded({extended: false});
 const { PORT, URL_DB } = CONST;
 const { User } = Schema;
-const urlencodedParser = bodyParser.urlencoded({extended: false});
 
 app.use(cors());
 app.use( bodyParser.json() );
 app.use('/static', express.static(__dirname + '/public'));
 
 mongoose.connect(URL_DB);
-
 db.on('error', console.error.bind(console, 'CONNECT DB ERROR:'));
 db.once('open', () => { console.log('CONNECT DB') });
-
-app.get('/api/users', (req, res) => {
-  User.find().then(users => {
-    res.send({
-      users
-    });
-  })
-    .catch(err => {
-      res.status(500).send('Error', err);
-    });
-});
-
 
 app.post("/api/user", urlencodedParser, (request, response) => {
   const {email, age, first, middle, surname, photo, gender} = request.body.data;
@@ -52,11 +39,8 @@ app.post("/api/user", urlencodedParser, (request, response) => {
   const requiredFields = [isReadyFirstName, isReadySurName, isReadyAge, isReadyEmail, isReadyGender];
   const errors = requiredFields.every(value => {
     if(value){
-      console.log(requiredFields);
+      console.log(requiredFields[value]);
       return true;
-    } else{
-      console.log(requiredFields);
-      return false;
     }
   });
 
@@ -66,7 +50,6 @@ app.post("/api/user", urlencodedParser, (request, response) => {
       age, email, surname, middle, gender, photo,
       password: Math.random().toString(36).slice(-8)
     });
-
     user
     .save()
     .then(res => {

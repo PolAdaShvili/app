@@ -12,15 +12,15 @@ import store from "../store";
 
 
 class Container extends Component{
-  componentDidMount(){
-    axios.get( USERS_FROM_DB )
-      .then((res) => {
-        console.log('USERS--in DB-->', res.data);
-      })
-      .catch((err) => {
-        console.log('Connection error. -> USERS', err);
-      });
-  }
+  //componentDidMount(){
+  //  axios.get( USERS_FROM_DB )
+  //    .then((res) => {
+  //      console.log('USERS--in DB-->', res.data);
+  //    })
+  //    .catch((err) => {
+  //      console.log('Connection error. -> USERS', err);
+  //    });
+  //}
 
   render(){
     const { translations,setLang, addUser } = this.props;

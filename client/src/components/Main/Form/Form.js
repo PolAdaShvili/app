@@ -1,6 +1,6 @@
-import React,{ Component } from 'react';
 import axios from 'axios';
-import { Select, Form, Button } from 'semantic-ui-react';
+import React,{ Component } from 'react';
+import { Form,Button } from 'semantic-ui-react';
 import { regExp } from '../../../constants';
 import Input from './Input';
 import browserHistory from '../../../browserHistory';
@@ -12,6 +12,7 @@ class FormControl extends Component {
     this.state = {
       first:'',surname:'',middle:'',email:'',gender:'',age:'',photo:''
     };
+
     this.clickRegister = this.clickRegister.bind(this);
     this.clickRegister = this.clickRegister.bind(this);
     this.handlerInput = this.handlerInput.bind(this);
@@ -32,8 +33,7 @@ class FormControl extends Component {
   }
   static handlerSelect(e){
     e.preventDefault();
-    this.setState({gender: e.target.getAttribute('gender')})
-    console.log(this.state);
+    this.setState({gender:e.target.getAttribute('gender')})
   }
 
   handlerInput(e){
@@ -54,16 +54,6 @@ class FormControl extends Component {
       }
     }
   }
-  onPhotoChange(){
-    const file = this.fileUpload.files[0];
-    if(file.size > 40 && file.size < 5000){
-      console.log('file dow')
-    }else{
-      console.log('file err size')
-    }
-    console.log(file);
-  };
-
   clickRegister(e){
     const data = this.state;
     const { addUserFunc } = this.props;
@@ -74,9 +64,7 @@ class FormControl extends Component {
         return true;
       }
     });
-
-    console.log("disabled button", this.state);
-
+    console.log(requiredFields);
     if(errForm){
       e.preventDefault();
       axios({
@@ -93,10 +81,21 @@ class FormControl extends Component {
         console.log('ERROR user info to server -->', err);
       })
     }
+
   };
 
   render(){
     const {configLang} = this.props;
+    const onPhotoChange =() => {
+      const file = this.fileUpload.files[0];
+      if(file.size > 40 && file.size < 5000){
+        this.setState({photo: file});
+        console.log('file dow')
+      }else{
+        console.log('file err size')
+      }
+      console.log(file);
+    };
 
     return (<div className='FormBox'>
       <Form className='Form' size='mini'>
@@ -118,9 +117,11 @@ class FormControl extends Component {
             <label className='label-for-select'>Select gender</label>
             <div className='selects'>
               <Button.Group>
-                <Button color='blue' gender='male' size='mini' role='none' className='gender' onClick={FormControl.handlerSelect}>Male</Button>
-                <Button.Or />
-                <Button color='pink' gender='female' size='mini' role='none' className='gender' onClick={FormControl.handlerSelect}>Female</Button>
+                <Button color='blue' gender='male' size='mini' role='none' className='gender'
+                        onClick={FormControl.handlerSelect}>Male</Button>
+                <Button.Or/>
+                <Button color='pink' gender='female' size='mini' role='none' className='gender'
+                        onClick={FormControl.handlerSelect}>Female</Button>
               </Button.Group>
             </div>
           </Form.Group>
@@ -154,7 +155,7 @@ class FormControl extends Component {
         <Button fluid icon='download' className='dowLand'/>
         <input
           type="file"
-          onChange={this.onPhotoChange}
+          onChange={onPhotoChange}
           ref={(ref) => this.fileUpload = ref}
           accept=".png, .jpg, .jpeg"
         />
