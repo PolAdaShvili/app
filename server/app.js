@@ -52,8 +52,10 @@ app.post("/api/user", urlencodedParser, (request, response) => {
   const requiredFields = [isReadyFirstName, isReadySurName, isReadyAge, isReadyEmail, isReadyGender];
   const errors = requiredFields.every(value => {
     if(value){
+      console.log(requiredFields);
       return true;
     } else{
+      console.log(requiredFields);
       return false;
     }
   });

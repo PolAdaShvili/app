@@ -166,9 +166,15 @@
         content: none;
         color: transparent;
       }
-      .two{
+
+      .gender{
+        height: 30px;
+        width: 60%;
+      }
+      .ui .buttons{
+        font-size: 15px;
+        top: 5px;
         position: relative;
-        bottom: 5px;
       }
       .buttonBox {
         position: relative;
@@ -186,6 +192,9 @@
           z-index: 10;
           position: absolute;
           opacity: 0;
+        }
+        .age{
+          height: 30px;
         }
       }
     }

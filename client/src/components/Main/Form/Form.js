@@ -31,11 +31,9 @@ class FormControl extends Component {
     return (value.search(regExp.name) !== - 1);
   }
   static handlerSelect(e){
-    if(e.target.getAttribute('aria-checked')){
-      this.setState({gender: e.target.children[0].innerText});
-    } else{
-      this.setState({gender: false});
-    }
+    e.preventDefault();
+    this.setState({gender: e.target.getAttribute('gender')})
+    console.log(this.state);
   }
 
   handlerInput(e){
@@ -56,7 +54,6 @@ class FormControl extends Component {
       }
     }
   }
-
   onPhotoChange(){
     const file = this.fileUpload.files[0];
     if(file.size > 40 && file.size < 5000){
@@ -100,13 +97,6 @@ class FormControl extends Component {
 
   render(){
     const {configLang} = this.props;
-    const options = [{
-      key:'m',
-      text:configLang.gender.male,
-      value:'male'
-    },{
-      key:'f',text:configLang.gender.female,value:'female'
-    }];
 
     return (<div className='FormBox'>
       <Form className='Form' size='mini'>
@@ -124,15 +114,16 @@ class FormControl extends Component {
           onChange={this.handlerInput}
         />
         <Form.Group widths={2}>
-          <Form.Field
-            control={Select}
-            name='gender'
-            required={true}
-            label={configLang.gender.title}
-            options={options}
-            onChange={FormControl.handlerSelect}
-            placeholder={configLang.gender.title}
-          />
+          <Form.Group grouped size='mini'>
+            <label className='label-for-select'>Select gender</label>
+            <div className='selects'>
+              <Button.Group>
+                <Button color='blue' gender='male' size='mini' role='none' className='gender' onClick={FormControl.handlerSelect}>Male</Button>
+                <Button.Or />
+                <Button color='pink' gender='female' size='mini' role='none' className='gender' onClick={FormControl.handlerSelect}>Female</Button>
+              </Button.Group>
+            </div>
+          </Form.Group>
           <Input
             name='age'
             type='number'
