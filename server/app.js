@@ -21,20 +21,25 @@ mongoose.connect(URL_DB);
 db.on('error', console.error.bind(console, 'CONNECT DB ERROR:'));
 db.once('open', () => { console.log('CONNECT DB') });
 
+app.get('/api/upload/', (req, res) => {
+  const user = new Schema({
+    photo: 'upload'
+  }).user
+  .save()
+  .then(res => {
+    response.send(res);
+  })
+});
 app.get('/api/users', (req, res) => {
   User.find().then(users => {
     console.log(users);
-    res.send({
-      users
-    });
-  })
-  .catch(err => {
+    res.send({users});
+  }).catch(err => {
     res.status(500).send('Error');
     console.log(err);
   });
 });
-
-app.post("/api/user", urlencodedParser, (request, response) => {
+app.post('/api/user', urlencodedParser, (request, response) => {
   const {email, age, first, middle, surname, photo, gender} = request.body.data;
   const isReadyGender = validator.isLength(gender, {min: 4, max: 6});
   const isReadyEmail = validator.isEmail(email);
@@ -51,11 +56,10 @@ app.post("/api/user", urlencodedParser, (request, response) => {
   }
 
   const requiredFields = [isReadyFirstName, isReadySurName, isReadyAge, isReadyEmail, isReadyGender];
-  const errors = requiredFields.every(value => {
-    if(value){
-      return true;
-    }
-  });
+  const errors = requiredFields.every(value => {if(value){return true}});
+
+
+  ///////
   console.log(request.body.data);
   if(errors){
     const user = new User({
@@ -65,24 +69,9 @@ app.post("/api/user", urlencodedParser, (request, response) => {
     });
     user
     .save()
-    .then(res => {
-      response.send(res);
-    })
-    .catch(err => {
-      console.log('ERROR ADD USER', err);
-    });
+    .then(res => { response.send(res) })
+    .catch(err => { console.log('ERROR ADD USER', err)});
   }
-});
-
-app.get('./api/upload', (res, req) => {
-  const user = new Schema({
-    photo: 'upload'
-  });
-  user
-  .save()
-  .then(res => {
-    response.send(res);
-  })
 });
 
 app.listen(PORT, () => {
