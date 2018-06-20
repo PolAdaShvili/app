@@ -1,7 +1,8 @@
 @import "../const";
 
 .FormBox {
-  width: 30%;
+  max-height: 400px;
+  width: 35%;
   padding: 15px;
   margin: 25px auto 0;
   border-radius: 15px;
@@ -9,6 +10,11 @@
   box-shadow: 0 7px 20px 5px rgba(50, 50, 50, 0.75);
 
 
+  .fileField{
+    width: 100%;
+    opacity: 0;
+    display: none;
+  }
   .Form{
     .field{
       & label {
@@ -28,7 +34,12 @@
     .gender {
       height: 30px;
       width: 60%;
+      z-index: 1;
       margin-top: 5px;
+
+      .or{
+        margin-bottom: 2px;
+      }
 
       .selects{
         position: relative;
@@ -69,5 +80,17 @@
       color: #db2828;
     }
   }
+  .Submit{
+    position: relative;
+    margin-top: 25px;
+    //top: 25px;
+  }
 }
 
+.wrapperFile{
+  position: relative;
+
+  form, input{
+    opacity: 0 !important;
+  }
+}

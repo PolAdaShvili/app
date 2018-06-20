@@ -13,18 +13,13 @@ class FormControl extends Component {
       first:'',surname:'',middle:'',email:'',gender:'',age:'',photo:''
     };
 
+    this.imageSubmit = this.imageSubmit.bind(this);
     this.clickRegister = this.clickRegister.bind(this);
     this.clickRegister = this.clickRegister.bind(this);
     this.handlerInput = this.handlerInput.bind(this);
     FormControl.handlerSelect = FormControl.handlerSelect.bind(this);
   }
 
-  static handlerInputFile(e){
-    const elem = e.target.parentNode.nextSibling;
-    elem.innerText = 'Photo upload';
-    elem.style.backgroundColor = '#2185d0';
-    console.log(e.target.parentNode.nextSibling);
-  }
   static validate(regExp,name,value){
     return regExp[name].test(value);
   }
@@ -57,7 +52,7 @@ class FormControl extends Component {
   clickRegister(e){
     const data = this.state;
     const { addUserFunc } = this.props;
-    const requiredFields = Object.keys(this.state).filter(field => field !== 'photo' && field !== 'middle' );
+    const requiredFields = Object.values(this.state).filter(field => field !== 'photo' && field !== 'middle' );
     const result = requiredFields.map(field => { return this.state[field] });
     const errForm = result.every((item) => {
       if(item) {
@@ -66,6 +61,7 @@ class FormControl extends Component {
     });
     console.log(requiredFields);
     if(errForm){
+      this.imageSubmit();
       e.preventDefault();
       axios({
         method: 'post',
@@ -81,8 +77,21 @@ class FormControl extends Component {
         console.log('ERROR user info to server -->', err);
       })
     }
-
   };
+
+  imageSubmit(e){
+    e.preventDefault();
+    axios({
+      method: 'get',
+      url: './upload',
+      data: this.fileUpload
+    }).then(res => {
+      console.log('ADD foro to user -->', res);
+    })
+    .catch(err => {
+      console.log('ERROR foto --->', err);
+    })
+  }
 
   render(){
     const {configLang} = this.props;
@@ -152,8 +161,8 @@ class FormControl extends Component {
           onChange={this.handlerInput}
         />
       </Form>
+      <div className='fileField'>
       <form method='get' action='/upload' encType='multipart/form-data'>
-        <button className='dowLand'/>
         <input
           type="file"
           onChange={onPhotoChange}
@@ -161,11 +170,14 @@ class FormControl extends Component {
           accept=".png, .jpg, .jpeg"
           name='upload'
         />
+        <button className='dowLand'/>
       </form>
+      </div>
       <Button
         type='submit'
         fluid color='blue'
         size='small'
+        className='Submit'
         onClick={this.clickRegister}
       >
         {configLang.button}
