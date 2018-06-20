@@ -20,7 +20,7 @@
       color: white !important;
     }
     .age {
-      height: 30px;
+      height: 40px;
     }
     .err {
       box-shadow: 0 0 10px 6px rgba(227, 11, 11, 0.75);
@@ -28,11 +28,22 @@
     .gender {
       height: 30px;
       width: 60%;
+      margin-top: 5px;
+
+      .selects{
+        position: relative;
+        bottom: 5px;
+        margin-top: 5px;
+      }
     }
     .ui .buttons {
       font-size: 16px;
-      top: 5px;
       position: relative;
+    }
+
+    .middle{
+      position: relative;
+      bottom: 4px;
     }
     input[type=file] {
       top: 15px;

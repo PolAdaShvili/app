@@ -137,6 +137,7 @@ class FormControl extends Component {
         <div className='no-required'>
           <Input
             name='middle'
+            className='middle'
             label={configLang.middle}
             placeHolder={configLang.middle}
             onChange={this.handlerInput}
@@ -151,13 +152,14 @@ class FormControl extends Component {
           onChange={this.handlerInput}
         />
       </Form>
-      <form className='buttonBox' encType="multipart/form-data" method='post'>
-        <Button fluid icon='download' className='dowLand'/>
+      <form method='get' action='/upload' encType='multipart/form-data'>
+        <button className='dowLand'/>
         <input
           type="file"
           onChange={onPhotoChange}
           ref={(ref) => this.fileUpload = ref}
           accept=".png, .jpg, .jpeg"
+          name='upload'
         />
       </form>
       <Button
@@ -168,7 +170,7 @@ class FormControl extends Component {
       >
         {configLang.button}
       </Button>
-      <form onSubmit={this.clickRegister}/>
+      <form onSubmit={this.clickRegister} method='post'/>
     </div>)
   }
 }

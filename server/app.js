@@ -1,10 +1,11 @@
+const cors = require('cors');
 const express = require( 'express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const validator = require('validator');
 const CONST = require( './constants' );
 const Schema = require('./model/User/userSchema');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 const db = mongoose.connection;
@@ -19,6 +20,19 @@ app.use('/static', express.static(__dirname + '/public'));
 mongoose.connect(URL_DB);
 db.on('error', console.error.bind(console, 'CONNECT DB ERROR:'));
 db.once('open', () => { console.log('CONNECT DB') });
+
+app.get('/api/users', (req, res) => {
+  User.find().then(users => {
+    console.log(users);
+    res.send({
+      users
+    });
+  })
+  .catch(err => {
+    res.status(500).send('Error');
+    console.log(err);
+  });
+});
 
 app.post("/api/user", urlencodedParser, (request, response) => {
   const {email, age, first, middle, surname, photo, gender} = request.body.data;
@@ -58,6 +72,10 @@ app.post("/api/user", urlencodedParser, (request, response) => {
       console.log('ERROR ADD USER', err);
     });
   }
+});
+
+app.get('./upload', (res, req) => {
+  res.render('upload');
 });
 
 app.listen(PORT, () => {
