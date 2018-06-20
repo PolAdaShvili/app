@@ -56,7 +56,7 @@ app.post("/api/user", urlencodedParser, (request, response) => {
       return true;
     }
   });
-
+  console.log(request.body.data);
   if(errors){
     const user = new User({
       name: first,
@@ -74,8 +74,15 @@ app.post("/api/user", urlencodedParser, (request, response) => {
   }
 });
 
-app.get('./upload', (res, req) => {
-  res.render('upload');
+app.get('./api/upload', (res, req) => {
+  const user = new Schema({
+    photo: 'upload'
+  });
+  user
+  .save()
+  .then(res => {
+    response.send(res);
+  })
 });
 
 app.listen(PORT, () => {
