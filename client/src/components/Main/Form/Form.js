@@ -9,10 +9,8 @@ class FormControl extends Component {
   constructor(props){
     super(props);
     this.state = {
-      first:'',surname:'',middle:'',email:'',gender:'',age:''
+      first:'',surname:'',email:'',gender:'',age:''
     };
-
-    this.imageSubmit = this.imageSubmit.bind(this);
     this.clickRegister = this.clickRegister.bind(this);
     this.clickRegister = this.clickRegister.bind(this);
     this.handlerInput = this.handlerInput.bind(this);
@@ -67,6 +65,8 @@ class FormControl extends Component {
     if(requiredFields){
 
       e.preventDefault();
+      console.log('--> ',this.fileUpload.files[0]);
+      console.log('--> ', data);
       axios({
         method: 'post',
         url: '/api/user',
@@ -83,32 +83,19 @@ class FormControl extends Component {
     }
   };
 
-  imageSubmit(e){
-    e.preventDefault();
-    axios({
-      method: 'get',
-      url: './upload',
-      data: this.fileUpload
-    }).then(res => {
-      console.log('ADD foro to user -->', res);
-    })
-    .catch(err => {
-      console.log('ERROR foto --->', err);
-    })
-  }
 
   render(){
     const {configLang} = this.props;
-    //const onPhotoChange =() => {
-    //  const file = this.fileUpload.files[0];
-    //  if(file.size > 40 && file.size < 5000){
-    //    this.setState({photo: file});
-    //    console.log('file dow')
-    //  }else{
-    //    console.log('file err size')
-    //  }
-    //  console.log(file);
-    //};
+    const onPhotoChange =() => {
+      const file = this.fileUpload.files[0];
+      if(file.size > 40 && file.size < 5000){
+        this.setState({photo: file});
+        console.log('file dow')
+      }else{
+        console.log('file err size')
+      }
+      console.log(file);
+    };
 
     return (<div className='FormBox'>
       <Form className='Form' size='mini'>
@@ -165,17 +152,15 @@ class FormControl extends Component {
           onChange={this.handlerInput}
         />
       </Form>
-      <div className='fileField'>
-        <form method='get' action='/upload' encType='multipart/form-data'>
-          <input
-            type="file"
-            ref={(ref) => this.fileUpload = ref}
-            accept=".png, .jpg, .jpeg"
-            name='upload'
-          />
-          <button className='dowLand'/>
-        </form>
-      </div>
+      <form className='buttonBox' encType="multipart/form-data" method='post'>
+        <Button fluid icon='download' className='dowLand'/>
+        <input
+          type="file"
+          onChange={onPhotoChange}
+          ref={(ref) => this.fileUpload = ref}
+          accept=".png, .jpg, .jpeg"
+        />
+      </form>
       <Button
         type='submit'
         fluid color='blue'
