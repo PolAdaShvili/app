@@ -27,7 +27,14 @@ class FormControl extends Component {
   }
   static handlerSelect(e){
     e.preventDefault();
-    this.setState({gender:e.target.getAttribute('gender')})
+    if(e.target.getAttribute('gender') === 'male' || e.target.getAttribute('gender') === 'female'){
+      e.target.classList.remove('err');
+      e.target.classList.add('valid');
+      this.setState({gender:e.target.getAttribute('gender')});
+    }else{
+      e.target.classList.add('err');
+      e.target.classList.remove('valid');
+    }
   }
 
   handlerInput(e){
@@ -35,8 +42,10 @@ class FormControl extends Component {
     if(type === 'text' && name !== 'age'){
       if(FormControl.validateName(regExp,name,value)){
         this.setState({[name]:value});
+        e.target.classList.add('valid');
         e.target.classList.remove('err');
       }else{
+        e.target.classList.remove('valid');
         e.target.classList.add('err');
       }
     }else{
@@ -50,17 +59,13 @@ class FormControl extends Component {
   }
   clickRegister(e){
     const data = this.state;
-    const { addUserFunc } = this.props;
-    const requiredFields = Object.values(this.state).filter(field => field !== 'middle');
-    const result = requiredFields.map(field => { return this.state[field] });
-    const errForm = result.every((item) => {
-      if(item) {
-        return true;
-      }
-    });
-    console.log(requiredFields);
-    if(errForm){
-      this.imageSubmit();
+    const {addUserFunc} = this.props;
+    const requiredFields = Object.values(this.state).every((field,i,arr) =>{
+      if(field){  console.log( arr[i] );  return true }  });
+    console.log(this.state);
+
+    if(requiredFields){
+
       e.preventDefault();
       axios({
         method: 'post',
@@ -74,7 +79,7 @@ class FormControl extends Component {
       })
       .catch(err => {
         console.log('ERROR user info to server -->', err);
-      })
+      });
     }
   };
 
@@ -125,10 +130,10 @@ class FormControl extends Component {
             <label className='label-for-select'>Select gender</label>
             <div className='selects'>
               <Button.Group>
-                <Button color='blue' gender='male' size='mini' role='none' className='gender'
+                <Button color='blue' gender='male' size='mini' role='none' className='gender male'
                         onClick={FormControl.handlerSelect}>Male</Button>
                 <Button.Or/>
-                <Button color='pink' gender='female' size='mini' role='none' className='gender'
+                <Button color='pink' gender='female' size='mini' role='none' className='gender female'
                         onClick={FormControl.handlerSelect}>Female</Button>
               </Button.Group>
             </div>
@@ -161,16 +166,15 @@ class FormControl extends Component {
         />
       </Form>
       <div className='fileField'>
-      <form method='get' action='/upload' encType='multipart/form-data'>
-        <input
-          type="file"
-          onChange={onPhotoChange}
-          ref={(ref) => this.fileUpload = ref}
-          accept=".png, .jpg, .jpeg"
-          name='upload'
-        />
-        <button className='dowLand'/>
-      </form>
+        <form method='get' action='/upload' encType='multipart/form-data'>
+          <input
+            type="file"
+            ref={(ref) => this.fileUpload = ref}
+            accept=".png, .jpg, .jpeg"
+            name='upload'
+          />
+          <button className='dowLand'/>
+        </form>
       </div>
       <Button
         type='submit'

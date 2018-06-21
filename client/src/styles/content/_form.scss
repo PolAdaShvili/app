@@ -1,7 +1,8 @@
 @import "../const";
 
 .FormBox {
-  max-height: 400px;
+  height: 400px;
+  max-width: 450px;
   width: 35%;
   padding: 15px;
   margin: 25px auto 0;
@@ -28,23 +29,46 @@
     .age {
       height: 40px;
     }
+    .valid{
+      box-shadow: 0 0 8px 4px rgba(75, 255, 240, 0.75) !important
+    }
     .err {
-      box-shadow: 0 0 10px 6px rgba(227, 11, 11, 0.75);
+      box-shadow: 0 0 8px 4px #ff6767bf !important
+    }
+    .male{
+      background:rgba(33,133,208,0.5) !important;
+      &:focus{
+        background: #2185d0!important;
+      }
+    }
+    .female{
+      background: rgba(224,57,151,.5)  !important;
+      &:focus{
+        .or{
+          display: none;
+        }
+        background: rgba(224,57,151,1) !important;
+      }
     }
     .gender {
       height: 30px;
       width: 60%;
       z-index: 1;
       margin-top: 5px;
+      left: 10px;
+
 
       .or{
-        margin-bottom: 2px;
+        margin-bottom: 8px;
+        z-index: 0.5;
       }
 
       .selects{
         position: relative;
-        bottom: 5px;
+        width: 70%;
+        left: 10px;
         margin-top: 5px;
+        margin-left: 5px;
       }
     }
     .ui .buttons {
@@ -74,16 +98,16 @@
         margin-bottom: 30px;
       }
     }
-    .field label::after, .label-for-select::after {
+    .field label::after, .label-for-select .label-for-select:after,::after :not(.middle)::after {
       margin: -.3em 0 0 .3em;
       content: '*';
-      color: #db2828;
+      color: $femaleAccentColor;
     }
   }
   .Submit{
     position: relative;
     margin-top: 25px;
-    //top: 25px;
+    margin-bottom: 0;
   }
 }
 

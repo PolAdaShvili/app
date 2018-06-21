@@ -3,7 +3,7 @@ const express = require( 'express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const validator = require('validator');
-const CONST = require('./constagnts');
+const CONST = require( './constants' );
 const Schema = require('./model/User/userSchema');
 
 const app = express();
@@ -50,11 +50,7 @@ app.post("/api/user", urlencodedParser, (request, response) => {
   }
 
   const requiredFields = [isReadyFirstName, isReadySurName, isReadyAge, isReadyEmail, isReadyGender];
-  const errors = requiredFields.every(value => {
-    if(value){
-      return true;
-    }
-  });
+  const errors = requiredFields.every(value => {if(value){return true}});
 
   if(errors){
     const user = new User({
