@@ -3,9 +3,8 @@ const express = require( 'express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const validator = require('validator');
-const CONST = require( './constants' );
+const CONST = require('./constagnts');
 const Schema = require('./model/User/userSchema');
-const fileUpload = require('express-fileupload');
 
 const app = express();
 const db = mongoose.connection;

@@ -1,16 +1,15 @@
 import axios from 'axios';
 import React,{ Component } from 'react';
-import { Form,Button } from 'semantic-ui-react';
+import { Button,Form } from 'semantic-ui-react';
 import { regExp } from '../../../constants';
 import Input from './Input';
 import browserHistory from '../../../browserHistory';
-
 
 class FormControl extends Component {
   constructor(props){
     super(props);
     this.state = {
-      first:'',surname:'',middle:'',email:'',gender:'',age:'',photo:''
+      first:'',surname:'',middle:'',email:'',gender:'',age:''
     };
 
     this.imageSubmit = this.imageSubmit.bind(this);
@@ -52,7 +51,7 @@ class FormControl extends Component {
   clickRegister(e){
     const data = this.state;
     const { addUserFunc } = this.props;
-    const requiredFields = Object.values(this.state).filter(field => field !== 'photo' && field !== 'middle' );
+    const requiredFields = Object.values(this.state).filter(field => field !== 'middle');
     const result = requiredFields.map(field => { return this.state[field] });
     const errForm = result.every((item) => {
       if(item) {
@@ -95,16 +94,16 @@ class FormControl extends Component {
 
   render(){
     const {configLang} = this.props;
-    const onPhotoChange =() => {
-      const file = this.fileUpload.files[0];
-      if(file.size > 40 && file.size < 5000){
-        this.setState({photo: file});
-        console.log('file dow')
-      }else{
-        console.log('file err size')
-      }
-      console.log(file);
-    };
+    //const onPhotoChange =() => {
+    //  const file = this.fileUpload.files[0];
+    //  if(file.size > 40 && file.size < 5000){
+    //    this.setState({photo: file});
+    //    console.log('file dow')
+    //  }else{
+    //    console.log('file err size')
+    //  }
+    //  console.log(file);
+    //};
 
     return (<div className='FormBox'>
       <Form className='Form' size='mini'>
