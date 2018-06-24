@@ -61,7 +61,7 @@ class FormControl extends Component {
     const requiredFields = Object.values(this.state).every((field,i,arr) =>{
       if(field){  console.log( arr[i] );  return true }  });
 
-    if(this.state.photo){
+    if(this.state.photo && this.state.photo !== 'photo is big'){
       if(requiredFields){
         e.preventDefault();
         const formData = new FormData();
@@ -98,13 +98,15 @@ class FormControl extends Component {
     const {configLang} = this.props;
     const onPhotoChange =() => {
       const file = this.fileUpload.files[0];
-      if(file.size > 40 && file.size < 5000){
-        this.setState({photo: file});
-        console.log('file dow')
-      }else{
-        console.log('file err size')
+      if(file){
+        if(file.size > 40 && file.size < 5000){
+          this.setState({photo: file});
+          console.log('file dow');
+        }else{
+          this.setState({photo: 'photo is big'});
+          console.log('photo is big');
+        }
       }
-      console.log(file);
     };
 
     return (<div className='FormBox'>
@@ -163,7 +165,9 @@ class FormControl extends Component {
         />
       </Form>
       <form className='buttonBox' encType="multipart/form-data" method='post'>
-        <Button fluid icon='download' className='dowLand'/>
+        {this.state.photo === 'photo is big' ?
+          <Button fluid icon='download' className='dowLand' content={'photo is big'}/> :
+          <Button fluid icon='download' className='dowLand' content={'upload photo'}/> }
         <input
           name='upload'
           type="file"
