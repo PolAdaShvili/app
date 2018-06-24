@@ -109,40 +109,49 @@ app.post('/api/user', (req, res) => {
     }
 
     const requiredFields = [isReadyFirstName, isReadySurName, isReadyAge, isReadyEmail, isReadyGender];
-    const errors = requiredFields.every(value => value);
+    const noErrors = requiredFields.every(value => value);
 
-    if(errors){
-      const user = new User({
-        name: first,
-        age, email, surname, middle, gender,
-        password: Math.random().toString(36).slice(-8)
-      });
-      user
-      .save()
-      .then(user => {
-        const writestream = gfs.createWriteStream({
-          filename: `photo_${user._id}`
-        });
-        fs.createReadStream(files.photo.path).pipe(writestream);
+    if(noErrors){
 
-        const expireDate = new Date();
-        expireDate.setDate(expireDate.getDate() + 1);
+      User.findOne({
+        email: fields.email
+      }).then(user => {
+        if(user){
+          res.send('--such user already exists---');
+        } else {
+          const user = new User({
+            name: first,
+            age, email, surname, middle, gender,
+            password: Math.random().toString(36).slice(-8)
+          });
+          user
+          .save()
+          .then(user => {
+            const writestream = gfs.createWriteStream({
+              filename: `photo_${user._id}`
+            });
+            fs.createReadStream(files.photo.path).pipe(writestream);
 
-        const session = new Session({
-          userId: user._id,
-          hash: uuidv1(),
-          expire_at: expireDate
-        });
-        session
-        .save()
-        .then(session => {
-          res.cookie('auth', session.hash, {maxAge: 864000000});
-          res.send(user);
-        });
-        return session;
-      })
-      .catch(err => {
-        console.log('ERROR ADD USER', err);
+            const expireDate = new Date();
+            expireDate.setDate(expireDate.getDate() + 1);
+
+            const session = new Session({
+              userId: user._id,
+              hash: uuidv1(),
+              expire_at: expireDate
+            });
+            session
+            .save()
+            .then(session => {
+              res.cookie('auth', session.hash, {maxAge: 864000000});
+              res.send(user);
+            });
+            return session;
+          })
+          .catch(err => {
+            console.log('ERROR ADD USER', err);
+          });
+        }
       });
     } else{
       console.log(isReadyFirstName, isReadySurName, isReadyAge, isReadyEmail, isReadyGender);
