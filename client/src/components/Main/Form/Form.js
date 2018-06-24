@@ -9,7 +9,7 @@ class FormControl extends Component {
   constructor(props){
     super(props);
     this.state = {
-      first:'',surname:'',email:'',gender:'',age:''
+      first:'',surname:'',email:'',gender:'',age:'', photo: ''
     };
     this.clickRegister = this.clickRegister.bind(this);
     this.clickRegister = this.clickRegister.bind(this);
@@ -60,26 +60,36 @@ class FormControl extends Component {
     const {addUserFunc} = this.props;
     const requiredFields = Object.values(this.state).every((field,i,arr) =>{
       if(field){  console.log( arr[i] );  return true }  });
-    console.log(this.state);
 
-    if(requiredFields){
+    if(this.state.photo){
+      if(requiredFields){
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('first', data.first);
+        formData.append('surname', data.surname);
+        formData.append('age', data.age);
+        formData.append('middle', data.middle);
+        formData.append('gender', data.gender);
+        formData.append('email', data.email);
+        formData.append('photo', this.fileUpload.files[0]);
 
-      e.preventDefault();
-      console.log('--> ',this.fileUpload.files[0]);
-      console.log('--> ', data);
-      axios({
-        method: 'post',
-        url: '/api/user',
-        data: {data}
-      })
-      .then(res => {
-        addUserFunc(res);
-        browserHistory.push({pathname: "/"});
-        console.log('ADD user info to server -->', res);
-      })
-      .catch(err => {
-        console.log('ERROR user info to server -->', err);
-      });
+        axios({
+          method: 'post',
+          url: '/api/user',
+          headers: {'Content-Type': 'multipart/form-data'},
+          data: formData
+        })
+        .then(res => {
+          addUserFunc(res);
+          browserHistory.push({pathname: "/"});
+          console.log('ADD user info to server -->', res);
+        })
+        .catch(err => {
+          console.log('ERROR user info to server -->', err);
+        });
+      }
+    } else {
+      console.log('select photo');
     }
   };
 
@@ -98,7 +108,7 @@ class FormControl extends Component {
     };
 
     return (<div className='FormBox'>
-      <Form className='Form' size='mini'>
+      <Form className='Form' size='mini' encType="multipart/form-data" >
         <Input
           label={configLang.name}
           name='first'
@@ -155,6 +165,7 @@ class FormControl extends Component {
       <form className='buttonBox' encType="multipart/form-data" method='post'>
         <Button fluid icon='download' className='dowLand'/>
         <input
+          name='upload'
           type="file"
           onChange={onPhotoChange}
           ref={(ref) => this.fileUpload = ref}
@@ -170,7 +181,6 @@ class FormControl extends Component {
       >
         {configLang.button}
       </Button>
-      <form onSubmit={this.clickRegister} method='post'/>
     </div>)
   }
 }
