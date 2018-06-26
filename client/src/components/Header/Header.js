@@ -5,21 +5,25 @@ import LangDropDown from './LangDropdown';
 import LogoReact from './LogoReact';
 
 
-const Header = ({ configLang, setLang }) => {
+const Header = ({ configLang, setLang, auth }) => {
   return (
     <header className='Header'>
       <LogoReact />
       <Container className='headerContainer'>
         <span>{ configLang.title }</span>
         <Link to='/' >HOME</Link>
-        <div className='regBox'>
+        {auth ? <Button
+          color='yellow'
+          size='mini'
+          content={ configLang.btnExit }
+        /> : <div className='regBox'>
           <Button
             color='google plus'
             size='mini'
             content={ configLang.btnReg }
           />
-          <Link to='/registration' className='LinkReg' >Reg </Link>
-        </div>
+          <Link to='/registration' className='LinkReg' >Reg</Link>
+        </div>}
       </Container>
       <LangDropDown
         configLang={ configLang.langParams }

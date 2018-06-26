@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
 import axios from 'axios';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { USERS_FROM_DB } from '../constants';
 import { Route,Switch } from "react-router";
 import { langReducer } from "../actions/changeLang";
 import { addUserReducer } from "../actions/addUser";
@@ -13,23 +12,44 @@ import store from "../store";
 
 
 class Container extends Component{
+  componentDidMount(){
+    const token = localStorage.getItem('userToken');
+    if(token){
+      axios({
+        method: 'get',
+        url: '/api/auth',
+        headers: {'authorization': token}
+      }).then(res => {
+        // add user in store
+        this.props.addUser(res);
+        //
+      }).catch(err => {
+        console.log('-CLIENT---NOT_authorization--->',err);
+      });
+    }
+  }
+
   render(){
-    console.log('CONTAINER---->',this.props);
-    const { translations,setLang, addUser, authorizationUser, userInfo } = this.props;
+    console.log('CONTAINER--props-->',this.props);
+    const { translations,setLang } = this.props;
+    const authUser = this.props.userInfo;
+
+
     return (
       <div className='App'>
         <Header
           configLang={ translations.header }
           setLang={ setLang }
+          auth={authUser.authorization}
         />
         <div className='Content'>
           <Switch>
             <Route
               exact
               path="/registration"
-              render={()=><Form configLang={translations.main.form} addUserFunc={addUser}/>}
+              render={()=><Form configLang={translations.main.form}/>}
             />
-            <Aside authorization={authorizationUser} userInfo={userInfo}/>
+            <Aside auth={authUser}/>
           </Switch>
         </div>
         <Footer

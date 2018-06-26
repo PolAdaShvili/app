@@ -1,28 +1,26 @@
+const fs = require('fs');
 const cors = require('cors');
 const express = require( 'express');
 const mongoose = require('mongoose');
-const uuidv1 = require('uuid/v1');
-const fs = require('fs');
+const bcrypt = require('bcrypt');
 const Grid = require('gridfs-stream');
-const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const validator = require('validator');
 const formidable = require('formidable');
-const CONST = require( './constants' );
-const { Session } = require('./model/Session/sessionSchema');
-const { User } = require('./model/User/userSchema');
+
+
 let gfs;
 const app = express();
 const db = mongoose.connection;
-const urlencodedParser = bodyParser.urlencoded({extended: false});
-const { PORT, URL_DB } = CONST;
+const CONST = require( './constants' );
+const { User } = require('./model/User/userSchema');
+const { PORT, URL_DB, secret } = CONST;
 
 
 Grid.mongo = mongoose.mongo;
 app.use(cors());
-app.use(cookieParser());
 app.use( bodyParser.json() );
-app.use(retrieveUser);
 app.use('/static', express.static(__dirname + '/public'));
 
 mongoose.connect(URL_DB);
@@ -32,54 +30,37 @@ db.once('open', () => {
   console.log('CONNECT DB')
 });
 
-function retrieveUser (req, res, next) {
-  if(!req.cookies.auth){
-    next();
-    return;
-  }
-
-  Session.findOne({
-    hash: req.cookies.auth
-  }).then(session => {
-    if (!session) {
-      throw new Error('Cannot find session');
-    }
-
-    return User.findOne({
-      _id: session.userId
-    })
-  }).then(user => {
-    if (!user) {
-      throw new Error('Cannot find user');
-    }
-
-    req.auth = { user };
-    next();
-  }).catch(err => {
-    res.status(500).send(err.message);
-  })
-}
-
 function authenticate(req, res, next) {
-  if (req.auth && req.auth.user) {
-    next();
+  if( req.hasOwnProperty('headers') && req.headers.hasOwnProperty('authorization') ) {
+    try {
+      req.user = jwt.verify(req.headers['authorization'], secret);
+    } catch(err) {
+      return res.status(401).json({
+        error: {
+          msg: 'Failed to authenticate token!'
+        }
+      });
+    }
   } else {
-    res.status(403).send('Not authenticated');
+    return res.status(401).json({
+      error: {
+        msg: 'No token!'
+      }
+    });
   }
+  next();
+  return;
 }
 
-//app.get('/api/users', (req, res) => {
-//  User.find().then(users => {
-//    console.log('USERS----->',users);
-//    res.send({
-//      users
-//    });
-//  })
-//  .catch(err => {
-//    res.status(500).send('Error');
-//    console.log(err);
-//  });
-//});
+app.get('/api/auth', authenticate, (req, res) => {
+  User.findOne({
+    _id: req.user.payload.userId
+  }).then(user => {
+    res.send(user);
+  }).catch(err => {
+    console.log('NOT authenticate', err);
+  })
+});
 
 
 app.post('/api/user', (req, res) => {
@@ -113,16 +94,20 @@ app.post('/api/user', (req, res) => {
 
     if(noErrors){
 
+      const psw = Math.random().toString(36).slice(-8);
+      const hash = bcrypt.hashSync(psw, 10);
+      //const decodedHash = bcrypt.compareSync(psw, hash);
+
       User.findOne({
         email: fields.email
       }).then(user => {
         if(user){
-          res.send('--such user already exists---');
+          res.status(500).send('email is busy');
         } else {
           const user = new User({
             name: first,
             age, email, surname, middle, gender,
-            password: Math.random().toString(36).slice(-8)
+            password: hash
           });
           user
           .save()
@@ -132,21 +117,17 @@ app.post('/api/user', (req, res) => {
             });
             fs.createReadStream(files.photo.path).pipe(writestream);
 
-            const expireDate = new Date();
-            expireDate.setDate(expireDate.getDate() + 1);
+            const payload = {
+              userId: user._id
+            };
 
-            const session = new Session({
-              userId: user._id,
-              hash: uuidv1(),
-              expire_at: expireDate
+            jwt.sign({payload}, secret, (err, token) => {
+              res.json({
+                token,
+                password: psw
+              })
             });
-            session
-            .save()
-            .then(session => {
-              res.cookie('auth', session.hash, {maxAge: 864000000});
-              res.send(user);
-            });
-            return session;
+
           })
           .catch(err => {
             console.log('ERROR ADD USER', err);
@@ -162,12 +143,12 @@ app.post('/api/user', (req, res) => {
 
 } );
 
-app.get('/api/user/avatar', authenticate, (req, res) => {
-  const readstream = gfs.createReadStream({
-    filename: `photo_${req.auth.user._id}`
-  });
-  readstream.pipe(res);
-});
+//app.get('/api/user/avatar', authenticate, (req, res) => {
+//  const readstream = gfs.createReadStream({
+//    filename: `photo_${req.auth.user._id}`
+//  });
+//  readstream.pipe(res);
+//});
 
 app.listen(PORT, () => {
   console.log(`listening on port ${ PORT }`);

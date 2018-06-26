@@ -57,9 +57,8 @@ class FormControl extends Component {
   }
   clickRegister(e){
     const data = this.state;
-    const {addUserFunc} = this.props;
     const requiredFields = Object.values(this.state).every((field,i,arr) =>{
-      if(field){  console.log( arr[i] );  return true }  });
+      if (field) {  console.log( arr[i] );  return true }  });
 
     if(this.state.photo && this.state.photo !== 'photo is big'){
       if(requiredFields){
@@ -80,7 +79,7 @@ class FormControl extends Component {
           data: formData
         })
         .then(res => {
-          addUserFunc(res);
+          localStorage.setItem('userToken', res.data.token);
           browserHistory.push({pathname: "/"});
           console.log('ADD user info to server -->', res);
         })

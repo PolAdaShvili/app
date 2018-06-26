@@ -5,6 +5,7 @@ const lang = {
     header: {
       title: 'Header title',
       btnReg: 'Registration',
+      btnExit: 'Exit',
       langParams: {
         select: 'Select language',
         gb: 'English',
@@ -36,6 +37,7 @@ const lang = {
     header: {
       title: 'Заголовок шапки',
       btnReg: 'Регистрация',
+      btnExit: 'Выход',
       langParams: {
         select: 'Поменять язык',
         gb: 'Английский',
@@ -67,6 +69,7 @@ const lang = {
     header: {
       title: 'Заголовок шапки',
       btnReg: 'Реєстрація',
+      btnExit: 'Вихід',
       langParams: {
         select: 'Змінити мову',
         gb: 'Англійська',
