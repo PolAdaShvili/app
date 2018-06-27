@@ -1,0 +1,49 @@
+@import "../const";
+
+.Aside{
+  height: 100%;
+  width: 15%;
+  margin-right: 50px;
+
+  .userControlMenu, .LoginMenu {
+    width: 15%;
+    height: 100%;
+    color: wheat !important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    background-color: rgba(38, 50, 56, .8) !important;
+
+    & a{
+      color: wheat !important;
+    }
+  }
+  .LinkMenu{
+    position: relative;
+
+    .Link{
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      position: absolute;
+    }
+  }
+  .LoginMenu{
+
+    .sign{
+      color: wheat;
+      text-align: center;
+    }
+
+    .item{
+      margin-bottom: 20px;
+    }
+    .label{
+      width: 100%;
+    }
+  }
+}
+
+.ui.menu .active.item:hover, .ui.vertical.menu .active.item:hover{
+  background-color: #834d65;
+}
