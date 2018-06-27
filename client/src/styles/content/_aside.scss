@@ -10,8 +10,8 @@
     height: 100%;
     color: wheat !important;
     border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    background-color: rgba(38, 50, 56, .8) !important;
+    border-bottom-left-radius: 0;
+    background-color: $blackOpacity !important;
 
     & a{
       color: wheat !important;
@@ -44,6 +44,4 @@
   }
 }
 
-.ui.menu .active.item:hover, .ui.vertical.menu .active.item:hover{
-  background-color: #834d65;
-}
+

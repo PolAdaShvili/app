@@ -1,0 +1,104 @@
+@import "../const";
+
+.Account{
+  width: 999px;
+  height: 400px;
+  display: flex;
+  background-color: $blackOpacity;
+  margin: 25px;
+  border-radius: 30px;
+  padding: 15px;
+  box-shadow: 0px 10px 5px 5px rgba(0,0,0,0.75);
+
+  &>form{
+    display: flex;
+    padding: 15px;
+
+    .label{
+      background-color: wheat;
+    }
+  }
+  .infoUser{
+    margin-top: 50px;
+  }
+  .age, .gender{
+    width: 15%;
+    position: relative;
+  }
+  .additionally{
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .nameBox{
+    position: relative;
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+
+    & > div{
+      width: 33%;
+    }
+    & .label{
+      width: 50%;
+      margin-left: 25%;
+    }
+  }
+  .age {
+    input[name=age] {
+      height: 55px;
+    }
+    .label{
+      border-color: #f5deb3;
+    }
+  }
+  .gender{
+    padding: 1px;
+    height: 100%;
+    margin-right: 15px;
+    .icon{
+      font-size: 22px;
+    }
+    .label{
+      top: 1px;
+      border-color: #f5deb3;;
+    }
+    .segment{
+      margin: 0;
+    }
+  }
+  .mail{
+    width: 60%;
+    margin: 0 auto;
+    & .label{
+      width: 20%;
+      margin-left: 40%;
+    }
+  }
+  .avatarBox{
+    margin-top: 75px;
+    min-height: 200px;
+    min-width: 200px;
+
+    &>.avatar{
+      width: 100% !important;
+      height: auto!important;
+      border: 5px solid wheat;
+      padding: 5px;
+      background: white;
+      border-radius: 50%;
+    }
+  }
+  .mode{
+    right: 0;
+    position: absolute;
+    border-radius: 15px;
+    background-color: wheat;
+    &>div{
+      background: transparent !important;
+    }
+    &>div:hover, &>div:active{
+      background: transparent;
+    }
+  }
+}
