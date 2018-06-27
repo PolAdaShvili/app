@@ -11,6 +11,7 @@ class FormControl extends Component {
     this.state = {
       first:'',surname:'',email:'',gender:'',age:'', photo: ''
     };
+
     this.clickRegister = this.clickRegister.bind(this);
     this.clickRegister = this.clickRegister.bind(this);
     this.handlerInput = this.handlerInput.bind(this);
@@ -91,7 +92,6 @@ class FormControl extends Component {
       console.log('select photo');
     }
   };
-
 
   render(){
     const {configLang} = this.props;

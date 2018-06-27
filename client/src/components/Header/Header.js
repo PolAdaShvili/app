@@ -10,16 +10,25 @@ const Header = ({ configLang, setLang, auth }) => {
     <header className='Header'>
       <LogoReact />
       <Container className='headerContainer'>
-        <span>{ configLang.title }</span>
-        <Link to='/' >HOME</Link>
+        <div className='homeBox'>
+          <Button
+            size='mini'
+            content='Home'
+            color='violet'
+            className='btnHome'
+          />
+          <Link to='/' className='LinkHome' >HOME</Link>
+        </div>
         {auth ? <Button
           color='yellow'
           size='mini'
+          className='btnExit'
           content={ configLang.btnExit }
         /> : <div className='regBox'>
           <Button
             color='google plus'
             size='mini'
+            className='btnReg'
             content={ configLang.btnReg }
           />
           <Link to='/registration' className='LinkReg' >Reg</Link>

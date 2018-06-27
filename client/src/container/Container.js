@@ -6,18 +6,26 @@ import { langReducer } from "../actions/changeLang";
 import { addUserReducer } from "../actions/addUser";
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import Aside from '../components/Main/Aside';
 import Form from '../components/Main/Form/Form';
+import Aside from '../components/Main/Aside/Aside';
+import Account from '../components/Main/ContentRouts/Account';
 import store from "../store";
 
 
 class Container extends Component{
+  constructor(props){
+    super(props);
+
+    this.state = {
+
+    };
+  }
   componentDidMount(){
     const token = localStorage.getItem('userToken');
     if(token){
       axios({
         method: 'get',
-        url: '/api/auth',
+        url: '/api/user/auth',
         headers: {'authorization': token}
       }).then(res => {
         // add user in store
@@ -34,7 +42,6 @@ class Container extends Component{
     const { translations,setLang } = this.props;
     const authUser = this.props.userInfo;
 
-
     return (
       <div className='App'>
         <Header
@@ -43,13 +50,33 @@ class Container extends Component{
           auth={authUser.authorization}
         />
         <div className='Content'>
+          <Aside auth={authUser}/>
           <Switch>
             <Route
               exact
               path="/registration"
-              render={()=><Form configLang={translations.main.form}/>}
+              render={ () => <Form configLang={translations.main.form} /> }
             />
-            <Aside auth={authUser}/>
+            <Route
+              path='/account'
+              render={ () => <Account user={authUser.user}/> }
+            />
+            <Route
+              path='/friends'
+              render={ () => {return (<p>friends</p>)} }
+            />
+            <Route
+              path='/people'
+              render={ () => {return (<p>people</p>)} }
+            />
+            <Route
+              path='/news'
+              render={ () => {return (<p>news</p>)} }
+            />
+            <Route
+              path='/setting'
+              render={ () => {return (<p>setting</p>)} }
+            />
           </Switch>
         </div>
         <Footer

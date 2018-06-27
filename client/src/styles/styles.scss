@@ -1,6 +1,7 @@
 @import "const";
 @import "header";
 @import "content/content";
+@import "content/aside";
 @import "content/form";
 @import "footer";
 
@@ -9,12 +10,6 @@
   display: flex;
   flex-direction: column;
   background: sandybrown;
-
-
-  .Content {
-    flex-grow: 1;
-
-  }
 
 }
 

@@ -14,16 +14,18 @@ let gfs;
 const app = express();
 const db = mongoose.connection;
 const CONST = require( './constants' );
+const urlencodedParser = bodyParser.urlencoded({extended: false});
 const { User } = require('./model/User/userSchema');
 const { PORT, URL_DB, secret } = CONST;
 
 
-Grid.mongo = mongoose.mongo;
+
 app.use(cors());
 app.use( bodyParser.json() );
 app.use('/static', express.static(__dirname + '/public'));
 
 mongoose.connect(URL_DB);
+Grid.mongo = mongoose.mongo;
 db.on('error', console.error.bind(console, 'CONNECT DB ERROR:'));
 db.once('open', () => {
   gfs = Grid(db.db);
@@ -52,7 +54,7 @@ function authenticate(req, res, next) {
   return;
 }
 
-app.get('/api/auth', authenticate, (req, res) => {
+app.get('/api/user/auth', authenticate, (req, res) => {
   User.findOne({
     _id: req.user.payload.userId
   }).then(user => {
@@ -62,6 +64,36 @@ app.get('/api/auth', authenticate, (req, res) => {
   })
 });
 
+app.get('/api/user/avatar', authenticate, (req, res) => {
+  const readstream = gfs.createReadStream({
+    filename: `photo_${req.user.payload.userId}`
+  });
+  readstream.pipe(res);
+});
+
+app.post('/api/user/login', urlencodedParser, (req, res) => {
+  User.findOne({
+    email: req.body.login
+  }).then(user => {
+    if(!user){
+      res.json({ success: false, err_login: 'Authentication failed. User not found.' });
+    } else if(user) {
+      if(!bcrypt.compareSync(req.body.psw, user.password)){
+        res.json({ success: false, err_password: 'Authentication failed. Wrong password.' });
+      } else {
+        const payload = {
+          userId: user._id
+        };
+        jwt.sign({payload}, secret, (err, token) => {
+          res.json({
+            token,
+            success: true
+          })
+        });
+      }
+    }
+  })
+});
 
 app.post('/api/user', (req, res) => {
 
@@ -93,10 +125,8 @@ app.post('/api/user', (req, res) => {
     const noErrors = requiredFields.every(value => value);
 
     if(noErrors){
-
       const psw = Math.random().toString(36).slice(-8);
       const hash = bcrypt.hashSync(psw, 10);
-      //const decodedHash = bcrypt.compareSync(psw, hash);
 
       User.findOne({
         email: fields.email
@@ -142,13 +172,6 @@ app.post('/api/user', (req, res) => {
   });
 
 } );
-
-//app.get('/api/user/avatar', authenticate, (req, res) => {
-//  const readstream = gfs.createReadStream({
-//    filename: `photo_${req.auth.user._id}`
-//  });
-//  readstream.pipe(res);
-//});
 
 app.listen(PORT, () => {
   console.log(`listening on port ${ PORT }`);
