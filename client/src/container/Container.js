@@ -8,7 +8,7 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Form from '../components/Main/Form/Form';
 import Aside from '../components/Main/Aside/Aside';
-import Account from '../components/Main/ContentRouts/Account/Account';
+import Account from '../components/Main/ContentRouts/Account';
 import store from "../store";
 
 
@@ -28,9 +28,9 @@ class Container extends Component{
         url: '/api/user/auth',
         headers: {'authorization': token}
       }).then(res => {
-        console.log( res );
-        this.setState({token: res.token});
+        // add user in store
         this.props.addUser(res);
+        //
       }).catch(err => {
         console.log('-CLIENT---NOT_authorization--->',err);
       });

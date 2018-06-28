@@ -39,10 +39,9 @@
   }
 
   .btnExit{
-    color: black !important;
     height: 75%;
     margin-top: 5px;
-    background-color: wheat !important;
+    background-color: $otherColor !important;
   }
   .headerContainer {
     display: flex;
