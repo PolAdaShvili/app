@@ -73,7 +73,7 @@ app.get('/api/user/avatar', authenticate, (req, res) => {
 
 app.post('/api/user/login', urlencodedParser, (req, res) => {
   User.findOne({
-    email: req.body.login
+    email: req.body.login.toLocaleLowerCase()
   }).then(user => {
     if(!user){
       res.json({ success: false, err_login: 'Authentication failed. User not found.' });
@@ -136,7 +136,8 @@ app.post('/api/user', (req, res) => {
         } else {
           const user = new User({
             name: first,
-            age, email, surname, middle, gender,
+            email: email.toLocaleLowerCase(),
+            age, surname, middle, gender,
             password: hash
           });
           user
@@ -150,14 +151,13 @@ app.post('/api/user', (req, res) => {
             const payload = {
               userId: user._id
             };
-
             jwt.sign({payload}, secret, (err, token) => {
               res.json({
                 token,
+                user,
                 password: psw
               })
             });
-
           })
           .catch(err => {
             console.log('ERROR ADD USER', err);
