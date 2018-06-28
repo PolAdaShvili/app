@@ -18,6 +18,10 @@
     border-radius: 0 25px 25px 0;
     background-color: $accentColorMain !important;
     box-shadow: 10px 10px 5px 0px #495867 !important;
+    color: wheat !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: $blackOpacity !important;
 
     & a{
       color: $textColor-1 !important;

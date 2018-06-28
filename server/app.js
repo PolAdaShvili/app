@@ -32,6 +32,13 @@ db.once('open', () => {
   console.log('CONNECT DB')
 });
 
+app.use((req, res, next) => {
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 function authenticate(req, res, next) {
   if( req.hasOwnProperty('headers') && req.headers.hasOwnProperty('authorization') ) {
     try {
@@ -67,6 +74,9 @@ app.get('/api/user/auth', authenticate, (req, res) => {
 app.get('/api/user/avatar', authenticate, (req, res) => {
   const readstream = gfs.createReadStream({
     filename: `photo_${req.user.payload.userId}`
+  });
+  res.set( {
+    'Content-Type': 'image/png'
   });
   readstream.pipe(res);
 });
@@ -132,7 +142,7 @@ app.post('/api/user', (req, res) => {
         email: fields.email
       }).then(user => {
         if(user){
-          res.status(500).send('email is busy');
+          res.json({message: 'email busy'})
         } else {
           const user = new User({
             name: first,

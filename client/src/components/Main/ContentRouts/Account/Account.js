@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Label, Icon, Segment, Form, Dropdown } from 'semantic-ui-react';
 import FieldsInputs from './FieldInputs';
 
+
+
 class Account extends Component {
   constructor( props ){
     super( props );
@@ -42,7 +44,7 @@ class Account extends Component {
     console.log( 'ACCOUNT',this.props );
     const {user} = this.props;
     const {mode} = this.state;
-    console.log(user)
+
     return ( <div className='Account'>
       <div className="photo">
         <div className='avatarBox'/>

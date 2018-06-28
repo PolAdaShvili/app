@@ -82,8 +82,10 @@ class FormControl extends Component {
           if ( res.data.message ){
             this.setState({email: res.data.message});
           } else {
-            //localStorage.getItem('userToken', res.data.token);
+            localStorage.getItem('userToken', res.data.token);
             this.props.addUser(res.data.user);
+            localStorage.setItem('userToken', res.data.token);
+            browserHistory.push({pathname: "/"});
             console.log('ADD user info to server -->', res);
           }
         })

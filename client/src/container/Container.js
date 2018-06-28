@@ -30,6 +30,7 @@ class Container extends Component{
       }).then(res => {
         this.setState({token: res.token});
         this.porops.addUser(res);
+        this.props.addUser(res);
       }).catch(err => {
         console.log('-CLIENT---NOT_authorization--->',err);
       });
