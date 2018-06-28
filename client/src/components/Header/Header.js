@@ -5,7 +5,11 @@ import LangDropDown from './LangDropdown';
 import LogoReact from './LogoReact';
 
 
-const Header = ({ configLang, setLang, auth }) => {
+
+
+
+
+const Header = ({ configLang, setLang, auth, exit }) => {
   return (
     <header className='Header'>
       <LogoReact />
@@ -20,8 +24,10 @@ const Header = ({ configLang, setLang, auth }) => {
           <Link to='/' className='LinkHome' >HOME</Link>
         </div>
         {auth ? <Button
+          role='button'
           color='yellow'
           size='mini'
+          onClick={exit}
           className='btnExit'
           content={ configLang.btnExit }
         /> : <div className='regBox'>

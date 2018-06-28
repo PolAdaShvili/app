@@ -3,8 +3,7 @@
 .Header {
   min-height: 50px;
   display: flex;
-  background-color: $accent-color;
-
+  background-color: $accentColorMain;
   .regBox {
     position: relative;
 
@@ -25,9 +24,9 @@
 
     .btnHome {
       height: 75%;
-      color: black;
       margin-top: 5px;
-      background-color: wheat;
+      color: black;
+      background-color: $accentColor-2;
     }
     .LinkHome {
       opacity: 0;
@@ -37,11 +36,11 @@
       position: absolute;
     }
   }
-
   .btnExit{
+    color: black !important;
     height: 75%;
     margin-top: 5px;
-    background-color: $otherColor !important;
+    background-color: $accentColor-2 !important;
   }
   .headerContainer {
     display: flex;

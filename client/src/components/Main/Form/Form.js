@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React,{ Component } from 'react';
-import { Button,Form } from 'semantic-ui-react';
+import { Button,Form, Label } from 'semantic-ui-react';
 import { regExp } from '../../../constants';
 import Input from './Input';
 import browserHistory from '../../../browserHistory';
@@ -58,8 +58,7 @@ class FormControl extends Component {
   }
   clickRegister(e){
     const data = this.state;
-    const requiredFields = Object.values(this.state).every((field,i,arr) =>{
-      if (field) {  console.log( arr[i] );  return true }  });
+    const requiredFields = Object.values(this.state).every(( field => field ));
 
     if(this.state.photo && this.state.photo !== 'photo is big'){
       if(requiredFields){
@@ -80,9 +79,13 @@ class FormControl extends Component {
           data: formData
         })
         .then(res => {
-          localStorage.setItem('userToken', res.data.token);
-          browserHistory.push({pathname: "/"});
-          console.log('ADD user info to server -->', res);
+          if ( res.data.message ){
+            this.setState({email: res.data.message});
+          } else {
+            //localStorage.getItem('userToken', res.data.token);
+            this.props.addUser(res.data.user);
+            console.log('ADD user info to server -->', res);
+          }
         })
         .catch(err => {
           console.log('ERROR user info to server -->', err);
@@ -94,8 +97,9 @@ class FormControl extends Component {
   };
 
   render(){
-    const {configLang} = this.props;
-    const onPhotoChange =() => {
+    const {configLang, auth, addUser} = this.props;
+
+    const onPhotoChange = () => {
       const file = this.fileUpload.files[0];
       if(file){
         if(file.size > 40 && file.size < 5000){
@@ -154,14 +158,19 @@ class FormControl extends Component {
             onChange={this.handlerInput}
           />
         </div>
-        <Input
-          name='email'
-          type='email'
-          className='required'
-          label={configLang.email}
-          placeHolder={configLang.email}
-          onChange={this.handlerInput}
-        />
+        <div className="mailBox">
+          <Input
+            name='email'
+            type='email'
+            className='required'
+            label={configLang.email}
+            placeHolder={configLang.email}
+            onChange={this.handlerInput}
+          />
+          {this.state.email === 'email busy' ? <Label basic color='red' size='mini' pointing='above'>
+            Email is busy!
+          </Label> : null}
+        </div>
       </Form>
       <form className='buttonBox' encType="multipart/form-data" method='post'>
         {this.state.photo === 'photo is big' ?

@@ -5,6 +5,7 @@
   max-width: 450px;
   width: 35%;
   padding: 15px;
+  line-height: 1.2;
   margin: 25px auto 0;
   border-radius: 15px;
   background: #263238;
@@ -16,7 +17,6 @@
     display: none;
   }
   .Form{
-
     input[type=file] {
       top: 15px;
       width: 100%;
@@ -78,7 +78,6 @@
       }
     }
     .ui .buttons {
-      font-size: 16px;
       position: relative;
     }
     .no-required{
@@ -107,6 +106,11 @@
       margin: -.3em 0 0 .3em;
       content: '*';
       color: $femaleAccentColor;
+    }
+  }
+  .mailBox{
+    .label{
+      margin-left: 40%;
     }
   }
   .buttonBox {

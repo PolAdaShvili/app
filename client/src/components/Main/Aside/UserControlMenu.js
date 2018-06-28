@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Menu, Icon } from 'semantic-ui-react';
-import axios from "axios/index";
 
 
 class UserControlMenu extends Component{
@@ -13,23 +12,6 @@ class UserControlMenu extends Component{
     };
 
     this.handleItemClickItem = this.handleItemClickItem.bind(this);
-  }
-
-  componentDidMount(){
-    const token = localStorage.getItem('userToken');
-    if(token){
-      axios({
-        method: 'get',
-        url: '/api/user/avatar',
-        headers: {'authorization': token,}
-      }).then(res => {
-        // add user in store
-        console.log( res );
-        //
-      }).catch(err => {
-        console.log('-CLIENT---NOT_authorization--->',err);
-      });
-    }
   }
 
   handleItemClickItem(e, { name }){

@@ -43,12 +43,10 @@ class LoginMenu extends Component{
       }else{
         this.setState({errorPassword:false})
       }
-      console.log(success);
-      if(success){
-        console.log(token);
-        localStorage.setItem('userToken', token);
+      if(success) {
+        localStorage.setItem( 'userToken', token );
+        console.log( 'API--LOGIN--responce--->' , res);
       }
-
     }).catch(err => {
       console.log('--CLIENT--NOT_login_authenticate--->', err);
     })

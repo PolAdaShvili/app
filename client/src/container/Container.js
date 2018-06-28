@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route,Switch } from "react-router";
 import { langReducer } from "../actions/changeLang";
-import { addUserReducer } from "../actions/addUser";
+import { addUserReducer, exitUserReducer } from '../actions/addUser';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Form from '../components/Main/Form/Form';
 import Aside from '../components/Main/Aside/Aside';
-import Account from '../components/Main/ContentRouts/Account';
+import Account from '../components/Main/ContentRouts/Account/Account';
 import store from "../store";
-
+import browserHistory from '../browserHistory'
 
 class Container extends Component{
   constructor(props){
@@ -28,9 +28,8 @@ class Container extends Component{
         url: '/api/user/auth',
         headers: {'authorization': token}
       }).then(res => {
-        // add user in store
-        this.props.addUser(res);
-        //
+        this.setState({token: res.token});
+        this.porops.addUser(res);
       }).catch(err => {
         console.log('-CLIENT---NOT_authorization--->',err);
       });
@@ -39,7 +38,7 @@ class Container extends Component{
 
   render(){
     console.log('CONTAINER--props-->',this.props);
-    const { translations,setLang } = this.props;
+    const { translations,setLang, exitUser, addUser } = this.props;
     const authUser = this.props.userInfo;
 
     return (
@@ -47,19 +46,22 @@ class Container extends Component{
         <Header
           configLang={ translations.header }
           setLang={ setLang }
-          auth={authUser.authorization}
+          auth={ authUser.authorization }
+          exit={ exitUser }
         />
         <div className='Content'>
-          <Aside auth={authUser}/>
+          {location.href !== 'http://localhost:3000/registration' ?
+            <Aside auth={authUser}/> :
+            null}
           <Switch>
             <Route
               exact
               path="/registration"
-              render={ () => <Form configLang={translations.main.form} /> }
+              render={ () => <Form configLang={translations.main.form} addUser={ addUser } /> }
             />
             <Route
               path='/account'
-              render={ () => <Account user={authUser.user}/> }
+              render={ () => <Account user={authUser}/> }
             />
             <Route
               path='/friends'
@@ -105,7 +107,12 @@ const mapDispatchToProps = dispatch => {
      dispatch(addUserReducer({
        authorization : true,
        user: payload.data
-     }))
+     }) );
+     browserHistory.push({pathname: './'});
+   },
+   exitUser: () => {
+     dispatch(exitUserReducer({}));
+     browserHistory.push({pathname: './'});
    }
  }
 };
