@@ -83,18 +83,15 @@ class FormControl extends Component {
             this.setState({email: res.data.message});
           } else {
             localStorage.getItem('userToken', res.data.token);
-            this.props.addUser(res.data.user);
-            localStorage.setItem('userToken', res.data.token);
-            browserHistory.push({pathname: "/"});
-            console.log('ADD user info to server -->', res);
-          }
-        })
-        .catch(err => {
-          console.log('ERROR user info to server -->', err);
+            this.props.addUser(res.data);
+            console.log('post_/API/user/___Form--->', res);
+          }})
+        .catch( err =>{
+          console.log( 'post_ERRORS_/API/user/___Form--->', err );
         });
       }
     } else {
-      console.log('select photo');
+      console.log('Selected photo or enter fields!');
     }
   };
 

@@ -30,7 +30,8 @@ class LoginMenu extends Component{
         login: this.state.login,
         psw: this.state.password
       }
-    }).then(res => {
+    })
+    .then(res => {
       const { success, err_login, err_password, token } = res.data;
 
       if(err_login){
@@ -45,14 +46,15 @@ class LoginMenu extends Component{
       }
       if(success) {
         localStorage.setItem( 'userToken', token );
-        console.log( 'API--LOGIN--responce--->' , res);
-      }
-    }).catch(err => {
-      console.log('--CLIENT--NOT_login_authenticate--->', err);
+        console.log( 'get_/API/user/login--->', res);
+      }})
+    .catch(err => {
+      console.log('get_ERRORS___/API/user/login--->', err);
     })
   }
 
   render(){
+
     return (
       <Menu
         vertical

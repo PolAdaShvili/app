@@ -3,21 +3,20 @@ import { ADD_USER, EXIT_USER } from '../../constants';
 
 const initialState = {
   authorization: false,
-  userInfo: {a:1}
+  userInfo: {}
 };
 
-function addUserReducer ( state = initialState, action ) {
+const addUserReducer = ( state = initialState, action ) => {
   switch (action.type) {
-    case ADD_USER :
-      debugger;
+    case ADD_USER:
       return Object.assign({}, state, {
-        authorization: action.user.authorization,
-        user: action.user.userInfo
+        authorization: action.payload.authorization,
+        userInfo: action.payload.userInfo
       });
-    case EXIT_USER :
+    case EXIT_USER:
       return Object.assign({}, state, {
         authorization: false,
-        user: {}
+        userInfo: {}
       });
     default :
       return state;

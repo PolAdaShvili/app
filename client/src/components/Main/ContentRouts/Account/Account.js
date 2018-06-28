@@ -3,7 +3,6 @@ import { Label, Icon, Segment, Form, Dropdown } from 'semantic-ui-react';
 import FieldsInputs from './FieldInputs';
 
 
-
 class Account extends Component {
   constructor( props ){
     super( props );
@@ -17,9 +16,11 @@ class Account extends Component {
 
   componentDidMount(){
     const token = localStorage.getItem( 'userToken' );
+
     const xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
-    xhr.onreadystatechange = () =>{
+
+    xhr.onreadystatechange = () => {
       if ( xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200 ) {
         const img = document.createElement( 'img' );
         img.classList.add( 'avatar' );
@@ -46,83 +47,84 @@ class Account extends Component {
     const {mode} = this.state;
 
     return ( <div className='Account'>
-      <div className="photo">
-        <div className='avatarBox'/>
-        <div className='mode'>
-          <Dropdown
-            text='Mode'
-            icon='sliders horizontal'
-            floating
-            labeled
-            button
-            size='mini'
-            className='icon mode-menu'>
-            <Dropdown.Menu onClick={this.testOnclick}>
-              <Dropdown.Header role='button' icon='eye' mode='eye' value='eye' content='View' />
-              <Dropdown.Header icon='edit' mode='edit' content='Edit' />
-            </Dropdown.Menu>
-          </Dropdown>
+        <div className="photo">
+          <div className='avatarBox'/>
+          <div className='mode'>
+            <Dropdown
+              text='Mode'
+              icon='sliders horizontal'
+              floating
+              labeled
+              button
+              size='mini'
+              className='icon mode-menu'>
+              <Dropdown.Menu onClick={this.testOnclick}>
+                <Dropdown.Header role='button' icon='eye' mode='eye' value='eye' content='View'/>
+                <Dropdown.Header icon='edit' mode='edit' content='Edit'/>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </div>
-      </div>
-      <Form>
-        {user ? <div className='infoUser'>
-          <div className='infoUserBox'>
-            <div className='mail'>
-              <FieldsInputs
-                mode={mode}
-                fieldName='mail'
-                val={user.email}
-                fieldTitle='Email:'
-                eventHandler={this.testHandler}
-              />
-            </div>
-            <div className='nameBox'>
-              <FieldsInputs
-                mode={mode}
-                fieldName='name'
-                val={user.name}
-                fieldTitle='First name:'
-                eventHandler={this.onHandleChangeName}
-              />
-              <FieldsInputs
-                mode={mode}
-                fieldName='surname'
-                val={user.surname}
-                fieldTitle='Surname:'
-                eventHandler={this.onHandleChangeName}
-              />
-            </div>
-            <div className="middle">
-              <FieldsInputs
-                mode={mode}
-                fieldName='middle'
-                val={user.middle}
-                fieldTitle='Middle name:'
-                eventHandler={this.onHandleChangeName}
-              />
-            </div>
-            <div className="additionally">
-              <div className='age'>
+        <Form>
+          {user ? <div className='infoUser'>
+            <div className='infoUserBox'>
+              <div className='mail'>
                 <FieldsInputs
-                  corner={true}
                   mode={mode}
-                  fieldName='age'
-                  val={user.age}
-                  fieldTitle='Age'
+                  fieldName='mail'
+                  val={user.email}
+                  fieldTitle='Email:'
                   eventHandler={this.testHandler}
                 />
               </div>
-              <div className='gender'>
-                <Label content='Gender' corner={true}/>
-                <Segment>
-                  <Icon name={user.gender}/>
-                </Segment>
+              <div className='nameBox'>
+                <FieldsInputs
+                  mode={mode}
+                  fieldName='name'
+                  val={user.name}
+                  fieldTitle='First name:'
+                  eventHandler={this.onHandleChangeName}
+                />
+                <FieldsInputs
+                  mode={mode}
+                  fieldName='surname'
+                  val={user.surname}
+                  fieldTitle='Surname:'
+                  eventHandler={this.onHandleChangeName}
+                />
+              </div>
+              <div className="middle">
+                <FieldsInputs
+                  mode={mode}
+                  fieldName='middle'
+                  val={user.middle}
+                  fieldTitle='Middle name:'
+                  eventHandler={this.onHandleChangeName}
+                />
+              </div>
+              <div className="additionally">
+                <div className='age'>
+                  <FieldsInputs
+                    corner={true}
+                    mode={mode}
+                    fieldName='age'
+                    val={user.age}
+                    fieldTitle='Age'
+                    eventHandler={this.testHandler}
+                  />
+                </div>
+                <div className='gender'>
+                  <Label content='Gender' corner={true}/>
+                  <Segment>
+                    <Icon name={user.gender}/>
+                  </Segment>
+                </div>
               </div>
             </div>
-          </div>
-        </div> : null}
-      </Form>
-    </div> )
+          </div> : null}
+        </Form>
+      </div>
+    )
   }
 }
 

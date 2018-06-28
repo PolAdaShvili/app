@@ -62,13 +62,15 @@ function authenticate(req, res, next) {
 }
 
 app.get('/api/user/auth', authenticate, (req, res) => {
+  console.log( req.user.payload.userId );
   User.findOne({
     _id: req.user.payload.userId
   }).then(user => {
+    console.log( user );
     res.send(user);
   }).catch(err => {
     console.log('NOT authenticate', err);
-  })
+  });
 });
 
 app.get('/api/user/avatar', authenticate, (req, res) => {
@@ -156,18 +158,16 @@ app.post('/api/user', (req, res) => {
               filename: `photo_${user._id}`
             });
             fs.createReadStream(files.photo.path).pipe(writestream);
-
             const payload = {
               userId: user._id
             };
-
             jwt.sign({payload}, secret, (err, token) => {
               res.json({
                 token,
+                user,
                 password: psw
               })
             });
-
           })
           .catch(err => {
             console.log('ERROR ADD USER', err);
@@ -175,7 +175,6 @@ app.post('/api/user', (req, res) => {
         }
       });
     } else{
-      console.log(isReadyFirstName, isReadySurName, isReadyAge, isReadyEmail, isReadyGender);
       res.status(400).send('Validation error');
       return;
     }

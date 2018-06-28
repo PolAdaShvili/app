@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route,Switch } from "react-router";
 import { langReducer } from "../actions/changeLang";
-import { addUserReducer, exitUserReducer } from '../actions/addUser';
+import { addUserReducer, exitUserActions } from '../actions/addUser';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Form from '../components/Main/Form/Form';
@@ -11,6 +11,7 @@ import Aside from '../components/Main/Aside/Aside';
 import Account from '../components/Main/ContentRouts/Account/Account';
 import store from "../store";
 import browserHistory from '../browserHistory'
+
 
 class Container extends Component{
   constructor(props){
@@ -20,6 +21,7 @@ class Container extends Component{
 
     };
   }
+
   componentDidMount(){
     const token = localStorage.getItem('userToken');
     if(token){
@@ -27,33 +29,33 @@ class Container extends Component{
         method: 'get',
         url: '/api/user/auth',
         headers: {'authorization': token}
-      }).then(res => {
+      })
+      .then(res => {
         this.setState({token: res.token});
-        this.porops.addUser(res);
-        this.props.addUser(res);
-      }).catch(err => {
-        console.log('-CLIENT---NOT_authorization--->',err);
-      });
+        console.log('get_/API/user/auth-->', res );
+      })
+      .catch(err => {
+        console.log('get_ERRORS___/API/user/auth-->', err);
+      })
     }
   }
 
   render(){
+    const { translations, setLang, exitUser, addUser, auth, user } = this.props;
     console.log('CONTAINER--props-->',this.props);
-    const { translations,setLang, exitUser, addUser } = this.props;
-    const authUser = this.props.userInfo;
 
     return (
       <div className='App'>
         <Header
           configLang={ translations.header }
           setLang={ setLang }
-          auth={ authUser.authorization }
+          auth={ auth }
           exit={ exitUser }
         />
         <div className='Content'>
-          {location.href !== 'http://localhost:3000/registration' ?
-            <Aside auth={authUser}/> :
-            null}
+          { location.href !== 'http://localhost:3000/registration' ?
+            <Aside auth={ auth }/> :
+            null }
           <Switch>
             <Route
               exact
@@ -62,7 +64,7 @@ class Container extends Component{
             />
             <Route
               path='/account'
-              render={ () => <Account user={authUser}/> }
+              render={ () => <Account user={ user }/> }
             />
             <Route
               path='/friends'
@@ -92,7 +94,8 @@ class Container extends Component{
 
 const mapStateToProps = state => {
   return {
-    authorizationUser: state.addUser.authorization,
+    user: state.addUser.userInfo.user,
+    auth: state.addUser.authorization,
     userInfo: state.addUser.userInfo,
     translations: state.changeLang.translations
   }
@@ -105,14 +108,16 @@ const mapDispatchToProps = dispatch => {
      }))
    },
    addUser: payload => {
+     console.log( '-1.payload->', payload );
      dispatch(addUserReducer({
        authorization : true,
-       user: payload.data
-     }) );
+       userInfo: payload
+   }))
+     localStorage.getItem( 'userToken', payload.token );
      browserHistory.push({pathname: './'});
    },
    exitUser: () => {
-     dispatch(exitUserReducer({}));
+     dispatch(exitUserActions({}));
      browserHistory.push({pathname: './'});
    }
  }
