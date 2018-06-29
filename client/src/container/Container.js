@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route,Switch } from "react-router";
 import { langReducer } from "../actions/changeLang";
-import { addUserReducer, exitUserActions } from '../actions/addUser';
+import { addUserReducer, exitUserActions, signInUserActions } from '../actions/addUser';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Form from '../components/Main/Form/Form';
@@ -16,33 +16,29 @@ import browserHistory from '../browserHistory'
 class Container extends Component{
   constructor(props){
     super(props);
-
-    this.state = {
-
-    };
   }
 
   componentDidMount(){
-    const token = localStorage.getItem('userToken');
-    if(token){
+    if ( localStorage.getItem('token') ) {
+
+      const token = (localStorage.getItem( 'token' ));
+      console.log( token );
       axios({
-        method: 'get',
-        url: '/api/user/auth',
-        headers: {'authorization': token}
+        method: 'get', url: '/api/user/auth',
+        headers: { 'authorization': token }
       })
-      .then(res => {
-        this.setState({token: res.token});
-        console.log('get_/API/user/auth-->', res );
-      })
-      .catch(err => {
-        console.log('get_ERRORS___/API/user/auth-->', err);
+      .then( res =>{
+        this.props.addUser(res.data)
+        res.send()
+      }).catch(err => {
+        console.log( err );
       })
     }
   }
 
   render(){
-    const { translations, setLang, exitUser, addUser, auth, user } = this.props;
-    console.log('CONTAINER--props-->',this.props);
+    const { translations, setLang, exitUser, addUser, auth, user, signUser } = this.props;
+    console.log('_new-props___container--->',this.props, this.state);
 
     return (
       <div className='App'>
@@ -52,23 +48,24 @@ class Container extends Component{
           auth={ auth }
           exit={ exitUser }
         />
+
         <div className='Content'>
-          { location.href !== 'http://localhost:3000/registration' ?
-            <Aside auth={ auth }/> :
-            null }
+          {location.href !== 'http://localhost:3000/registration' ?
+            <Aside auth={ auth } signUser={ signUser } addUser={ addUser } /> :
+            null}
           <Switch>
             <Route
               exact
               path="/registration"
-              render={ () => <Form configLang={translations.main.form} addUser={ addUser } /> }
+              render={() => <Form configLang={translations.main.form} addUser={ addUser } />}
             />
             <Route
               path='/account'
-              render={ () => <Account user={ user }/> }
+              render={() => <Account user={ user } auth={ auth } />}
             />
             <Route
               path='/friends'
-              render={ () => {return (<p>friends</p>)} }
+              render={() => {return ( <p>friends</p> )}}
             />
             <Route
               path='/people'
@@ -76,11 +73,11 @@ class Container extends Component{
             />
             <Route
               path='/news'
-              render={ () => {return (<p>news</p>)} }
+              render={() => { return (<p>news</p>) }}
             />
             <Route
               path='/setting'
-              render={ () => {return (<p>setting</p>)} }
+              render={() => { return (<p>setting</p> )}}
             />
           </Switch>
         </div>
@@ -96,7 +93,8 @@ const mapStateToProps = state => {
   return {
     user: state.addUser.userInfo.user,
     auth: state.addUser.authorization,
-    userInfo: state.addUser.userInfo,
+    userInfo: state.addUser,
+    signUser: state.addUser.signUser,
     translations: state.changeLang.translations
   }
 };
@@ -108,22 +106,27 @@ const mapDispatchToProps = dispatch => {
      }))
    },
    addUser: payload => {
-     console.log( '-1.payload->', payload );
      dispatch(addUserReducer({
        authorization : true,
-       userInfo: payload
+       user: payload
    }))
-     localStorage.getItem( 'userToken', payload.token );
+     browserHistory.push({pathname: './'});
+   },
+   signUser: payload => {
+     dispatch(signInUserActions({
+       user: payload
+     }))
      browserHistory.push({pathname: './'});
    },
    exitUser: () => {
      dispatch(exitUserActions({}));
+     localStorage.removeItem('token');
      browserHistory.push({pathname: './'});
    }
  }
 };
 store.subscribe(() => {
-  console.log('subscribe --->', store.getState());
+  console.log('_NEW-STORE--subscribe--container->', store.getState());
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

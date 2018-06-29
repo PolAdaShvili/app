@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Label, Icon, Segment, Form, Dropdown } from 'semantic-ui-react';
-import FieldsInputs from './FieldInputs';
+import FieldInputs from './FieldInputs';
+import axios from "axios/index";
 
 
 class Account extends Component {
@@ -15,22 +16,21 @@ class Account extends Component {
   }
 
   componentDidMount(){
-    const token = localStorage.getItem( 'userToken' );
-
-    const xhr = new XMLHttpRequest();
-    xhr.responseType = 'blob';
-
-    xhr.onreadystatechange = () => {
-      if ( xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200 ) {
-        const img = document.createElement( 'img' );
-        img.classList.add( 'avatar' );
-        img.src = URL.createObjectURL( xhr.response );
-        document.body.querySelector( '.avatarBox' ).appendChild( img );
-      }
-    };
-    xhr.open( 'GET', 'api/user/avatar', true );
-    xhr.setRequestHeader( 'authorization', token );
-    xhr.send();
+    if ( localStorage.getItem( 'token' ) ) {
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onreadystatechange = () =>{
+        if ( xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200 ) {
+          const img = document.createElement( 'img' );
+          img.classList.add( 'avatar' );
+          img.src = URL.createObjectURL( xhr.response );
+          document.body.querySelector( '.avatarBox' ).appendChild( img );
+        }
+      };
+      xhr.open( 'GET', '/api/user/avatar', true );
+      xhr.setRequestHeader( 'authorization', localStorage.getItem( 'token' ) );
+      xhr.send();
+    }
   }
 
   onHandleChangeName(){
@@ -42,9 +42,9 @@ class Account extends Component {
   }
 
   render(){
-    console.log( 'ACCOUNT',this.props );
     const {user} = this.props;
     const {mode} = this.state;
+    console.log('_new-props___account--->',this.props, this.state);
 
     return ( <div className='Account'>
         <div className="photo">
@@ -65,11 +65,12 @@ class Account extends Component {
             </Dropdown>
           </div>
         </div>
+
         <Form>
           {user ? <div className='infoUser'>
             <div className='infoUserBox'>
               <div className='mail'>
-                <FieldsInputs
+                <FieldInputs
                   mode={mode}
                   fieldName='mail'
                   val={user.email}
@@ -78,14 +79,14 @@ class Account extends Component {
                 />
               </div>
               <div className='nameBox'>
-                <FieldsInputs
+                <FieldInputs
                   mode={mode}
                   fieldName='name'
                   val={user.name}
                   fieldTitle='First name:'
                   eventHandler={this.onHandleChangeName}
                 />
-                <FieldsInputs
+                <FieldInputs
                   mode={mode}
                   fieldName='surname'
                   val={user.surname}
@@ -94,7 +95,7 @@ class Account extends Component {
                 />
               </div>
               <div className="middle">
-                <FieldsInputs
+                <FieldInputs
                   mode={mode}
                   fieldName='middle'
                   val={user.middle}
@@ -104,7 +105,7 @@ class Account extends Component {
               </div>
               <div className="additionally">
                 <div className='age'>
-                  <FieldsInputs
+                  <FieldInputs
                     corner={true}
                     mode={mode}
                     fieldName='age'

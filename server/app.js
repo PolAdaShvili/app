@@ -19,7 +19,6 @@ const { User } = require('./model/User/userSchema');
 const { PORT, URL_DB, secret } = CONST;
 
 
-
 app.use(cors());
 app.use( bodyParser.json() );
 app.use('/static', express.static(__dirname + '/public'));
@@ -30,13 +29,6 @@ db.on('error', console.error.bind(console, 'CONNECT DB ERROR:'));
 db.once('open', () => {
   gfs = Grid(db.db);
   console.log('CONNECT DB')
-});
-
-app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origin', ['*']);
-  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.append('Access-Control-Allow-Headers', 'Content-Type');
-  next();
 });
 
 function authenticate(req, res, next) {
@@ -61,16 +53,20 @@ function authenticate(req, res, next) {
   return;
 }
 
+app.use((req, res, next) => {
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 app.get('/api/user/auth', authenticate, (req, res) => {
-  console.log( req.user.payload.userId );
   User.findOne({
     _id: req.user.payload.userId
   }).then(user => {
-    console.log( user );
-    res.send(user);
-  }).catch(err => {
-    console.log('NOT authenticate', err);
-  });
+    console.log( user )
+    res.send(user)
+  })
 });
 
 app.get('/api/user/avatar', authenticate, (req, res) => {
@@ -85,8 +81,9 @@ app.get('/api/user/avatar', authenticate, (req, res) => {
 
 app.post('/api/user/login', urlencodedParser, (req, res) => {
   User.findOne({
-    email: req.body.login
-  }).then(user => {
+    email: req.body.login.toLocaleLowerCase()
+  })
+  .then(user => {
     if(!user){
       res.json({ success: false, err_login: 'Authentication failed. User not found.' });
     } else if(user) {
@@ -97,13 +94,15 @@ app.post('/api/user/login', urlencodedParser, (req, res) => {
           userId: user._id
         };
         jwt.sign({payload}, secret, (err, token) => {
-          res.json({
+          res.send({
             token,
             success: true
           })
         });
       }
     }
+  }).catch( err => {
+    console.log(err);
   })
 });
 
@@ -148,9 +147,10 @@ app.post('/api/user', (req, res) => {
         } else {
           const user = new User({
             name: first,
-            age, email, surname, middle, gender,
+            email: email.toLocaleLowerCase(),
+            age, surname, middle, gender,
             password: hash
-          });
+          })
           user
           .save()
           .then(user => {

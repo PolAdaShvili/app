@@ -6,11 +6,12 @@ import UserControlMenu from './UserControlMenu';
 class Aside extends Component{
 
   render(){
-    const { auth } = this.props;
+    const { auth, signUser, addUser } = this.props;
 
     return (
+
       <div className='Aside'>
-        { auth ? <UserControlMenu /> : <LoginMenu /> }
+        { auth ? <UserControlMenu /> : <LoginMenu signUser={ signUser } addUser={ addUser } /> }
       </div>
 
     )

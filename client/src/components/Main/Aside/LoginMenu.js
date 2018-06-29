@@ -34,26 +34,20 @@ class LoginMenu extends Component{
     .then(res => {
       const { success, err_login, err_password, token } = res.data;
 
-      if(err_login){
-        this.setState({errorLogin:err_login})
-      }else{
-        this.setState({errorLogin:false})
-      }
-      if(err_password){
-        this.setState({errorPassword:err_password})
-      }else{
-        this.setState({errorPassword:false})
-      }
+      err_login ? this.setState({errorLogin:err_login}) : this.setState({errorLogin:false});
+      err_password ? this.setState({errorPassword:err_password}) : this.setState({errorPassword:err_password});
+
       if(success) {
-        localStorage.setItem( 'userToken', token );
-        console.log( 'get_/API/user/login--->', res);
-      }})
-    .catch(err => {
-      console.log('get_ERRORS___/API/user/login--->', err);
+
+        localStorage.setItem('token', res.data.token )
+        this.props.addUser(res.data)
+        res.end()
+      }
     })
   }
 
   render(){
+    const { signUser, addUser } = this.props;
 
     return (
       <Menu

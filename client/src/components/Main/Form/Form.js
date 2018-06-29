@@ -13,7 +13,6 @@ class FormControl extends Component {
     };
 
     this.clickRegister = this.clickRegister.bind(this);
-    this.clickRegister = this.clickRegister.bind(this);
     this.handlerInput = this.handlerInput.bind(this);
     FormControl.handlerSelect = FormControl.handlerSelect.bind(this);
   }
@@ -57,59 +56,43 @@ class FormControl extends Component {
     }
   }
   clickRegister(e){
-    const data = this.state;
-    const requiredFields = Object.values(this.state).every(( field => field ));
+    e.preventDefault();
+    const {photo} = this.state;
+    const requiredFields = Object.values( this.state ).every(( field => field ));
 
-    if(this.state.photo && this.state.photo !== 'photo is big'){
-      if(requiredFields){
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('first', data.first);
-        formData.append('surname', data.surname);
-        formData.append('age', data.age);
-        formData.append('middle', data.middle);
-        formData.append('gender', data.gender);
-        formData.append('email', data.email);
-        formData.append('photo', this.fileUpload.files[0]);
+    if ( requiredFields && photo && photo !== 'photo is big' ) {
+    const formData = new FormData();
+      Object.keys( this.state ).filter( fieldName => {
+        fieldName !== 'photo' ? formData.append( `${fieldName}`, this.state[fieldName] ) :
+          formData.append( `${fieldName}`, this.fileUpload.files[0] );
+      });
 
-        axios({
-          method: 'post',
-          url: '/api/user',
-          headers: {'Content-Type': 'multipart/form-data'},
-          data: formData
-        })
-        .then(res => {
-          if ( res.data.message ){
-            this.setState({email: res.data.message});
-          } else {
-            localStorage.getItem('userToken', res.data.token);
-            this.props.addUser(res.data);
-            console.log('post_/API/user/___Form--->', res);
-          }})
-        .catch( err =>{
-          console.log( 'post_ERRORS_/API/user/___Form--->', err );
-        });
-      }
+      axios({
+        method: 'post', url: '/api/user',
+        headers: {'Content-Type': 'multipart/form-data'},
+        data: formData
+      })
+      .then( res => {
+        console.log( res.data.password );
+        res.data.message ? this.setState({ email: res.data.message }) :
+          localStorage.setItem('token', res.data.token)
+            this.props.addUser( res.data )
+      })
+      .catch( err => {
+        console.log( 'post_ERRORS_/API/user/___Form--->', err );
+      });
+
     } else {
       console.log('Selected photo or enter fields!');
     }
-  };
+  }
 
   render(){
     const {configLang, auth, addUser} = this.props;
-
-    const onPhotoChange = () => {
-      const file = this.fileUpload.files[0];
-      if(file){
-        if(file.size > 40 && file.size < 5000){
-          this.setState({photo: file});
-          console.log('file dow');
-        }else{
-          this.setState({photo: 'photo is big'});
-          console.log('photo is big');
-        }
-      }
-    };
+    const onPhotoChange = () =>{
+      const file = this.fileUpload.files[ 0 ];
+      file.size > 40 && file.size < 5000 ? this.setState({ photo: file }) : this.setState({ photo: 'photo is big' });
+    }
 
     return (<div className='FormBox'>
       <Form className='Form' size='mini' encType="multipart/form-data" >

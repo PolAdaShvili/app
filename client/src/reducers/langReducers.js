@@ -104,7 +104,7 @@ const initialState = {
 };
 
 function changeLangReducer ( state = initialState, action ) {
-  switch (action.type) {
+  switch ( action.type ) {
     case CHANGE_LANG:
       return Object.assign({}, state, {
         fixedLang: action.lang.fixedLang,

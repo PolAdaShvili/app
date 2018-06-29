@@ -12,9 +12,9 @@ import './styles/styles.scss';
 
 ReactDOM.render(
   <Provider store={ store }>
-    <ConnectedRouter history={history}>
+    <ConnectedRouter history={ history }>
       <div className='App'>
-        <Route path="/" component={Container}/>
+        <Route path="/" component={ Container }/>
       </div>
     </ConnectedRouter>
   </Provider>,
