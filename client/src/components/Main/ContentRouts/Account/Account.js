@@ -45,7 +45,7 @@ class Account extends Component {
     const {user} = this.props;
     const {mode} = this.state;
     console.log('_new-props___account--->',this.props, this.state);
-
+    console.log( 'USER-account------>',user );
     return ( <div className='Account'>
         <div className="photo">
           <div className='avatarBox'/>

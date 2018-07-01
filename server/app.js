@@ -95,6 +95,7 @@ app.post('/api/user/login', urlencodedParser, (req, res) => {
         };
         jwt.sign({payload}, secret, (err, token) => {
           res.send({
+            user,
             token,
             success: true
           })
@@ -140,7 +141,7 @@ app.post('/api/user', (req, res) => {
       const hash = bcrypt.hashSync(psw, 10);
 
       User.findOne({
-        email: fields.email
+        email: fields.email.toLocaleLowerCase()
       }).then(user => {
         if(user){
           res.json({message: 'email busy'})

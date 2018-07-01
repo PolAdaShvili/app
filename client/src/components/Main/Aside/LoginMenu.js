@@ -39,9 +39,9 @@ class LoginMenu extends Component{
 
       if(success) {
 
-        localStorage.setItem('token', res.data.token )
-        this.props.addUser(res.data)
-        res.end()
+        localStorage.setItem('token', res.data.token );
+        console.log( 'RES.DATA----->',res.data );
+        this.props.addUser(res.data.user);
       }
     })
   }

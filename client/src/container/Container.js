@@ -22,14 +22,12 @@ class Container extends Component{
     if ( localStorage.getItem('token') ) {
 
       const token = (localStorage.getItem( 'token' ));
-      console.log( token );
       axios({
         method: 'get', url: '/api/user/auth',
         headers: { 'authorization': token }
       })
       .then( res =>{
         this.props.addUser(res.data)
-        res.send()
       }).catch(err => {
         console.log( err );
       })
@@ -38,6 +36,7 @@ class Container extends Component{
 
   render(){
     const { translations, setLang, exitUser, addUser, auth, user, signUser } = this.props;
+    console.log( 'USER------>',this.props.user );
     console.log('_new-props___container--->',this.props, this.state);
 
     return (
@@ -51,13 +50,13 @@ class Container extends Component{
 
         <div className='Content'>
           {location.href !== 'http://localhost:3000/registration' ?
-            <Aside auth={ auth } signUser={ signUser } addUser={ addUser } /> :
+            <Aside auth={ auth } addUser={ addUser } /> :
             null}
           <Switch>
             <Route
               exact
               path="/registration"
-              render={() => <Form configLang={translations.main.form} addUser={ addUser } />}
+              render={() => <Form configLang={translations.main.form} signUser={ signUser } addUser={ addUser } />}
             />
             <Route
               path='/account'
@@ -113,6 +112,7 @@ const mapDispatchToProps = dispatch => {
      browserHistory.push({pathname: './'});
    },
    signUser: payload => {
+     console.log( 'step1-payload', payload );
      dispatch(signInUserActions({
        user: payload
      }))
