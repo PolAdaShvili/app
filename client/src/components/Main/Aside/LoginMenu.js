@@ -38,9 +38,7 @@ class LoginMenu extends Component{
       err_password ? this.setState({errorPassword:err_password}) : this.setState({errorPassword:err_password});
 
       if(success) {
-
         localStorage.setItem('token', res.data.token );
-        console.log( 'RES.DATA----->',res.data );
         this.props.addUser(res.data.user);
       }
     })

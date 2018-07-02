@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Route,Switch } from "react-router";
 import { langReducer } from "../actions/changeLang";
 import { addUserReducer, exitUserActions, signInUserActions } from '../actions/addUser';
+import { HOST_URL } from '../constants';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Form from '../components/Main/Form/Form';
@@ -36,8 +37,6 @@ class Container extends Component{
 
   render(){
     const { translations, setLang, exitUser, addUser, auth, user, signUser } = this.props;
-    console.log( 'USER------>',this.props.user );
-    console.log('_new-props___container--->',this.props, this.state);
 
     return (
       <div className='App'>
@@ -49,7 +48,7 @@ class Container extends Component{
         />
 
         <div className='Content'>
-          {location.href !== 'http://localhost:3000/registration' ?
+          {location.href !== `${ HOST_URL }/registration` ?
             <Aside auth={ auth } addUser={ addUser } /> :
             null}
           <Switch>
@@ -125,8 +124,5 @@ const mapDispatchToProps = dispatch => {
    }
  }
 };
-store.subscribe(() => {
-  console.log('_NEW-STORE--subscribe--container->', store.getState());
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

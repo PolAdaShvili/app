@@ -5,10 +5,6 @@ import LangDropDown from './LangDropdown';
 import LogoReact from './LogoReact';
 
 
-
-
-
-
 const Header = ({ configLang, setLang, auth, exit }) => {
   return (
     <header className='Header'>

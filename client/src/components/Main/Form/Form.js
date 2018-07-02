@@ -73,13 +73,11 @@ class FormControl extends Component {
         data: formData
       })
       .then( res => {
-        console.log('DATA------>',res.data)
         console.log( res.data.password );
         if(res.data.message === 'email busy') {
           this.setState({ email: res.data.message });
         } else {
           localStorage.setItem('token', res.data.token);
-          console.log( 'RES.DATA--->',res.data );
           this.props.addUser( res.data.user );
         }
       })

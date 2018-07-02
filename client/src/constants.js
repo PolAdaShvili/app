@@ -3,6 +3,7 @@ export const ADD_USER = 'ADD_USER';
 export const EXIT_USER = 'EXIT_USER';
 export const SIGN_USER = 'SIGN_USER';
 export const USERS_FROM_DB = 'http://localhost:3001/api/users';
+export const HOST_URL = 'http://localhost:3000';
 
 export const regExp = {
   email: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
