@@ -12,6 +12,7 @@ class Account extends Component {
       mode: 'view'
     };
 
+
     this.testOnclick = this.testOnclick.bind(this);
   }
 
