@@ -1,12 +1,16 @@
 # dependencies
 /client/node_modules
-/server/node_modules
 /client/package-lock.json
+/client/semanticUI
+
 /server/package-lock.json
+/server/node_modules
+
 /.idea
+/git
 
 # production
-
+/client/dist
 
 # misc
 .env.local

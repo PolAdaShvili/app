@@ -1,0 +1,58 @@
+@import "../const";
+
+.Aside{
+  min-height: 75%;
+  width: 15%;
+  margin: 25px 50px 50px 0;
+
+  .icon{
+    color: $textColor-1;
+    font-size: 2rem !important;
+  }
+
+  .userControlMenu, .LoginMenu {
+    width: 15%;
+    height: 100%;
+    margin-top: 25px;
+    color: $accentColor-2 !important;
+    border-radius: 0 25px 25px 0;
+    background-color: $accentColorMain !important;
+    box-shadow: 10px 10px 5px 0px #495867 !important;
+
+    & a{
+      color: $textColor-1 !important;
+    }
+  }
+
+  .LinkMenu:first-child{
+    margin-top: 25px;
+  }
+  .LinkMenu{
+    margin-bottom: 15px;
+    position: relative;
+
+    .Link{
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      position: absolute;
+    }
+  }
+  .LoginMenu{
+
+    .sign{
+      color: wheat;
+      text-align: center;
+    }
+
+    .item{
+      margin-bottom: 20px;
+    }
+    .label{
+      width: 100%;
+    }
+  }
+}
+
+

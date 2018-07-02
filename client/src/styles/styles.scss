@@ -1,0 +1,17 @@
+@import "const";
+@import "header";
+@import "content/content";
+@import "content/aside";
+@import "content/form";
+@import "contentRouts/account";
+@import "footer";
+
+.App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: $bacgraundColor;
+
+}
+
+
