@@ -1,0 +1,132 @@
+@import "../const";
+
+.Account{
+  width: 75%;
+  min-height: 75%;
+  display: flex;
+  margin: 25px 0 50px 0;
+  border-radius: 25px;
+  background-color: $accentColorMain;
+  position: relative;
+  box-shadow: 10px 10px 5px 0px #495867 !important;
+  &>form{
+    width: 100%;
+    display: flex;
+    padding: 15px;
+
+    .field{
+      position: relative;
+
+      .label{
+        width: 30%;
+        margin-left: 35%;
+        text-align: center;
+        background-color: $testColor;
+      }
+    }
+  }
+  .middle{
+    margin-top: 15px;
+    width: 70%;
+  }
+  .infoUserBox{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 35px;
+  }
+  .age, .gender{
+    width: 15%;
+    position: relative;
+  }
+  .additionally{
+    width: 70%;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .nameBox{
+    width: 70%;
+    position: relative;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    & div{
+      width: 100%;
+    }
+    & div:first-child{
+      .label{
+        width: 30%;
+        text-align: center;
+        margin-left: 35%;
+        background-color: $testColor;
+      }
+      margin-right: 10px;
+    }
+  }
+
+
+  .age {
+    input[name=age] {
+      height: 50px;
+    }
+    .label{
+      border-color: $testColor;
+    }
+  }
+  .gender{
+    height: 50px;
+    margin-right: 25px;
+    .icon{
+      font-size: 22px;
+    }
+    .label{
+      border-color: $testColor;
+    }
+    .segment{
+      margin: 0;
+      border: none;
+    }
+  }
+  .mail{
+    position: relative;
+    width: 70%;
+    margin-left: auto;
+    .ribbon{
+      background-color: $textColor-1 !important;
+      position: relative;
+      & .label {
+        background-color: $textColor-2 !important;
+      }
+    }
+    & .label{
+      width: 20%;
+    }
+  }
+  .avatarBox{
+
+    &>.avatar{
+      width: 100% !important;
+      height: auto!important;
+      padding: 10px;
+      margin: 50px 0 0 50px;
+      border: 5px solid $textColor-1;
+      background: white;
+      border-radius: 50%;
+    }
+  }
+  .mode{
+    left: 10px;
+    bottom: 10px;
+    position: absolute;
+    border-radius: 15px;
+    background-color: $textColor-1;
+    &>div{
+      background: transparent !important;
+    }
+    &>div:hover, &>div:active{
+      background: transparent;
+    }
+  }
+}
