@@ -121,8 +121,7 @@ app.put('/api/user/edit', authenticate, (req, res) => {
     User.find({
       email: fields.email.toLocaleLowerCase()
     }).then(users => {
-      console.log( 'USER->',users );
-      if(users.length >= 1){
+      if(users.length >= 1 && String( users[0]._id ) !== req.user.payload.userId){
         res.send({message: 'email busy'});
       } else {
         User.findOneAndUpdate( { _id: req.user.payload.userId },

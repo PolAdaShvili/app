@@ -15,8 +15,8 @@ class Account extends Component {
 
     this.handleGender = this.handleGender.bind(this);
     this.validateChangeInput = this.validateChangeInput.bind(this);
-    this.saveTestOnClick = this.saveTestOnClick.bind(this);
-    this.modeTestOnclick = this.modeTestOnclick.bind(this);
+    this.saveOnClick = this.saveOnClick.bind(this);
+    this.modeOnclick = this.modeOnclick.bind(this);
   }
 
   componentDidMount(){
@@ -61,10 +61,12 @@ class Account extends Component {
         (addClassErr(e), this.setState({ [name]: '' }));
     }
   }
-  modeTestOnclick(e){
-    this.setState({mode: e.target.getAttribute('mode')});
+  modeOnclick(e){
+    const val = this.state.mode;
+    val === 'view' ? this.setState({mode: 'edit'}) : this.setState({mode: 'view'});
+    val === 'edit' ? this.setState({mode: 'view'}) : this.setState({mode: 'edit'});
   }
-  saveTestOnClick(){
+  saveOnClick(){
     const dataUser = Object.assign({}, this.state);
     const formData = new FormData();
     const token = localStorage.getItem( 'token' );
@@ -81,7 +83,7 @@ class Account extends Component {
     }).then(res => {
       res.data.message ? this.setState({ emailBusy: res.data.message }) : this.props.addUser( res.data );
     }).catch(err => {
-      console.log( 'ERRRRRRRRR',err );
+      console.log( err );
     })
   }
   handleGender(){
@@ -99,20 +101,10 @@ class Account extends Component {
     return ( <div className='Account'>
         <div className="photo">
           <div className='avatarBox'/>
-          <div className='mode'>
-            <Dropdown
-              text='Mode'
-              icon='sliders horizontal'
-              floating
-              labeled
-              button
-              size='mini'
-              className='icon mode-menu'>
-              <Dropdown.Menu onClick={ this.modeTestOnclick }>
-                <Dropdown.Header role='button' icon='eye' mode='view' value='view' content='View' />
-                <Dropdown.Header role='button' icon='edit' mode='edit' content='Edit' value='edit' />
-              </Dropdown.Menu>
-            </Dropdown>
+          <div className='mode' onClick={ this.modeOnclick }>
+            <Segment>
+              { mode === 'view' ? <Icon name='eye'/> : <Icon name='edit' /> }
+            </Segment>
           </div>
         </div>
 
@@ -174,7 +166,7 @@ class Account extends Component {
                     { gender === 'male' ? <Icon name='male'/> : <Icon name='female'/> }
                   </Segment>
                 </div>
-                { mode === 'edit' ? <Button className='btnSave' primary onClick={ this.saveTestOnClick } content='Save'/> : null }
+                { mode === 'edit' ? <Button className='btnSave' primary onClick={ this.saveOnClick } content='Save'/> : null }
               </div>
             </div>
           </div> : null }
