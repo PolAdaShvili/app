@@ -10,6 +10,7 @@ import Footer from '../components/Footer/Footer';
 import Form from '../components/Main/Form/Form';
 import Aside from '../components/Main/Aside/Aside';
 import Account from '../components/Main/ContentRouts/Account/Account';
+import SearchPeople from '../components/Main/ContentRouts/SearchPeople/SearchPeople';
 import store from "../store";
 import browserHistory from '../browserHistory'
 
@@ -59,7 +60,7 @@ class Container extends Component{
             />
             <Route
               path='/account'
-              render={() => <Account user={ user } addUser={ addUser } />}
+              render={ () => <Account user={ user } addUser={ addUser }/> }
             />
             <Route
               path='/friends'
@@ -67,7 +68,7 @@ class Container extends Component{
             />
             <Route
               path='/people'
-              render={ () => {return (<p>people</p>)} }
+              render={ () => <SearchPeople user={ user } /> }
             />
             <Route
               path='/news'

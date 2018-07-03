@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Label, Icon, Segment, Form, Dropdown, Button } from 'semantic-ui-react';
+import { Label, Icon, Segment, Form, Dropdown, Image, Button } from 'semantic-ui-react';
+import FileBase64 from 'react-file-base64';
 import { regExp } from '../../../../constants';
 import { validate, validateName, addClassErr, addClassValid } from '../../../../validateFunc';
 import FieldInputs from './FieldInputs';
@@ -13,6 +14,7 @@ class Account extends Component {
       mode: 'view'
     };
 
+    this.getFiles = this.getFiles.bind(this);
     this.handleGender = this.handleGender.bind(this);
     this.validateChangeInput = this.validateChangeInput.bind(this);
     this.saveOnClick = this.saveOnClick.bind(this);
@@ -20,45 +22,36 @@ class Account extends Component {
   }
 
   componentDidMount(){
-    if(this.props.user){
-      this.setState({
-        first: this.props.user.name,
-        surname: this.props.user.surname,
-        email: this.props.user.email,
-        gender: this.props.user.gender,
-        age: this.props.user.age,
-        middle:  this.props.user.middle
-      })
-    }
-
-    if ( localStorage.getItem( 'token' ) ) {
-      const xhr = new XMLHttpRequest();
-      xhr.responseType = 'blob';
-      xhr.onreadystatechange = () =>{
-        if ( xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200 ) {
-          const img = document.createElement( 'img' );
-          img.classList.add( 'avatar' );
-          img.src = URL.createObjectURL( xhr.response );
-          document.body.querySelector( '.avatarBox' ).appendChild( img );
-        }
-      };
-      xhr.open( 'GET', '/api/user/avatar', true );
-      xhr.setRequestHeader( 'authorization', localStorage.getItem( 'token' ) );
-      xhr.send();
+    const user = this.props.user;
+    if ( user ) {
+      this.setState( {
+        first: user.name,
+        surname: user.surname,
+        email: user.email,
+        gender: user.gender,
+        age: user.age,
+        photo: user.photo,
+        middle: user.middle
+      } )
     }
   }
 
+  getFiles(files){
+    parseInt( files.size ) > 1 && parseInt( files.size ) < 5000 ?
+      this.setState({ photo: files.base64 }) :
+      this.setState({ photo: 'photo is big' });
+  }
   validateChangeInput(e){
     const { type, value, name} = e.target;
 
     if(type === 'text' && name !== 'age'){
       validateName(regExp,name,value) ?
         ( addClassValid(e), this.setState({ [name]: value }) ) :
-        (addClassErr(e), this.setState({ [name]: '' }));
+        ( addClassErr(e), this.setState({ [name]: '' }) );
     }else{
       validate(regExp,name,value) ?
         ( addClassValid(e), this.setState({ [name]: value }) ) :
-        (addClassErr(e), this.setState({ [name]: '' }));
+        ( addClassErr(e), this.setState({ [name]: '' }) );
     }
   }
   modeOnclick(e){
@@ -96,19 +89,21 @@ class Account extends Component {
 
   render(){
     const { user } = this.props;
-    const { mode, gender } = this.state;
+    const { mode, gender, photo } = this.state;
 
     return ( <div className='Account'>
-        <div className="photo">
-          <div className='avatarBox'/>
-          <div className='mode' onClick={ this.modeOnclick }>
-            <Segment>
-              { mode === 'view' ? <Icon name='eye'/> : <Icon name='edit' /> }
-            </Segment>
-          </div>
+        <div className='mode'>
+          <Segment onClick={ this.modeOnclick }>
+            { mode === 'view' ? <Icon name='eye'/> : <Icon name='edit' /> }
+          </Segment>
         </div>
-
-        <Form>
+        <Form className='AccountForm'>
+          <div className="photo">
+            <div className='avatarBox'>
+              { mode === 'edit' ? <FileBase64 className='changePhoto' multiple={ false } onDone={ this.getFiles } /> : null }
+              { photo ? <Image src={photo} alt="avatar"/> : null }
+            </div>
+          </div>
           { user ? <div className='infoUser'>
             <div className='infoUserBox'>
               <div className='mail'>

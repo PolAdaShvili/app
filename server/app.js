@@ -31,6 +31,13 @@ db.once('open', () => {
   console.log('CONNECT DB')
 });
 
+app.use((req, res, next) => {
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 function authenticate(req, res, next) {
   if( req.hasOwnProperty('headers') && req.headers.hasOwnProperty('authorization') ) {
     try {
@@ -53,13 +60,6 @@ function authenticate(req, res, next) {
   return;
 }
 
-app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origin', ['*']);
-  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.append('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
-
 app.get('/api/user/auth', authenticate, (req, res) => {
   User.findOne({
     _id: req.user.payload.userId
@@ -70,14 +70,24 @@ app.get('/api/user/auth', authenticate, (req, res) => {
   })
 });
 
-app.get('/api/user/avatar', authenticate, (req, res) => {
-  const readstream = gfs.createReadStream({
-    filename: `photo_${req.user.payload.userId}`
+app.post('/api/user/search', authenticate, (req, res) => {
+  const form = new formidable.IncomingForm();
+
+  form.parse(req, (err, { search }, files) => {
+    if(err){
+      res.status(400).send(err);
+      return;
+    }
+
+    User.find({
+      name: new RegExp( search , 'i' )
+    }).then(users => {
+      res.send(users);
+    }).catch(err => {
+      console.log( err );
+    })
+
   });
-  res.set( {
-    'Content-Type': 'image/png'
-  });
-  readstream.pipe(res);
 });
 
 app.post('/api/user/login', urlencodedParser, (req, res) => {
@@ -111,13 +121,12 @@ app.post('/api/user/login', urlencodedParser, (req, res) => {
 app.put('/api/user/edit', authenticate, (req, res) => {
   const form = new formidable.IncomingForm();
 
-  form.parse(req, function(err, fields, files) {
+  form.parse(req, (err, fields, files) => {
     if(err){
       res.status(400).send(err);
       return;
     }
-    const {email, age, first, middle, surname, gender} = fields;
-
+    const { email, age, first, middle, surname, gender, photo } = fields;
     User.find({
       email: fields.email.toLocaleLowerCase()
     }).then(users => {
@@ -128,7 +137,7 @@ app.put('/api/user/edit', authenticate, (req, res) => {
           {
             name: first,
             email: email.toLocaleLowerCase(),
-            age, surname, middle, gender
+            age, surname, middle, gender, photo
           }
         ).then(user => {
           User.findOne({
@@ -140,6 +149,8 @@ app.put('/api/user/edit', authenticate, (req, res) => {
           console.log(err);
         })
       }
+    }).catch(err => {
+      console.log( err );
     })
 
   });
@@ -149,13 +160,13 @@ app.post('/api/user', (req, res) => {
 
   const form = new formidable.IncomingForm();
 
-  form.parse(req, function(err, fields, files) {
+  form.parse(req, (err, fields, files) => {
     if(err){
       res.status(400).send(err);
       return;
     }
 
-    const {email, age, first, middle, surname, gender} = fields;
+    const {email, age, first, middle, surname, gender, photo} = fields;
 
     const isReadyGender = validator.isLength(gender, {min: 4, max: 6});
     const isReadyEmail = validator.isEmail(email);
@@ -187,20 +198,16 @@ app.post('/api/user', (req, res) => {
           const user = new User({
             name: first,
             email: email.toLocaleLowerCase(),
-            age, surname, middle, gender,
+            age, surname, middle, gender, photo,
             password: hash
           })
           user
           .save()
           .then(user => {
-            const writestream = gfs.createWriteStream({
-              filename: `photo_${user._id}`
-            });
-            fs.createReadStream(files.photo.path).pipe(writestream);
             const payload = {
               userId: user._id
             };
-            jwt.sign({payload}, secret, (err, token) => {
+            jwt.sign({ payload }, secret, ( err, token ) => {
               res.json({
                 token,
                 user,

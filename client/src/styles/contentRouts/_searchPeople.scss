@@ -1,0 +1,73 @@
+@import "../const";
+
+.SearchPeople{
+  width: 75%;
+  max-height: content-box;
+  display: flex;
+  margin: 25px 0 50px 0;
+  padding: 0 50px 0 50px;
+  border-radius: 25px;
+  background-color: $accentColorMain;
+  position: relative;
+  overflow-y: scroll;
+  box-shadow: 10px 10px 5px 0px #495867 !important;
+
+
+  .SearchInputBlock{
+    width: 100%;
+    .search_input{
+      font-size: 1.5rem;
+      margin-top: 25px;
+      .icon{
+        color: $textColor-1;
+      }
+    }
+  }
+  .ListUser{
+    font-size: 1.5rem;
+    color: black;
+    background: $accentColor-2;
+    border-radius: 25px;
+
+
+    .ListItem{
+      width: 80%;
+      height: 100px;
+      margin: 0 auto;
+      position: relative;
+      padding-top: 10px;
+      align-items: center;
+
+      .content{
+        align-self: center;
+        margin-left: 50px;
+
+        .age{
+          margin-top: 20px;
+        }
+      }
+      .feed-row{
+        display: flex;
+      }
+
+      .gender{
+        margin-left: 25px;
+        font-size: 2rem;
+      }
+    }
+  }
+  .photoBox{
+    position: relative;
+    width: 75px;
+    height: auto;
+    width: max-content;
+
+    .ItemImg{
+      width: 75px !important;
+      height: auto !important;
+      border-radius: 50%;
+    }
+  }
+
+}
+

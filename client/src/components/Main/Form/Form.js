@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React,{ Component } from 'react';
 import { Button,Form, Label } from 'semantic-ui-react';
+import FileBase64 from 'react-file-base64';
 import { regExp } from '../../../constants';
 import { validate, validateName, addClassErr, addClassValid } from '../../../validateFunc';
 import Input from './Input';
@@ -14,6 +15,7 @@ class FormControl extends Component {
       first:'',surname:'',email:'',gender:'',age:'', photo: '', middle: '', modal: false
     };
 
+    this.getFiles = this.getFiles.bind(this);
     this.clickRegister = this.clickRegister.bind(this);
     this.clickModalReg = this.clickModalReg.bind(this);
     this.handlerInput = this.handlerInput.bind(this);
@@ -47,8 +49,7 @@ class FormControl extends Component {
     if ( requiredFields && photo && photo !== 'photo is big' ) {
     const formData = new FormData();
       Object.keys( this.state ).filter( fieldName => {
-        (fieldName !== 'photo' && fieldName !== 'modal') ? formData.append( `${fieldName}`, this.state[fieldName] ) :
-          formData.append( `${fieldName}`, this.fileUpload.files[0] );
+        (fieldName !== 'modal') ? formData.append( `${fieldName}`, this.state[fieldName] ) : null;
       });
 
       axios({
@@ -73,6 +74,11 @@ class FormControl extends Component {
       console.log('Selected photo or enter fields!');
     }
   }
+  getFiles(files){
+    parseInt( files.size ) > 1 && parseInt( files.size ) < 5000 ?
+      this.setState({ photo: files.base64 }) :
+      this.setState({ photo: 'photo is big' });
+  }
   clickModalReg(){
     const data = this.state.modal;
     delete data.psw;
@@ -82,10 +88,6 @@ class FormControl extends Component {
   render(){
     const {configLang, auth, addUser} = this.props;
     const { modal } = this.state;
-    const onPhotoChange = () =>{
-      const file = this.fileUpload.files[ 0 ];
-      file.size > 40 && file.size < 5000 ? this.setState({ photo: file }) : this.setState({ photo: 'photo is big' });
-    }
 
     return (
       <div className='form-wrapper'>
@@ -157,12 +159,9 @@ class FormControl extends Component {
             {this.state.photo === 'photo is big' ?
               <Button fluid icon='download' className='dowLand' content={'photo is big'}/> :
               <Button fluid icon='download' className='dowLand' content={'upload photo'}/> }
-            <input
-              name='upload'
-              type="file"
-              onChange={onPhotoChange}
-              ref={(ref) => this.fileUpload = ref}
-              accept=".png, .jpg, .jpeg"
+            <FileBase64
+              multiple={ false }
+              onDone={ this.getFiles }
             />
           </form>
           <Button

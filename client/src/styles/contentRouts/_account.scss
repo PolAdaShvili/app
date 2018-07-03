@@ -2,18 +2,18 @@
 
 .Account{
   width: 75%;
-  height: 400px;
+  max-height: max-content;
   display: flex;
+  padding: 50px;
   margin: 25px 0 50px 0;
   border-radius: 25px;
   background-color: $accentColorMain;
   position: relative;
-  overflow: hidden;
   box-shadow: 10px 10px 5px 0px #495867 !important;
+
   &>form{
     width: 100%;
     display: flex;
-    padding: 15px;
 
     .field{
       position: relative;
@@ -26,13 +26,16 @@
       }
     }
   }
+
   .middle{
     margin-top: 15px;
     width: 70%;
   }
+
   .infoUserBox{
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
     justify-content: flex-end;
     margin-top: 35px;
   }
@@ -106,21 +109,36 @@
     }
   }
   .avatarBox{
-    position: relative;
-    left: 200px;
 
-    &>.avatar{
-      width: 100% !important;
-      height: auto!important;
-      padding: 10px;
-      margin: 100px 0 0 0px;
-      border: 5px solid $textColor-1;
-      background: white;
-      border-radius: 50%;
+
+    input[type=file]{
+      width: content-box;
+      position: absolute;
+      height: 100%;
+      cursor: pointer;
+      opacity: 0;
+      z-index: 9;
     }
+
+
   }
   .photo{
     position: relative;
+    height: max-content;
+    align-self: flex-start;
+    margin-top: 65px;
+
+    .avatarBox{
+      position: absolute;
+
+      .image{
+        max-width: 300px;
+        height: auto!important;
+        border: 5px solid $textColor-1;
+        background: white;
+        border-radius: 50%;
+      }
+    }
   }
   .btnSave{
     width: 33%;
@@ -131,12 +149,16 @@
     top: 25px;
     position: absolute;
     border-radius: 15px;
-    background-color: $textColor-1;
-    &>div{
-      background: transparent !important;
+    & .segment {
+      cursor: pointer;
+      width: max-content;
+      height: max-content;
+      background-color: $textColor-1;
     }
-    &>div:hover, &>div:active{
-      background: transparent;
-    }
+
+  }
+  .AccountForm{
+    display: flex;
+    align-self: center;
   }
 }
