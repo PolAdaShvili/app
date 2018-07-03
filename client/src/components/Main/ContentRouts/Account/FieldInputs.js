@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormField, Label } from 'semantic-ui-react';
 
+
 const FieldsInput = ({ fieldName, val, eventHandler, fieldTitle, mode, corner = false, type = 'text' }) => {
   return ( <div>
     <FormField>

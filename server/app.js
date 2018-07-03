@@ -3,7 +3,6 @@ const cors = require('cors');
 const express = require( 'express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const Grid = require('gridfs-stream');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const validator = require('validator');
@@ -24,10 +23,8 @@ app.use( bodyParser.json() );
 app.use('/static', express.static(__dirname + '/public'));
 
 mongoose.connect(URL_DB);
-Grid.mongo = mongoose.mongo;
 db.on('error', console.error.bind(console, 'CONNECT DB ERROR:'));
 db.once('open', () => {
-  gfs = Grid(db.db);
   console.log('CONNECT DB')
 });
 
@@ -157,7 +154,6 @@ app.put('/api/user/edit', authenticate, (req, res) => {
 });
 
 app.post('/api/user', (req, res) => {
-
   const form = new formidable.IncomingForm();
 
   form.parse(req, (err, fields, files) => {

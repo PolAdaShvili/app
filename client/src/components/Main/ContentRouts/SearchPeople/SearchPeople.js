@@ -18,19 +18,16 @@ class SearchPeople extends Component {
     const token = localStorage.getItem( 'token' );
     const formData = new FormData();
     const val = e.target.value;
-    if ( val.length >= 1){
-      formData.append('search', val);
-      axios({
-        method: 'post', url: '/api/user/search',
-        headers: {'Content-Type': 'multipart/form-data', authorization: token },
-        data: formData
-      }).then(res => {
-        this.setState({users: res.data});
-        console.log( 'RES.DATA',res.data );
-      }).catch(err => {
-        console.log( err );
-      })
-    }
+    formData.append('search', val);
+    axios({
+      method: 'post', url: '/api/user/search',
+      headers: {'Content-Type': 'multipart/form-data', authorization: token },
+      data: formData
+    }).then(res => {
+      this.setState({users: res.data});
+    }).catch(err => {
+      console.log( err );
+    })
   }
 
   render(){

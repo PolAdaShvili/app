@@ -18,26 +18,54 @@
     .search_input{
       font-size: 1.5rem;
       margin-top: 25px;
+      & input{
+        font-size: 1.5rem;
+        font-weight: bold;
+        background: #ffe3aa;
+      }
       .icon{
-        color: $textColor-1;
+        color: black;
       }
     }
   }
   .ListUser{
     font-size: 1.5rem;
     color: black;
-    background: $accentColor-2;
+    background: #ffe3aa;
     border-radius: 25px;
 
 
     .ListItem{
-      width: 80%;
+      width: 100%;
       height: 100px;
-      margin: 0 auto;
       position: relative;
-      padding-top: 10px;
+      padding: 25px;
       align-items: center;
+      &:first-child {
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+      }
+      &:last-child {
+        border-bottom-left-radius: 25px;
+        border-bottom-right-radius: 25px;
+      }
+      &:hover{
+        cursor: pointer;
+        position: relative;
+        transform: scale(1.2, 1.2);
+        z-index: 9;
+        background-color: #dd4b39;
+      }
+      &:hover .photoBox{
+        margin-left: 8%;
+      }
+      &:hover .ItemActions{
+        margin-right: 8%;
+      }
 
+      .ItemActions{
+        margin-left: auto;
+      }
       .content{
         align-self: center;
         margin-left: 50px;
@@ -57,10 +85,10 @@
     }
   }
   .photoBox{
-    position: relative;
-    width: 75px;
     height: auto;
+    bottom: 10px;
     width: max-content;
+    position: relative;
 
     .ItemImg{
       width: 75px !important;

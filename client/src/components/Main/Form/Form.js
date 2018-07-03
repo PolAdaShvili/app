@@ -3,9 +3,9 @@ import React,{ Component } from 'react';
 import { Button,Form, Label } from 'semantic-ui-react';
 import FileBase64 from 'react-file-base64';
 import { regExp } from '../../../constants';
-import { validate, validateName, addClassErr, addClassValid } from '../../../validateFunc';
+import { validate, validateName, setValidClass, setErrValidClass } from '../../../validateFunc';
 import Input from './Input';
-import ModalReg from './ModalReg';
+import ModalSuccessRegitration from './ModalSuccessRegitration';
 import browserHistory from '../../../browserHistory';
 
 class FormControl extends Component {
@@ -25,29 +25,29 @@ class FormControl extends Component {
   static handlerSelect(e){
     e.preventDefault();
     if(e.target.getAttribute('gender') === 'male' || e.target.getAttribute('gender') === 'female'){
-      addClassValid(e);
+      setValidClass(e);
       this.setState({gender:e.target.getAttribute('gender')});
     }else{
-      addClassErr(e);
+      setErrValidClass(e);
     }
   }
 
   handlerInput(e){
     const {type,value,name} = e.target;
     if(type === 'text' && name !== 'age'){
-      validateName(regExp,name,value) ? ( addClassValid(e), this.setState({ [name]:value }) ) : addClassErr(e);
+      validateName(regExp,name,value) ? ( setValidClass(e), this.setState({ [name]:value }) ) : setErrValidClass(e);
     }else{
-      validate(regExp,name,value) ? ( addClassValid(e), this.setState({ [name]:value }) ) : addClassErr(e);
+      validate(regExp,name,value) ? ( setValidClass(e), this.setState({ [name]:value }) ) : setErrValidClass(e);
     }
   }
   clickRegister(e){
     e.preventDefault();
     const {photo} = this.state;
+    const formData = new FormData();
     const userField = Object.keys(this.state).filter(field => { return field !== 'modal' && field !== 'middle' });
     const requiredFields = userField.every(field => this.state[field]);
 
     if ( requiredFields && photo && photo !== 'photo is big' ) {
-    const formData = new FormData();
       Object.keys( this.state ).filter( fieldName => {
         (fieldName !== 'modal') ? formData.append( `${fieldName}`, this.state[fieldName] ) : null;
       });
@@ -91,7 +91,7 @@ class FormControl extends Component {
 
     return (
       <div className='form-wrapper'>
-        {modal ? <ModalReg
+        {modal ? <ModalSuccessRegitration
           psw={ modal.psw }
           login={ modal.email }
           eventClick={ this.clickModalReg }

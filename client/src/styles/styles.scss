@@ -7,12 +7,14 @@
 @import "contentRouts/searchPeople";
 @import "footer";
 
+@import url('https://fonts.googleapis.com/css?family=Headland+One');
+
 .App {
   height: 100vh;
   display: flex;
   flex-direction: column;
   background: $bacgraundColor;
-
+  font-family: 'Headland One', Georgia, SansSerif;
 }
 
 

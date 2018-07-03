@@ -1,11 +1,11 @@
 import React from 'react'
-import { Divider, Feed, Icon, Image } from 'semantic-ui-react'
+import { Divider, Feed, Icon, Image, Button } from 'semantic-ui-react'
 
 
 const UserList = ({ users }) => (
   <Feed className='ListUser'>
     { users.map( ( user, i ) => {
-      return ( <div className='ListItem' key={ user._id }>
+      return ( <div className='ListItem' key={ user._id } data-id={ user._id }>
         <Feed.Event className='feed-row'>
           <div className="photoBox">
             <Feed.Label className='Photo'>
@@ -13,8 +13,8 @@ const UserList = ({ users }) => (
             </Feed.Label>
           </div>
           <Feed.Content>
-            <div className='fieldName'>
-              { `${user.name} ${user.surname}` }
+            <Feed.Summary className='fieldName'>
+              { `${user.name}  ${user.surname}` }
               <Feed.Meta>
                 <div className='age'>
                   { `Age: ${user.age }` }
@@ -22,10 +22,13 @@ const UserList = ({ users }) => (
                   { user.gender }
                 </div>
               </Feed.Meta>
-            </div>
+            </Feed.Summary>
           </Feed.Content>
+          <Feed.Extra className='ItemActions'>
+            <Button color='brown' content='Add friend'/>
+          </Feed.Extra>
         </Feed.Event>
-          <Divider inverted/>
+          <Divider fitted={true}/>
         </div>
       )
     }) }

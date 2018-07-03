@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Modal, Icon } from 'semantic-ui-react';
 
 
-const ModalReg = ({ psw, login , eventClick }) => (
+const ModalSuccessRegitration = ({ psw, login , eventClick }) => (
   <Modal
     defaultOpen={true}
     onUnmount={ eventClick }
@@ -29,4 +29,4 @@ const ModalReg = ({ psw, login , eventClick }) => (
   </Modal>
 );
 
-export default ModalReg;
+export default ModalSuccessRegitration;

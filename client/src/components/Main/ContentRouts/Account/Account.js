@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Label, Icon, Segment, Form, Dropdown, Image, Button } from 'semantic-ui-react';
 import FileBase64 from 'react-file-base64';
+import { Label, Icon, Segment, Form, Dropdown, Image, Button } from 'semantic-ui-react';
 import { regExp } from '../../../../constants';
-import { validate, validateName, addClassErr, addClassValid } from '../../../../validateFunc';
+import { validate, validateName, setValidClass, setErrValidClass } from '../../../../validateFunc';
 import FieldInputs from './FieldInputs';
 import axios from "axios/index";
 
@@ -23,16 +23,17 @@ class Account extends Component {
 
   componentDidMount(){
     const user = this.props.user;
+    const { name, surname,  email, gender, age, photo, middle} = user;
     if ( user ) {
-      this.setState( {
-        first: user.name,
-        surname: user.surname,
-        email: user.email,
-        gender: user.gender,
-        age: user.age,
-        photo: user.photo,
-        middle: user.middle
-      } )
+      this.setState({
+        first: name,
+        surname: surname,
+        email: email,
+        gender: gender,
+        age: age,
+        photo: photo,
+        middle: middle
+      })
     }
   }
 
@@ -46,12 +47,12 @@ class Account extends Component {
 
     if(type === 'text' && name !== 'age'){
       validateName(regExp,name,value) ?
-        ( addClassValid(e), this.setState({ [name]: value }) ) :
-        ( addClassErr(e), this.setState({ [name]: '' }) );
+        ( setValidClass(e), this.setState({ [name]: value }) ) :
+        ( setErrValidClass(e), this.setState({ [name]: '' }) );
     }else{
       validate(regExp,name,value) ?
-        ( addClassValid(e), this.setState({ [name]: value }) ) :
-        ( addClassErr(e), this.setState({ [name]: '' }) );
+        ( setValidClass(e), this.setState({ [name]: value }) ) :
+        ( setErrValidClass(e), this.setState({ [name]: '' }) );
     }
   }
   modeOnclick(e){

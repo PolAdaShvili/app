@@ -21,9 +21,9 @@ class Container extends Component{
   }
 
   componentDidMount(){
-    if ( localStorage.getItem('token') ) {
+    const token = localStorage.getItem( 'token' );
 
-      const token = localStorage.getItem( 'token' );
+    if ( token ) {
       axios({
         method: 'get', url: '/api/user/auth',
         headers: { 'authorization': token }
@@ -93,7 +93,6 @@ const mapStateToProps = state => {
     user: state.addUser.userInfo.user,
     auth: state.addUser.authorization,
     userInfo: state.addUser,
-    signUser: state.addUser.signUser,
     translations: state.changeLang.translations
   }
 };

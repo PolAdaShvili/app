@@ -1,11 +1,11 @@
 import { regExp } from './constants';
 
 
-export const addClassValid = e => {
+export const setValidClass = e => {
   e.target.classList.add('valid');
   e.target.classList.remove('err');
 };
-export const addClassErr = e => {
+export const setErrValidClass = e => {
   e.target.classList.remove('valid');
   e.target.classList.add('err');
 };
