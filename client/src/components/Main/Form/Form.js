@@ -2,6 +2,7 @@ import axios from 'axios';
 import React,{ Component } from 'react';
 import { Button,Form, Label } from 'semantic-ui-react';
 import { regExp } from '../../../constants';
+import { validate, validateName, addClassErr, addClassValid } from '../../../validateFunc';
 import Input from './Input';
 import ModalReg from './ModalReg';
 import browserHistory from '../../../browserHistory';
@@ -10,7 +11,7 @@ class FormControl extends Component {
   constructor(props){
     super(props);
     this.state = {
-      first:'',surname:'',email:'',gender:'',age:'', photo: '', modal: false
+      first:'',surname:'',email:'',gender:'',age:'', photo: '', middle: '', modal: false
     };
 
     this.clickRegister = this.clickRegister.bind(this);
@@ -19,48 +20,28 @@ class FormControl extends Component {
     FormControl.handlerSelect = FormControl.handlerSelect.bind(this);
   }
 
-  static validate(regExp,name,value){
-    return regExp[name].test(value);
-  }
-  static validateName(regExp,name,value){
-    return (value.search(regExp.name) !== - 1);
-  }
   static handlerSelect(e){
     e.preventDefault();
     if(e.target.getAttribute('gender') === 'male' || e.target.getAttribute('gender') === 'female'){
-      e.target.classList.remove('err');
-      e.target.classList.add('valid');
+      addClassValid(e);
       this.setState({gender:e.target.getAttribute('gender')});
     }else{
-      e.target.classList.add('err');
-      e.target.classList.remove('valid');
+      addClassErr(e);
     }
   }
 
   handlerInput(e){
     const {type,value,name} = e.target;
     if(type === 'text' && name !== 'age'){
-      if(FormControl.validateName(regExp,name,value)){
-        this.setState({[name]:value});
-        e.target.classList.add('valid');
-        e.target.classList.remove('err');
-      }else{
-        e.target.classList.remove('valid');
-        e.target.classList.add('err');
-      }
+      validateName(regExp,name,value) ? ( addClassValid(e), this.setState({ [name]:value }) ) : addClassErr(e);
     }else{
-      if(FormControl.validate(regExp,name,value)){
-        this.setState({[name]:value});
-        e.target.classList.remove('err');
-      }else{
-        e.target.classList.add('err');
-      }
+      validate(regExp,name,value) ? ( addClassValid(e), this.setState({ [name]:value }) ) : addClassErr(e);
     }
   }
   clickRegister(e){
     e.preventDefault();
     const {photo} = this.state;
-    const userField = Object.keys(this.state).filter(field => { return field !== 'modal' });
+    const userField = Object.keys(this.state).filter(field => { return field !== 'modal' && field !== 'middle' });
     const requiredFields = userField.every(field => this.state[field]);
 
     if ( requiredFields && photo && photo !== 'photo is big' ) {
@@ -89,7 +70,6 @@ class FormControl extends Component {
       });
 
     } else {
-      console.log(requiredFields);
       console.log('Selected photo or enter fields!');
     }
   }

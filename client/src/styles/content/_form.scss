@@ -36,12 +36,6 @@
     .age {
       height: 40px;
     }
-    .valid{
-      box-shadow: 0 0 8px 4px rgba(75, 255, 240, 0.75) !important
-    }
-    .err {
-      box-shadow: 0 0 8px 4px #ff6767bf !important
-    }
     .male{
       background:rgba(33,133,208,0.5) !important;
       &:focus{

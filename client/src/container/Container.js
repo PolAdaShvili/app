@@ -22,7 +22,7 @@ class Container extends Component{
   componentDidMount(){
     if ( localStorage.getItem('token') ) {
 
-      const token = (localStorage.getItem( 'token' ));
+      const token = localStorage.getItem( 'token' );
       axios({
         method: 'get', url: '/api/user/auth',
         headers: { 'authorization': token }
@@ -59,7 +59,7 @@ class Container extends Component{
             />
             <Route
               path='/account'
-              render={() => <Account user={ user } auth={ auth } />}
+              render={() => <Account user={ user } addUser={ addUser } />}
             />
             <Route
               path='/friends'

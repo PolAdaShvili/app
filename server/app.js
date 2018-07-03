@@ -64,8 +64,9 @@ app.get('/api/user/auth', authenticate, (req, res) => {
   User.findOne({
     _id: req.user.payload.userId
   }).then(user => {
-    console.log( user )
-    res.send(user)
+    res.send(user);
+  }).catch(err => {
+    console.log(err);
   })
 });
 
@@ -103,8 +104,46 @@ app.post('/api/user/login', urlencodedParser, (req, res) => {
       }
     }
   }).catch( err => {
-    console.log(err);
+    console.log( '/api/user/login__err-->', err );
   })
+});
+
+app.put('/api/user/edit', authenticate, (req, res) => {
+  const form = new formidable.IncomingForm();
+
+  form.parse(req, function(err, fields, files) {
+    if(err){
+      res.status(400).send(err);
+      return;
+    }
+    const {email, age, first, middle, surname, gender} = fields;
+
+    User.find({
+      email: fields.email.toLocaleLowerCase()
+    }).then(users => {
+      console.log( 'USER->',users );
+      if(users.length >= 1){
+        res.send({message: 'email busy'});
+      } else {
+        User.findOneAndUpdate( { _id: req.user.payload.userId },
+          {
+            name: first,
+            email: email.toLocaleLowerCase(),
+            age, surname, middle, gender
+          }
+        ).then(user => {
+          User.findOne({
+            _id: user._id
+          }).then(newUser => {
+            res.send(newUser);
+          })
+        }).catch(err => {
+          console.log(err);
+        })
+      }
+    })
+
+  });
 });
 
 app.post('/api/user', (req, res) => {
@@ -171,7 +210,7 @@ app.post('/api/user', (req, res) => {
             });
           })
           .catch(err => {
-            console.log('ERROR ADD USER', err);
+            console.log('/api/user__ERROR ADD USER--->', err);
           });
         }
       });

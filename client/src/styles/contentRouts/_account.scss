@@ -2,12 +2,13 @@
 
 .Account{
   width: 75%;
-  min-height: 75%;
+  height: 400px;
   display: flex;
   margin: 25px 0 50px 0;
   border-radius: 25px;
   background-color: $accentColorMain;
   position: relative;
+  overflow: hidden;
   box-shadow: 10px 10px 5px 0px #495867 !important;
   &>form{
     width: 100%;
@@ -105,20 +106,29 @@
     }
   }
   .avatarBox{
+    position: relative;
+    left: 200px;
 
     &>.avatar{
       width: 100% !important;
       height: auto!important;
       padding: 10px;
-      margin: 50px 0 0 50px;
+      margin: 100px 0 0 0px;
       border: 5px solid $textColor-1;
       background: white;
       border-radius: 50%;
     }
   }
+  .photo{
+    position: relative;
+  }
+  .btnSave{
+    width: 33%;
+    margin-right: auto;
+  }
   .mode{
-    left: 10px;
-    bottom: 10px;
+    left: 25px;
+    top: 25px;
     position: absolute;
     border-radius: 15px;
     background-color: $textColor-1;
