@@ -1,12 +1,12 @@
-import React from 'react'
-import { Divider, Feed, Icon, Image, Button } from 'semantic-ui-react'
+import React from 'react';
+import { Divider, Feed, Icon, Image, Button } from 'semantic-ui-react';
 
-const UserList = ({users, addFriend}) => {
-  let InfoFriensBlock;
+
+const UserList = ({users, addFriend, friends }) => {
+  let btnBlockAdd;
   return users.map( ( user, i ) => {
-
-      return ( <Feed className='ListUser' key={user._id}>
-        <div className='ListItem' data-id={user._id}>
+    return ( <Feed className='ListUser' key={i}>
+        <div className='ListItem'>
           <Feed.Event className='feed-row'>
             <div className="photoBox">
               <Feed.Label className='Photo'>
@@ -25,14 +25,26 @@ const UserList = ({users, addFriend}) => {
                 </Feed.Meta>
               </Feed.Summary>
             </Feed.Content>
-            <Feed.Extra className='ItemActions' onClick={addFriend}>
-              <Button color='brown' content='Add friend' icon='plus' data-id={user._id}/>
+            <Feed.Extra className='ItemActions'>
+              {
+                friends.map(id => {
+                   id === user._id ? btnBlockAdd = <Button
+                     className='btnAddFriend' color='green'
+                     content='Your friend' icon='chevron circle down' data-id={user._id}/> : null;
+                })
+              }
+              {
+                !btnBlockAdd ? <Button
+                  data-id={user._id}
+                  className='btnAddFriend'
+                  onClick={addFriend}
+                  color='blue' content='Add friend' icon='plus'/> : btnBlockAdd
+              }
             </Feed.Extra>
           </Feed.Event>
         </div>
       </Feed> )
   });
-
 };
 
 export default UserList;

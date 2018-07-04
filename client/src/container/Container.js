@@ -111,11 +111,9 @@ const mapDispatchToProps = dispatch => {
      browserHistory.push({pathname: './'});
    },
    addFriend: payload => {
-     dispatch(addFriendActions({
-       friend: payload
-     }))
+     dispatch(addFriendActions({payload}))
      const formDta = new FormData;
-     formDta.append('friend', payload)
+     formDta.append('friends', payload)
      axios({
        method: 'put', url: '/api/user/friend',
        headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' ) },
