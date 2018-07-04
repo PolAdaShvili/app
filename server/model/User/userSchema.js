@@ -9,7 +9,8 @@ const userSchema = mongoose.Schema({
   photo: Object,
   gender: {type: String, require: true},
   age: {type: String, require: true},
-  password: {type: String, require: true}
+  password: {type: String, require: true},
+  friends: Array
 });
 
 const User = mongoose.model('User', userSchema);

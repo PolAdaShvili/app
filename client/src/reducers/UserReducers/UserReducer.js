@@ -1,9 +1,10 @@
-import { ADD_USER, EXIT_USER, SIGN_USER } from '../../constants';
+import { ADD_USER, EXIT_USER, ADD_FRIEND } from '../../constants';
 
 
 const initialState = {
   authorization: false,
-  userInfo: {}
+  userInfo: {},
+  friends: []
 };
 
 const addUserReducer = ( state = initialState, action ) => {
@@ -13,11 +14,9 @@ const addUserReducer = ( state = initialState, action ) => {
         authorization: true,
         userInfo: action.payload
       });
-    case SIGN_USER:
-      return Object.assign({}, state, {
-        authorization: true,
-        userInfo: action.payload
-      });
+    case ADD_FRIEND:
+      state.userInfo.user.friends.push(action.payload.payload)
+      return Object.assign({}, state);
     case EXIT_USER:
       return Object.assign({}, state, {
         authorization: false,

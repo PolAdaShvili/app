@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route,Switch } from "react-router";
 import { langReducer } from "../actions/changeLang";
-import { addUserReducer, exitUserActions, signInUserActions } from '../actions/addUser';
+import { addUserReducer, exitUserActions, addFriendActions } from '../actions/addUser';
 import { HOST_URL } from '../constants';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Form from '../components/Main/Form/Form';
 import Aside from '../components/Main/Aside/Aside';
 import Account from '../components/Main/ContentRouts/Account/Account';
+import SearchPeople from '../components/Main/ContentRouts/SearchPeople/SearchPeople';
 import store from "../store";
 import browserHistory from '../browserHistory'
 
@@ -20,9 +21,9 @@ class Container extends Component{
   }
 
   componentDidMount(){
-    if ( localStorage.getItem('token') ) {
+    const token = localStorage.getItem( 'token' );
 
-      const token = (localStorage.getItem( 'token' ));
+    if ( token ) {
       axios({
         method: 'get', url: '/api/user/auth',
         headers: { 'authorization': token }
@@ -36,7 +37,7 @@ class Container extends Component{
   }
 
   render(){
-    const { translations, setLang, exitUser, addUser, auth, user, signUser } = this.props;
+    const { translations, setLang, exitUser, addUser, auth, user, signUser, friends, addFriend } = this.props;
 
     return (
       <div className='App'>
@@ -59,7 +60,7 @@ class Container extends Component{
             />
             <Route
               path='/account'
-              render={() => <Account user={ user } auth={ auth } />}
+              render={ () => <Account user={ user } addUser={ addUser }/> }
             />
             <Route
               path='/friends'
@@ -67,7 +68,7 @@ class Container extends Component{
             />
             <Route
               path='/people'
-              render={ () => {return (<p>people</p>)} }
+              render={ () => <SearchPeople addFriend={ addFriend } user={ user }/> }
             />
             <Route
               path='/news'
@@ -92,7 +93,6 @@ const mapStateToProps = state => {
     user: state.addUser.userInfo.user,
     auth: state.addUser.authorization,
     userInfo: state.addUser,
-    signUser: state.addUser.signUser,
     translations: state.changeLang.translations
   }
 };
@@ -110,12 +110,21 @@ const mapDispatchToProps = dispatch => {
    }))
      browserHistory.push({pathname: './'});
    },
-   signUser: payload => {
-     console.log( 'step1-payload', payload );
-     dispatch(signInUserActions({
-       user: payload
+   addFriend: payload => {
+     dispatch(addFriendActions({
+       friend: payload
      }))
-     browserHistory.push({pathname: './'});
+     const formDta = new FormData;
+     formDta.append('friend', payload)
+     axios({
+       method: 'put', url: '/api/user/friend',
+       headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' ) },
+       data: formDta
+     }).then(res => {
+       console.log( 'RES---',res )
+     }).catch(err => {
+       console.log( err )
+     })
    },
    exitUser: () => {
      dispatch(exitUserActions({}));

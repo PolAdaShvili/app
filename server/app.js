@@ -3,7 +3,6 @@ const cors = require('cors');
 const express = require( 'express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const Grid = require('gridfs-stream');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const validator = require('validator');
@@ -24,11 +23,16 @@ app.use( bodyParser.json() );
 app.use('/static', express.static(__dirname + '/public'));
 
 mongoose.connect(URL_DB);
-Grid.mongo = mongoose.mongo;
 db.on('error', console.error.bind(console, 'CONNECT DB ERROR:'));
 db.once('open', () => {
-  gfs = Grid(db.db);
   console.log('CONNECT DB')
+});
+
+app.use((req, res, next) => {
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  next();
 });
 
 function authenticate(req, res, next) {
@@ -53,30 +57,34 @@ function authenticate(req, res, next) {
   return;
 }
 
-app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origin', ['*']);
-  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.append('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
-
 app.get('/api/user/auth', authenticate, (req, res) => {
   User.findOne({
     _id: req.user.payload.userId
   }).then(user => {
-    console.log( user )
-    res.send(user)
+    res.send(user);
+  }).catch(err => {
+    console.log(err);
   })
 });
 
-app.get('/api/user/avatar', authenticate, (req, res) => {
-  const readstream = gfs.createReadStream({
-    filename: `photo_${req.user.payload.userId}`
+app.post('/api/user/search', authenticate, (req, res) => {
+  const form = new formidable.IncomingForm();
+
+  form.parse(req, (err, { search }, files) => {
+    if(err){
+      res.status(400).send(err);
+      return;
+    }
+
+    User.find({
+      name: new RegExp( search , 'i' )
+    }).then(users => {
+      res.send(users);
+    }).catch(err => {
+      console.log( err );
+    })
+
   });
-  res.set( {
-    'Content-Type': 'image/png'
-  });
-  readstream.pipe(res);
 });
 
 app.post('/api/user/login', urlencodedParser, (req, res) => {
@@ -103,21 +111,76 @@ app.post('/api/user/login', urlencodedParser, (req, res) => {
       }
     }
   }).catch( err => {
-    console.log(err);
+    console.log( '/api/user/login__err-->', err );
   })
 });
 
-app.post('/api/user', (req, res) => {
-
+app.put('/api/user/edit', authenticate, (req, res) => {
   const form = new formidable.IncomingForm();
 
-  form.parse(req, function(err, fields, files) {
+  form.parse(req, (err, fields, files) => {
+    if(err){
+      res.status(400).send(err);
+      return;
+    }
+    const { email, age, first, middle, surname, gender, photo } = fields;
+    User.find({
+      email: fields.email.toLocaleLowerCase()
+    }).then(users => {
+      if(users.length >= 1 && String( users[0]._id ) !== req.user.payload.userId){
+        res.send({message: 'email busy'});
+      } else {
+        User.findOneAndUpdate( { _id: req.user.payload.userId }, {
+            name: first,
+            email: email.toLocaleLowerCase(),
+            age, surname, middle, gender, photo
+          }
+        ).then(user => {
+          User.findOne({
+            _id: user._id
+          }).then(newUser => {
+            res.send(newUser);
+          })
+        }).catch(err => {
+          console.log(err);
+        })
+      }
+    }).catch(err => {
+      console.log( err );
+    })
+
+  });
+});
+
+app.put('/api/user/friend', authenticate, (req, res) => {
+  const form = new formidable.IncomingForm();
+
+  form.parse(req, (err, fields, files) =>{
+    User.findOneAndUpdate({ _id: req.user.payload.userId }, {
+      $push: { friends: fields.friend }
+    }).then(user => {
+      User.findOne({
+        _id: req.user.payload.userId
+      }).then(newUser => {
+        res.send(newUser);
+      })
+    }).catch(err => {
+      console.log( err );
+    })
+
+  });
+});
+
+app.post('/api/user', (req, res) => {
+  const form = new formidable.IncomingForm();
+
+  form.parse(req, (err, fields, files) => {
     if(err){
       res.status(400).send(err);
       return;
     }
 
-    const {email, age, first, middle, surname, gender} = fields;
+    const {email, age, first, middle, surname, gender, photo} = fields;
 
     const isReadyGender = validator.isLength(gender, {min: 4, max: 6});
     const isReadyEmail = validator.isEmail(email);
@@ -149,20 +212,16 @@ app.post('/api/user', (req, res) => {
           const user = new User({
             name: first,
             email: email.toLocaleLowerCase(),
-            age, surname, middle, gender,
-            password: hash
+            age, surname, middle, gender, photo,
+            password: hash, friends: []
           })
           user
           .save()
           .then(user => {
-            const writestream = gfs.createWriteStream({
-              filename: `photo_${user._id}`
-            });
-            fs.createReadStream(files.photo.path).pipe(writestream);
             const payload = {
               userId: user._id
             };
-            jwt.sign({payload}, secret, (err, token) => {
+            jwt.sign({ payload }, secret, ( err, token ) => {
               res.json({
                 token,
                 user,
@@ -171,7 +230,7 @@ app.post('/api/user', (req, res) => {
             });
           })
           .catch(err => {
-            console.log('ERROR ADD USER', err);
+            console.log('/api/user__ERROR ADD USER--->', err);
           });
         }
       });
