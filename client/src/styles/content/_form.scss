@@ -143,3 +143,15 @@
 .form-wrapper{
   width: 100%;
 }
+
+.ModalSuccessReg{
+  font-size: 2.2rem !important;
+  font-family: Georgia, SansSerif;
+  color: black;
+  font-weight: bold;
+  strong{
+    color: $textColor-1;
+    font-weight: bold;
+    margin-left: 25px;
+  }
+}

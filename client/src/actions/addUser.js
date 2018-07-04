@@ -1,13 +1,13 @@
-import { ADD_USER, EXIT_USER, SIGN_USER } from '../constants';
+import { ADD_USER, EXIT_USER, ADD_FRIEND } from '../constants';
 
-//2
+
 
 export function addUserReducer( payload ) {
   return { type: ADD_USER, payload };
 }
 
-export function signInUserActions( payload ) {
-  return { type: SIGN_USER, payload };
+export function addFriendActions( payload ) {
+  return { type: ADD_FRIEND, payload };
 }
 
 export function exitUserActions() {

@@ -4,6 +4,7 @@ import { Button, Modal, Icon } from 'semantic-ui-react';
 
 const ModalSuccessRegitration = ({ psw, login , eventClick }) => (
   <Modal
+    className='ModalSuccessReg'
     defaultOpen={true}
     onUnmount={ eventClick }
   >

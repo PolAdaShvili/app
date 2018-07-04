@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route,Switch } from "react-router";
 import { langReducer } from "../actions/changeLang";
-import { addUserReducer, exitUserActions, signInUserActions } from '../actions/addUser';
+import { addUserReducer, exitUserActions, addFriendActions } from '../actions/addUser';
 import { HOST_URL } from '../constants';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
@@ -37,7 +37,7 @@ class Container extends Component{
   }
 
   render(){
-    const { translations, setLang, exitUser, addUser, auth, user, signUser } = this.props;
+    const { translations, setLang, exitUser, addUser, auth, user, signUser, friends, addFriend } = this.props;
 
     return (
       <div className='App'>
@@ -68,7 +68,7 @@ class Container extends Component{
             />
             <Route
               path='/people'
-              render={ () => <SearchPeople user={ user } /> }
+              render={ () => <SearchPeople addFriend={ addFriend } user={ user }/> }
             />
             <Route
               path='/news'
@@ -110,12 +110,21 @@ const mapDispatchToProps = dispatch => {
    }))
      browserHistory.push({pathname: './'});
    },
-   signUser: payload => {
-     console.log( 'step1-payload', payload );
-     dispatch(signInUserActions({
-       user: payload
+   addFriend: payload => {
+     dispatch(addFriendActions({
+       friend: payload
      }))
-     browserHistory.push({pathname: './'});
+     const formDta = new FormData;
+     formDta.append('friend', payload)
+     axios({
+       method: 'put', url: '/api/user/friend',
+       headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' ) },
+       data: formDta
+     }).then(res => {
+       console.log( 'RES---',res )
+     }).catch(err => {
+       console.log( err )
+     })
    },
    exitUser: () => {
      dispatch(exitUserActions({}));

@@ -23,17 +23,16 @@ class Account extends Component {
 
   componentDidMount(){
     const user = this.props.user;
-    const { name, surname,  email, gender, age, photo, middle} = user;
     if ( user ) {
-      this.setState({
-        first: name,
-        surname: surname,
-        email: email,
-        gender: gender,
-        age: age,
-        photo: photo,
-        middle: middle
-      })
+      this.setState( {
+        first: user.name,
+        surname: user.surname,
+        email: user.email,
+        gender: user.gender,
+        age: user.age,
+        photo: user.photo,
+        middle: user.middle
+      } )
     }
   }
 

@@ -130,8 +130,7 @@ app.put('/api/user/edit', authenticate, (req, res) => {
       if(users.length >= 1 && String( users[0]._id ) !== req.user.payload.userId){
         res.send({message: 'email busy'});
       } else {
-        User.findOneAndUpdate( { _id: req.user.payload.userId },
-          {
+        User.findOneAndUpdate( { _id: req.user.payload.userId }, {
             name: first,
             email: email.toLocaleLowerCase(),
             age, surname, middle, gender, photo
@@ -146,6 +145,25 @@ app.put('/api/user/edit', authenticate, (req, res) => {
           console.log(err);
         })
       }
+    }).catch(err => {
+      console.log( err );
+    })
+
+  });
+});
+
+app.put('/api/user/friend', authenticate, (req, res) => {
+  const form = new formidable.IncomingForm();
+
+  form.parse(req, (err, fields, files) =>{
+    User.findOneAndUpdate({ _id: req.user.payload.userId }, {
+      $push: { friends: fields.friend }
+    }).then(user => {
+      User.findOne({
+        _id: req.user.payload.userId
+      }).then(newUser => {
+        res.send(newUser);
+      })
     }).catch(err => {
       console.log( err );
     })
@@ -195,7 +213,7 @@ app.post('/api/user', (req, res) => {
             name: first,
             email: email.toLocaleLowerCase(),
             age, surname, middle, gender, photo,
-            password: hash
+            password: hash, friends: []
           })
           user
           .save()

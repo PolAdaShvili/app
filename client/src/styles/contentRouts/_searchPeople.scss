@@ -52,17 +52,8 @@
       &:hover{
         cursor: pointer;
         position: relative;
-        transform: scale(1.2, 1.2);
-        z-index: 9;
         background-color: #dd4b39;
       }
-      &:hover .photoBox{
-        margin-left: 8%;
-      }
-      &:hover .ItemActions{
-        margin-right: 8%;
-      }
-
       .ItemActions{
         margin-left: auto;
       }

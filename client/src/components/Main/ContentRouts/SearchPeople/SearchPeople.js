@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Button } from 'semantic-ui-react';
 import SearchInput from './SearchInput';
 import UserList from './UserList';
 
@@ -11,8 +12,10 @@ class SearchPeople extends Component {
       users: []
     }
 
+    this.handleAddFriends = this.handleAddFriends.bind(this);
     this.handleInputSearch = this.handleInputSearch.bind(this);
   }
+
 
   handleInputSearch(e){
     const token = localStorage.getItem( 'token' );
@@ -29,14 +32,21 @@ class SearchPeople extends Component {
       console.log( err );
     })
   }
+  handleAddFriends(e){
+    const friendId = e.target.getAttribute('data-id');
+    this.props.addFriend(friendId);
+  }
 
   render(){
+    const { addFriend } = this.props;
     const users = this.state.users;
 
     return ( <div className='SearchPeople'>
         <div className="SearchInputBlock">
           <SearchInput eventSearch={ this.handleInputSearch }/>
-          <UserList users={ users } />
+          {
+            users ? <UserList users={ users } addFriend={ this.handleAddFriends }  /> : null
+          }
         </div>
       </div>
     )
