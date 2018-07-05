@@ -1,10 +1,9 @@
 import React from 'react';
-import { Divider, Feed, Icon, Image, Button } from 'semantic-ui-react';
-
+import { Button, Feed, Icon, Image } from 'semantic-ui-react';
 
 const UserList = ({users, addFriend, friends }) => {
-  let btnBlockAdd;
   return users.map( ( user, i ) => {
+    let btnBlockAdd;
     return ( <Feed className='ListUser' key={i}>
         <div className='ListItem'>
           <Feed.Event className='feed-row'>
@@ -25,11 +24,12 @@ const UserList = ({users, addFriend, friends }) => {
                 </Feed.Meta>
               </Feed.Summary>
             </Feed.Content>
-            <Feed.Extra className='ItemActions'>
+            <Feed.Extra className='ItemActions' onClick={addFriend}>
               {
                 friends.map(id => {
                    id === user._id ? btnBlockAdd = <Button
                      className='btnAddFriend' color='green'
+                     disabled={true}
                      content='Your friend' icon='chevron circle down' data-id={user._id}/> : null;
                 })
               }
@@ -37,7 +37,6 @@ const UserList = ({users, addFriend, friends }) => {
                 !btnBlockAdd ? <Button
                   data-id={user._id}
                   className='btnAddFriend'
-                  onClick={addFriend}
                   color='blue' content='Add friend' icon='plus'/> : btnBlockAdd
               }
             </Feed.Extra>
