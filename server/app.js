@@ -79,7 +79,14 @@ app.post('/api/user/search', authenticate, (req, res) => {
     User.find({
       name: new RegExp( fields.search , 'i' )
     }).then(users => {
-      res.send(users);
+      const data = users.splice(0, 50).filter(item => {
+        if(String(item._id) === req.user.payload.userId){
+          return false;
+        } else {
+          return true;
+        }
+      })
+      res.send(data);
     }).catch(err => {
       console.log( err );
     })
