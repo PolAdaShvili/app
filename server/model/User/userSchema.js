@@ -6,10 +6,17 @@ const userSchema = mongoose.Schema({
   surname: {type: String, require: true},
   middle: String,
   email: {type: String, require: true},
-  photo: Object,
+  photo: String,
   gender: {type: String, require: true},
   age: {type: String, require: true},
   password: {type: String, require: true},
+  posts: [{
+    avatar: String,
+    author: String,
+    photo: String,
+    post: String,
+    date:{type: Date, default: Date.now()}
+  }],
   friends: Array
 });
 

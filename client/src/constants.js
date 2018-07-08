@@ -3,6 +3,7 @@ export const ADD_USER = 'ADD_USER';
 export const EXIT_USER = 'EXIT_USER';
 export const ADD_FRIEND = 'ADD_FRIEND';
 export const REMOVE_FRIEND = 'REMOVE_FRIEND';
+export const SET_NEWS = 'SET_NEWS';
 export const USERS_FROM_DB = 'http://localhost:3001/api/users';
 export const HOST_URL = 'http://localhost:3000';
 

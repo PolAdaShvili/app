@@ -11,8 +11,9 @@ import Aside from '../components/Main/Aside/Aside';
 import Account from '../components/Main/ContentRouts/Account/Account';
 import Friends from '../components/Main/ContentRouts/Friends/Friends';
 import ViewUser from '../components/Main/ContentRouts/ViewUser/ViewUser';
+import News from '../components/Main/ContentRouts/News/News';
 import SearchPeople from '../components/Main/ContentRouts/SearchPeople/SearchPeople';
-import { addUserReducer, exitUserActions, addFriendActions, removeFriendAction } from '../actions/addUser';
+import { addUserReducer, exitUserActions, addFriendActions, removeFriendAction, setNewsAction } from '../actions/addUser';
 import store from "../store";
 import browserHistory from '../browserHistory'
 
@@ -39,7 +40,7 @@ class Container extends Component{
   }
 
   render(){
-    const { translations, setLang, exitUser, addUser, auth, user, signUser, friends, addFriend, removeFriend } = this.props;
+    const { translations, setLang, exitUser, addUser, auth, user, signUser, friends, addFriend, removeFriend, setNews } = this.props;
 
     return (
       <div className='App'>
@@ -73,7 +74,7 @@ class Container extends Component{
             />
             <Route
               path='/news'
-              render={() => { return (<p>news</p>) }}
+              render={ () => <News setNews={ setNews } user={ this.props.user }/> }
             />
             <Route
               path='/viewprofile'
@@ -117,12 +118,12 @@ const mapDispatchToProps = dispatch => {
    },
    addFriend: payload => {
      dispatch(addFriendActions({payload}))
-     const formDta = new FormData;
-     formDta.append('friends', payload)
+     const formData = new FormData;
+     formData.append('friends', payload)
      axios({
        method: 'put', url: '/api/user/friend',
        headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' ) },
-       data: formDta
+       data: formData
      }).catch(err => { console.log( err ) })
    },
    removeFriend: payload => {
@@ -134,6 +135,10 @@ const mapDispatchToProps = dispatch => {
        headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' ) },
        data: formDta
      }).catch(err => { console.log( err ) })
+   },
+   setNews: payload => {
+     console.log( '---step-1----',payload );
+     dispatch(setNewsAction({payload}))
    },
    exitUser: () => {
      dispatch(exitUserActions({}));
