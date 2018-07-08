@@ -164,8 +164,38 @@ app.put('/api/user/friend', authenticate, (req, res) => {
 
   form.parse(req, (err, fields, files) =>{
     const {friends} = fields;
+
+    User.findOne({
+      _id: friends
+    }).then(user => {
+      if(user && friends.length === 24){
+        User.findOneAndUpdate({ _id: req.user.payload.userId }, {
+          $push: { friends: friends }
+        }).then(user => {
+          User.findOne({
+            _id: req.user.payload.userId
+          }).then(newUser => {
+            res.send(newUser);
+          })
+        }).catch(err => {
+          console.log( err );
+        })
+      }
+    }).catch(err => {
+      console.log( err );
+    })
+
+  });
+});
+
+app.put('/api/user/frienddel', authenticate, (req, res) => {
+  const form = new formidable.IncomingForm();
+
+  form.parse(req, (err, fields, files) =>{
+    const {friend} = fields;
+
     User.findOneAndUpdate({ _id: req.user.payload.userId }, {
-      $push: { friends: friends }
+      $pull: { friends: friend }
     }).then(user => {
       User.findOne({
         _id: req.user.payload.userId
@@ -177,6 +207,25 @@ app.put('/api/user/friend', authenticate, (req, res) => {
     })
 
   });
+});
+
+app.get('/api/user/friends', authenticate, (req, res) => {
+  User.findOne({
+    _id: req.user.payload.userId
+  }).then(user => {
+    User.find({
+      _id : {  $in :  user.friends  }
+    }).then(users => {
+      res.send({
+        users,
+        success: true
+      });
+    }).catch(err => {
+      console.log( err );
+    })
+  }).catch(err => {
+    console.log( err );
+  })
 });
 
 app.post('/api/user', (req, res) => {

@@ -1,6 +1,6 @@
 @import "../const";
 
-.SearchPeople{
+.Friends{
   width: 75%;
   max-height: content-box;
   display: flex;
@@ -11,7 +11,6 @@
   position: relative;
   overflow-y: scroll;
   box-shadow: 10px 10px 5px 0px #495867 !important;
-
 
   .SearchInputBlock{
     width: 100%;
@@ -28,7 +27,7 @@
       }
     }
   }
-  .ListUser{
+  .ListFriends{
     font-size: 1.2rem;
     color: black;
     background: #ffe3aa;
@@ -36,7 +35,7 @@
     padding: .5em;
 
 
-    .ListItem{
+    .ListItemFriend{
       width: 100%;
       height: 100px;
       position: relative;
@@ -55,25 +54,25 @@
         position: relative;
         background-color: #d89736;
       }
-      .viewBox{
-        position: relative;
-        width: max-content;
-        height: max-content;
-        align-self: center;
-        margin-right: 10px;
-
-        .LinkView {
-          opacity: 0;
-          width: 100%;
-          height: 100%;
-          left: 0;
-          position: absolute;
-        }
-      }
       .ItemActions{
         display: flex;
 
-        .btnAddFriend {
+        .viewBox{
+          position: relative;
+          width: max-content;
+          height: max-content;
+          align-self: center;
+          margin-right: 10px;
+
+          .LinkView {
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            position: absolute;
+          }
+        }
+        .btnRemoveFriend{
           width: 150px;
           margin-right: 5%;
           align-self: center;
@@ -111,6 +110,4 @@
       border-radius: 50%;
     }
   }
-
 }
-

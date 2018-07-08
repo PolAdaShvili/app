@@ -12,7 +12,7 @@ class FormControl extends Component {
   constructor(props){
     super(props);
     this.state = {
-      first:'',surname:'',email:'',gender:'',age:'', photo: '', middle: '', modal: false
+      first:'',surname:'',email:'',gender:'',age:'', photo: '', middle: '', modal: false, err: false
     };
 
     this.getFiles = this.getFiles.bind(this);
@@ -44,12 +44,12 @@ class FormControl extends Component {
     e.preventDefault();
     const {photo} = this.state;
     const formData = new FormData();
-    const userField = Object.keys(this.state).filter(field => { return field !== 'modal' && field !== 'middle' });
+    const userField = Object.keys(this.state).filter(field => { return field !== 'modal' && field !== 'middle' && field !== 'err' });
     const requiredFields = userField.every(field => this.state[field]);
 
     if ( requiredFields && photo && photo !== 'photo is big' ) {
       Object.keys( this.state ).filter( fieldName => {
-        (fieldName !== 'modal') ? formData.append( `${fieldName}`, this.state[fieldName] ) : null;
+        (fieldName !== 'modal' && fieldName !== 'err') ? formData.append( `${fieldName}`, this.state[fieldName] ) : null;
       });
 
       axios({
@@ -71,7 +71,8 @@ class FormControl extends Component {
       });
 
     } else {
-      console.log('Selected photo or enter fields!');
+      this.setState({ err: 'Selected photo or enter requred fields!' });
+      console.log('Selected photo or enter requred fields!');
     }
   }
   getFiles(files){
@@ -87,7 +88,7 @@ class FormControl extends Component {
 
   render(){
     const {configLang, auth, addUser} = this.props;
-    const { modal } = this.state;
+    const { modal, err } = this.state;
 
     return (
       <div className='form-wrapper'>
@@ -173,6 +174,11 @@ class FormControl extends Component {
           >
             {configLang.button}
           </Button>
+          {
+            err ? <Label basic color='red' size='small' pointing='above'>
+              {err}
+            </Label> : null
+          }
         </div>}
       </div>
     )

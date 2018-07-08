@@ -24,9 +24,12 @@ class SearchPeople extends Component {
     const token = localStorage.getItem( 'token' );
     const formData = new FormData();
     const val = e.target.value;
+    const result = val.replace(/[^a-z\s]+/ig, '');
+
+    this.setState({inputVal: result});
 
     if(val.length >= 1){
-      formData.append('search', val);
+      formData.append('search', result);
       axios({
         method: 'post', url: '/api/user/search',
         headers: {'Content-Type': 'multipart/form-data', authorization: token },
@@ -45,13 +48,13 @@ class SearchPeople extends Component {
 
   render(){
     const { addFriend, user } = this.props;
-    const users = this.state.users;
+    const { users, inputVal } = this.state;
 
     return ( <div className='SearchPeople'>
         <div className="SearchInputBlock">
           <SearchInput eventSearch={ this.handleInputSearch }/>
           {
-            users && this.state.friends ? <UserList
+            users && this.state.friends && inputVal ? <UserList
               users={ users }
               friends={ this.state.friends }
               addFriend={ this.handleAddFriends }/> : null

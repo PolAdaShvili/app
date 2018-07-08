@@ -64,6 +64,7 @@ class Account extends Component {
     const formData = new FormData();
     const token = localStorage.getItem( 'token' );
     delete dataUser.mode;
+    console.log( 'Add validate',dataUser );
 
     Object.keys( dataUser ).filter( fieldName => {
       formData.append( `${fieldName}`, this.state[fieldName] );

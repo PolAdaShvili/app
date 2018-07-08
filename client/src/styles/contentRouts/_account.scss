@@ -1,6 +1,6 @@
 @import "../const";
 
-.Account{
+.Account, .ViewUser{
   width: 75%;
   max-height: 75%;
   display: flex;
@@ -22,7 +22,7 @@
         width: 30%;
         margin-left: 35%;
         text-align: center;
-        background-color: $testColor;
+        background-color: $textColor-1;
       }
     }
   }
@@ -38,7 +38,6 @@
     width: 100%;
     font-size: 1.5rem;
     justify-content: flex-end;
-    margin-top: 35px;
   }
   .age, .gender{
     width: 15%;
@@ -65,7 +64,7 @@
         width: 30%;
         text-align: center;
         margin-left: 35%;
-        background-color: $testColor;
+        background-color: $textColor-1;
       }
       margin-right: 10px;
     }
@@ -77,7 +76,7 @@
       height: 50px;
     }
     .label{
-      border-color: $testColor;
+      border-color: $textColor-1
     }
   }
   .gender{
@@ -87,7 +86,7 @@
       font-size: 22px;
     }
     .label{
-      border-color: $testColor;
+      border-color: $textColor-1;
     }
     .segment{
       margin: 0;
@@ -127,7 +126,6 @@
     position: relative;
     height: max-content;
     align-self: flex-start;
-    margin-top: 65px;
 
     .avatarBox{
       position: absolute;
@@ -135,6 +133,7 @@
       .image{
         max-width: 300px;
         height: auto!important;
+        margin-top: 25px;
         border: 5px solid $textColor-1;
         background: white;
         border-radius: 50%;

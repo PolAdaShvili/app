@@ -30,14 +30,14 @@ const UserList = ({users, addFriend, friends }) => {
                    id === user._id ? btnBlockAdd = <Button
                      className='btnAddFriend' color='green'
                      disabled={true}
-                     content='Your friend' icon='chevron circle down' data-id={user._id}/> : null;
+                     content='Your friend' data-id={user._id}/> : null;
                 })
               }
               {
                 !btnBlockAdd ? <Button
                   data-id={user._id}
                   className='btnAddFriend'
-                  color='blue' content='Add friend' icon='plus'/> : btnBlockAdd
+                  color='blue' content='Add friend'/> : btnBlockAdd
               }
             </Feed.Extra>
           </Feed.Event>

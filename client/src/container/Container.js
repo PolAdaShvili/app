@@ -3,14 +3,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route,Switch } from "react-router";
 import { langReducer } from "../actions/changeLang";
-import { addUserReducer, exitUserActions, addFriendActions } from '../actions/addUser';
 import { HOST_URL } from '../constants';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Form from '../components/Main/Form/Form';
 import Aside from '../components/Main/Aside/Aside';
 import Account from '../components/Main/ContentRouts/Account/Account';
+import Friends from '../components/Main/ContentRouts/Friends/Friends';
+import ViewUser from '../components/Main/ContentRouts/ViewUser/ViewUser';
 import SearchPeople from '../components/Main/ContentRouts/SearchPeople/SearchPeople';
+import { addUserReducer, exitUserActions, addFriendActions, removeFriendAction } from '../actions/addUser';
 import store from "../store";
 import browserHistory from '../browserHistory'
 
@@ -37,7 +39,7 @@ class Container extends Component{
   }
 
   render(){
-    const { translations, setLang, exitUser, addUser, auth, user, signUser, friends, addFriend } = this.props;
+    const { translations, setLang, exitUser, addUser, auth, user, signUser, friends, addFriend, removeFriend } = this.props;
 
     return (
       <div className='App'>
@@ -47,7 +49,6 @@ class Container extends Component{
           auth={ auth }
           exit={ exitUser }
         />
-
         <div className='Content'>
           {location.href !== `${ HOST_URL }/registration` ?
             <Aside auth={ auth } addUser={ addUser } /> :
@@ -64,7 +65,7 @@ class Container extends Component{
             />
             <Route
               path='/friends'
-              render={() => {return ( <p>friends</p> )}}
+              render={ () => <Friends user={ user } removeFriend={ removeFriend }/> }
             />
             <Route
               path='/people'
@@ -73,6 +74,10 @@ class Container extends Component{
             <Route
               path='/news'
               render={() => { return (<p>news</p>) }}
+            />
+            <Route
+              path='/viewprofile'
+              render={ () => <ViewUser/> }
             />
             <Route
               path='/setting'
@@ -116,6 +121,16 @@ const mapDispatchToProps = dispatch => {
      formDta.append('friends', payload)
      axios({
        method: 'put', url: '/api/user/friend',
+       headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' ) },
+       data: formDta
+     }).catch(err => { console.log( err ) })
+   },
+   removeFriend: payload => {
+     dispatch(removeFriendAction({ payload }))
+     const formDta = new FormData;
+     formDta.append('friend', payload)
+     axios({
+       method: 'put', url: '/api/user/frienddel',
        headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' ) },
        data: formDta
      }).catch(err => { console.log( err ) })
