@@ -2,33 +2,34 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route,Switch } from "react-router";
-import { langReducer } from "../actions/changeLang";
-import { HOST_URL } from '../constants';
+import Form from './Form';
+import Account from './Account';
+import Friends from './Friends';
+import ViewUser from './ViewUser';
+import News from './News';
+import SearchPeople from './SearchPeople';
+import Setting from "./Setting";
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import Form from '../components/Main/Form/Form';
 import Aside from '../components/Main/Aside/Aside';
-import Account from '../components/Main/ContentRouts/Account/Account';
-import Friends from '../components/Main/ContentRouts/Friends/Friends';
-import ViewUser from '../components/Main/ContentRouts/ViewUser/ViewUser';
-import News from '../components/Main/ContentRouts/News/News';
-import SearchPeople from '../components/Main/ContentRouts/SearchPeople/SearchPeople';
-import { addUserReducer, exitUserActions, addFriendActions, removeFriendAction, setNewsAction } from '../actions/addUser';
+import { langReducer } from "../actions/changeLang";
 import store from "../store";
+import { HOST_URL } from '../constants';
 import browserHistory from '../browserHistory'
+import { addUserReducer, exitUserActions, addFriendActions,
+  removeFriendAction, setNewsAction } from '../actions/addUser';
 
 
 class Container extends Component{
   constructor(props){
     super(props);
   }
-
   componentDidMount(){
     const token = localStorage.getItem( 'token' );
 
     if ( token ) {
       axios({
-        method: 'get', url: '/api/user/auth',
+        method: 'get', url: '/api/user',
         headers: { 'authorization': token }
       })
       .then( res =>{
@@ -40,7 +41,8 @@ class Container extends Component{
   }
 
   render(){
-    const { translations, setLang, exitUser, addUser, auth, user, signUser, friends, addFriend, removeFriend, setNews } = this.props;
+    const { translations, setLang, exitUser, addUser, auth, user,
+      signUser, friends, addFriend, removeFriend, setNews } = this.props;
 
     return (
       <div className='App'>
@@ -82,7 +84,7 @@ class Container extends Component{
             />
             <Route
               path='/setting'
-              render={() => { return (<p>setting</p> )}}
+              render={() => <Setting/>}
             />
           </Switch>
         </div>
@@ -121,7 +123,7 @@ const mapDispatchToProps = dispatch => {
      const formData = new FormData;
      formData.append('friends', payload)
      axios({
-       method: 'put', url: '/api/user/friend',
+       method: 'post', url: '/api/user/friends',
        headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' ) },
        data: formData
      }).catch(err => { console.log( err ) })
@@ -131,7 +133,7 @@ const mapDispatchToProps = dispatch => {
      const formDta = new FormData;
      formDta.append('friend', payload)
      axios({
-       method: 'put', url: '/api/user/frienddel',
+       method: 'put', url: '/api/user/friends',
        headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' ) },
        data: formDta
      }).catch(err => { console.log( err ) })

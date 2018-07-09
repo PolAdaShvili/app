@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import FriendList from './FriensList';
-import SearchInput from '../SearchPeople/SearchInput';
-import ModalRemoveFriend from './ModalRemoveFriend';
+import Friend from '../components/Main/ContentRouts/Friends/Friend';
 
 
 class Friends extends Component {
@@ -20,7 +18,6 @@ class Friends extends Component {
     this.closeModalRemove = this.closeModalRemove.bind(this);
     this.handleInputSearch = this.handleInputSearch.bind(this);
   }
-
   componentDidMount(){
     this.props.user ? this.getFriends() : null;
   }
@@ -57,20 +54,13 @@ class Friends extends Component {
 
   render(){
     const { user, removeFriend } = this.props;
-    const { modal } = this.state;
+    const { modal, friends, filter  } = this.state;
 
-    return ( <div className='Friends'>
-        {
-          this.state.modal ? <ModalRemoveFriend open={ modal } remove={ this.clickModalRemove } close={ this.closeModalRemove }/> : null
-        }
-        <div className="SearchInputBlock">
-          <SearchInput eventSearch={ this.handleInputSearch }/>
-          {
-           this.state.friends ? <FriendList friends={ this.state.filter } friendRemove={ this.friendRemove } /> : null
-          }
-        </div>
-      </div>
-    )
+    return ( <Friend
+        modal={ modal } clickModalRemove={ this.clickModalRemove }
+        friendRemove={ this.friendRemove } friends={ friends } filter={ filter }
+        closeModalRemove={ this.closeModalRemove } handleInputSearch={ this.handleInputSearch }
+      /> )
   }
 }
 

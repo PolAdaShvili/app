@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import { Input, Button, Menu, Icon, Label } from 'semantic-ui-react';
+import { Input, Button, Menu, Icon, Label, Form } from 'semantic-ui-react';
 
 
 class LoginMenu extends Component{
@@ -56,6 +56,7 @@ class LoginMenu extends Component{
           <Icon name='sign in'/>
           Sign in
         </Menu.Item>
+        <Form>
         <Menu.Item>
           <Input
             name='login'
@@ -79,10 +80,13 @@ class LoginMenu extends Component{
         <Menu.Item>
           <Button
             fluid
+            primary
             content='Sign in'
-            onClick={this.clickAuthUser}
+            color='teal'
+            onClick={ this.clickAuthUser }
           />
         </Menu.Item>
+        </Form>
       </Menu>
     )
   }

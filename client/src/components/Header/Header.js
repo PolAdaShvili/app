@@ -13,7 +13,7 @@ const Header = ({ configLang, setLang, auth, exit }) => {
         <div className='homeBox'>
           <Button
             size='mini'
-            content='Home'
+            content={ configLang.btnHome }
             color='violet'
             className='btnHome'
           />

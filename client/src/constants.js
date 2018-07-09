@@ -19,12 +19,20 @@ export const lang = {
       title: 'Header title',
       btnReg: 'Registration',
       btnExit: 'Exit',
+      btnHome: 'Home',
       langParams: {
         select: 'Select language',
         gb: 'English',
         ua: 'Ukrainian',
         ru: 'Russian'
       }
+    },
+    aside:  {
+      account: 'Account',
+      friend: 'Friends',
+      search: 'Search people',
+      news: 'News',
+      setting: 'Setting'
     },
     main: {
       form: {
@@ -51,6 +59,7 @@ export const lang = {
       title: 'Заголовок шапки',
       btnReg: 'Регистрация',
       btnExit: 'Выход',
+      btnHome: 'Домой',
       langParams: {
         select: 'Поменять язык',
         gb: 'Английский',
@@ -83,6 +92,7 @@ export const lang = {
       title: 'Заголовок шапки',
       btnReg: 'Реєстрація',
       btnExit: 'Вихід',
+      btnHome: 'Додому',
       langParams: {
         select: 'Змінити мову',
         gb: 'Англійська',

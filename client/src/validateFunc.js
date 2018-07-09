@@ -12,6 +12,11 @@ export const setErrValidClass = e => {
 export const validate = (regExp,name,value) => {
   return regExp[name].test(value);
 };
-export const validateName = (regExp,name,value) => {
+export const validateNames = (regExp,name,value) => {
   return (value.search(regExp.name) !== - 1);
+};
+
+export const validateEmail = {
+  required: true,
+  email: true
 };
