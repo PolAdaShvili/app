@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Label, Icon, Segment, Form, Image, Button } from 'semantic-ui-react';
 import history from '../browserHistory';
 import ViewUserComponent from '../components/Main/ContentRouts/ViewUser/ViewUser';
 
-
 class ViewUser extends Component{
   render(){
-    const { ownProps } = this.props;
+    const {ownProps, configLang} = this.props;
     const { user } = ownProps.location;
-
-    return (
-      <ViewUserComponent
-      user={ user } history={ history }
-      />
-    )
+    return ( <ViewUserComponent
+      configLang={configLang}
+      user={user} history={history}/> )
   }
 }
 

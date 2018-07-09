@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route,Switch } from "react-router";
+import { Route, Switch } from "react-router";
 import Form from './Form';
 import Account from './Account';
 import Friends from './Friends';
@@ -13,12 +13,11 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Aside from '../components/Main/Aside/Aside';
 import { langReducer } from "../actions/changeLang";
-import store from "../store";
 import { HOST_URL } from '../constants';
 import browserHistory from '../browserHistory'
-import { addUserReducer, exitUserActions, addFriendActions,
-  removeFriendAction, setNewsAction } from '../actions/addUser';
-
+import {
+  addFriendActions, addUserReducer, exitUserActions, removeFriendAction, setNewsAction
+} from '../actions/addUser';
 
 class Container extends Component{
   constructor(props){
@@ -53,8 +52,9 @@ class Container extends Component{
           exit={ exitUser }
         />
         <div className='Content'>
-          {location.href !== `${ HOST_URL }/registration` ?
-            <Aside auth={ auth } addUser={ addUser } /> :
+          {location.href !== `${ HOST_URL }/registration` ? <Aside auth={auth}
+                                                                   addUser={addUser}
+                                                                   configLang={translations.aside}/> :
             null}
           <Switch>
             <Route
@@ -64,23 +64,31 @@ class Container extends Component{
             />
             <Route
               path='/account'
-              render={ () => <Account user={ user } addUser={ addUser }/> }
+              render={() => <Account
+                configLang={translations.main.account}
+                user={user} addUser={addUser}/>}
             />
             <Route
               path='/friends'
-              render={ () => <Friends user={ user } removeFriend={ removeFriend }/> }
+              render={() => <Friends
+                configLang={translations.main.friends}
+                user={user} removeFriend={removeFriend}/>}
             />
             <Route
               path='/people'
-              render={ () => <SearchPeople addFriend={ addFriend } user={ user }/> }
+              render={() => <SearchPeople
+                configLang={translations.main.search}
+                addFriend={addFriend} user={user}/>}
             />
             <Route
               path='/news'
-              render={ () => <News setNews={ setNews } user={ this.props.user }/> }
+              render={() => <News
+                configLang={translations.main.news}
+                setNews={setNews} user={this.props.user}/>}
             />
             <Route
               path='/viewprofile'
-              render={ () => <ViewUser/> }
+              render={() => <ViewUser configLang={translations.main.viewUser}/>}
             />
             <Route
               path='/setting'
@@ -120,8 +128,9 @@ const mapDispatchToProps = dispatch => {
    },
    addFriend: payload => {
      dispatch(addFriendActions({payload}))
+
      const formData = new FormData;
-     formData.append('friends', payload)
+     formData.append( 'friendId', payload )
      axios({
        method: 'post', url: '/api/user/friends',
        headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' ) },

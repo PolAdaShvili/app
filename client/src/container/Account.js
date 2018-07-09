@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import axios from "axios/index";
-const approve = require('approvejs');
-import FileBase64 from 'react-file-base64';
 import { regExp } from '../constants';
-import { validate, validateNames, setValidClass, setErrValidClass, validateEmail } from '../validateFunc';
+import { setErrValidClass, setValidClass, validate, validateEmail, validateNames } from '../validateFunc';
 import AccountComponent from '../components/Main/ContentRouts/Account/Account';
 
+const approve = require( 'approvejs' );
 
 class Account extends Component {
   constructor( props ){
@@ -59,9 +58,7 @@ class Account extends Component {
     } ), setValidClass( e ) ) : ( this.setState( {email: e.target.value} ), setErrValidClass( e ) );
   }
   modeOnclick( e ){
-    const val = this.state.mode;
-    val === 'view' ? this.setState( {mode: 'edit'} ) : this.setState( {mode: 'view'} );
-    val === 'edit' ? this.setState( {mode: 'view'} ) : this.setState( {mode: 'edit'} );
+    this.setState( {mode: this.state.mode === 'view' ? 'edit' : 'view'} );
   }
   saveOnClick(){
     const dataUser = Object.assign( {}, this.state );
@@ -99,14 +96,15 @@ class Account extends Component {
   }
 
   render(){
-    const {user} = this.props;
+    const {user, configLang} = this.props;
     const {mode, gender, photo, emailBusy, firstErr, surnameErr, middleErr} = this.state;
+
     return (<div><AccountComponent
       getFiles={ this.getFiles } modeOnclick={ this.modeOnclick }
       validateChangeInput={ this.validateChangeInput } firstErr={ firstErr }
-      surnameErr={ surnameErr } handleGender={ this.handleGender }
-      validateEmail={ this.validateEmail } emailBusy={ emailBusy }
-      user={user} mode={mode} gender={gender} photo={photo} saveOnClick={ this.saveOnClick }
+      surnameErr={surnameErr} handleGender={this.handleGender} middleErr={middleErr}
+      validateEmail={this.validateEmail} emailBusy={emailBusy} configLang={configLang}
+      user={user} mode={mode} gender={gender} photo={photo} saveOnClick={this.saveOnClick}
     /></div>)
   }
 }

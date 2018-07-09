@@ -1,25 +1,22 @@
 import React from 'react';
-import { Button, Modal, Icon } from 'semantic-ui-react';
+import { Button, Icon, Modal } from 'semantic-ui-react';
 
-
-const ModalRemoveFriend = ({ remove, close }) => (
+const ModalRemoveFriend = ( {remove, close, configLang} ) => (
   <Modal
     className='ModalSuccessReg'
     defaultOpen={true}
     onUnmount={ close }
   >
     <Modal.Header>
-      Delete Friend
+      {configLang.deleteModalTitle}
     </Modal.Header>
     <Modal.Content>
-      <p>
-        do you want to delete a friend ?
-      </p>
+      {configLang.deleteModalBody}
     </Modal.Content>
     <Modal.Actions>
       <Button
         negative
-        content='No'
+        content={configLang.no}
         onClick={ close }
       />
       <Button
@@ -27,7 +24,8 @@ const ModalRemoveFriend = ({ remove, close }) => (
         color='green'
         onClick={ remove }
       >
-        <Icon name='checkmark' /> Yes
+        <Icon name='checkmark'/>
+        {configLang.yes}
       </Button>
     </Modal.Actions>
   </Modal>

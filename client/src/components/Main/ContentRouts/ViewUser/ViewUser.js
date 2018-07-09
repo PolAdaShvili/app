@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
-import { Label, Icon, Segment, Form, Image, Button } from 'semantic-ui-react';
+import React from 'react';
+import { Button, Form, Icon, Image, Label, Segment } from 'semantic-ui-react';
 import FieldInputs from '../Account/FieldInputs';
 
-
-const ViewUserComponent = ({ history, user }) => {
+const ViewUserComponent = ( {history, user, configLang} ) =>{
   return ( <div className='ViewUser'>
     <div className="backBox" onClick={history.goBack}>
       <Button
         size='mini'
         className='back'
-        content='Back'
+        content={configLang.btnBack}
         icon='arrow alternate circle left'
       />
     </div>
@@ -26,7 +25,7 @@ const ViewUserComponent = ({ history, user }) => {
               type='email'
               fieldName='email'
               val={ user.email }
-              fieldTitle='Email:'
+              fieldTitle={configLang.email}
             />
           </div>
 
@@ -34,19 +33,19 @@ const ViewUserComponent = ({ history, user }) => {
             <FieldInputs
               fieldName='first'
               val={ user.name }
-              fieldTitle='First name:'
+              fieldTitle={configLang.first}
             />
             <FieldInputs
               fieldName='surname'
               val={ user.surname }
-              fieldTitle='Surname:'
+              fieldTitle={configLang.surname}
             />
           </div>
           <div className="middle">
             <FieldInputs
               fieldName='middle'
               val={ user.middle }
-              fieldTitle='Middle name:'
+              fieldTitle={configLang.middle}
             />
           </div>
           <div className="additionally">
@@ -55,11 +54,11 @@ const ViewUserComponent = ({ history, user }) => {
                 corner={ true }
                 fieldName='age'
                 val={ user.age }
-                fieldTitle='Age'
+                fieldTitle={configLang.age}
               />
             </div>
             <div className='gender'>
-              <Label content='Gender' corner={ true }/>
+              <Label content={configLang.gender} corner={true}/>
               <Segment>
                 { user.gender === 'male' ? <Icon name='male'/> : <Icon name='female'/> }
               </Segment>

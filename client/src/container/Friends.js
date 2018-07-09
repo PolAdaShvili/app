@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Friend from '../components/Main/ContentRouts/Friends/Friend';
-
+import FriendsComponent from '../components/Main/ContentRouts/Friends/Friend';
 
 class Friends extends Component {
   constructor(props){
@@ -53,13 +52,12 @@ class Friends extends Component {
   }
 
   render(){
-    const { user, removeFriend } = this.props;
+    const {user, removeFriend, configLang} = this.props;
     const { modal, friends, filter  } = this.state;
-
-    return ( <Friend
-        modal={ modal } clickModalRemove={ this.clickModalRemove }
-        friendRemove={ this.friendRemove } friends={ friends } filter={ filter }
-        closeModalRemove={ this.closeModalRemove } handleInputSearch={ this.handleInputSearch }
+    return ( <FriendsComponent
+      friendRemove={ this.friendRemove } friends={ friends } filter={ filter }
+      modal={modal} clickModalRemove={this.clickModalRemove} configLang={configLang}
+      closeModalRemove={ this.closeModalRemove } handleInputSearch={ this.handleInputSearch }
       /> )
   }
 }

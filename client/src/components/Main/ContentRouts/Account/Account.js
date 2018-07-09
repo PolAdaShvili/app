@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import FileBase64 from 'react-file-base64';
-import { Label, Icon, Segment, Form, Dropdown, Image, Button } from 'semantic-ui-react';
+import { Button, Form, Icon, Image, Label, Segment } from 'semantic-ui-react';
 import FieldInputs from './FieldInputs';
 
+const AccountComponent = ({user, mode, gender, photo, getFiles, modeOnclick, validateEmail, emailBusy, validateChangeInput, firstErr, surnameErr, middleErr, handleGender, saveOnClick, configLang} ) =>{
 
-const AccountComponent = ({user, mode, gender, photo, getFiles, modeOnclick, validateEmail,
-  emailBusy, validateChangeInput, firstErr, surnameErr, middleErr, handleGender, saveOnClick}) => {
   return ( <div className='Account'>
     <div className='mode'>
       <Segment onClick={ modeOnclick }>
@@ -27,13 +26,13 @@ const AccountComponent = ({user, mode, gender, photo, getFiles, modeOnclick, val
               type='email'
               fieldName='email'
               val={ user.email }
-              fieldTitle='Email:'
+              fieldTitle={configLang.email}
               eventHandler={ validateEmail }
             />
             { emailBusy ? <Label
-              content={ emailBusy }
+              content={configLang.emailBusy}
               basic color='red' attached='top left'
-              size='middle' pointing='below'/> : null }
+              size='small' pointing='below'/> : null}
           </div>
           <div className='nameBox'>
             <div className="first">
@@ -41,11 +40,11 @@ const AccountComponent = ({user, mode, gender, photo, getFiles, modeOnclick, val
                 mode={ mode }
                 fieldName='first'
                 val={ user.name }
-                fieldTitle='First name:'
+                fieldTitle={configLang.first}
                 eventHandler={ validateChangeInput }
               />
               { firstErr ? <Label
-                content={firstErr}
+                content={configLang.nameErr}
                 basic color='red' attached='top left'
                 size='medium' pointing='below'/> : null }
             </div>
@@ -54,11 +53,11 @@ const AccountComponent = ({user, mode, gender, photo, getFiles, modeOnclick, val
                 mode={ mode }
                 fieldName='surname'
                 val={ user.surname }
-                fieldTitle='Surname:'
+                fieldTitle={configLang.surname}
                 eventHandler={ validateChangeInput }
               />
               { surnameErr ? <Label
-                content={surnameErr}
+                content={configLang.nameErr}
                 basic color='red' attached='top left'
                 size='medium' pointing='below'/> : null }
             </div>
@@ -68,11 +67,11 @@ const AccountComponent = ({user, mode, gender, photo, getFiles, modeOnclick, val
               mode={ mode }
               fieldName='middle'
               val={ user.middle }
-              fieldTitle='Middle name:'
+              fieldTitle={configLang.middle}
               eventHandler={ validateChangeInput }
             />
             { middleErr ? <Label
-              content={middleErr}
+              content={configLang.nameErr}
               basic color='red' attached='top left'
               size='medium' pointing='below'/> : null }
           </div>
@@ -83,17 +82,18 @@ const AccountComponent = ({user, mode, gender, photo, getFiles, modeOnclick, val
                 mode={ mode }
                 fieldName='age'
                 val={ user.age }
-                fieldTitle='Age'
+                fieldTitle={configLang.age}
                 eventHandler={ validateChangeInput }
               />
             </div>
             <div className='gender' onClick={ handleGender }>
-              <Label content='Gender' corner={ true }/>
+              <Label content={configLang.gender} corner={true}/>
               <Segment>
                 { gender === 'male' ? <Icon name='male'/> : <Icon name='female'/> }
               </Segment>
             </div>
-            { mode === 'edit' ? <Button className='btnSave' primary onClick={ saveOnClick } content='Save'/> : null }
+            {mode === 'edit' ?
+              <Button className='btnSave' primary onClick={saveOnClick} content={configLang.save}/> : null}
           </div>
         </div>
       </div> : null }

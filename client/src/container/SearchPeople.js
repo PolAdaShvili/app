@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import SearchPeopleComponent from '../components/Main/ContentRouts/SearchPeople/SearchPeople';
 
-
 class SearchPeople extends Component {
   constructor(props){
     super(props);
@@ -44,12 +43,12 @@ class SearchPeople extends Component {
   }
 
   render(){
-    const { addFriend, user } = this.props;
+    const {addFriend, user, configLang} = this.props;
     const { users, friends, inputVal } = this.state;
 
     return (
       <SearchPeopleComponent
-        inputVal={ inputVal } users={ users } friends={ friends }
+        inputVal={inputVal} users={users} friends={friends} configLang={configLang}
         handleAddFriends={ this.handleAddFriends } handleInputSearch={ this.handleInputSearch }
       />
     )

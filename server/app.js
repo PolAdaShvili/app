@@ -16,17 +16,16 @@ const userRout = require('./routes/users');
 
 const app = express();
 const db = mongoose.connection;
+mongoose.connect( URL_DB );
+db.on( 'error', console.error.bind( console, 'CONNECT DB ERROR:' ) );
+db.once( 'open', () =>{
+  console.log( 'CONNECT DB' )
+} );
 
 app.use(cors());
 app.use('/static', express.static(__dirname + '/public'));
 app.use(morgan("dev"));
 app.use( bodyParser.json() );
-//const urlencodedParser = bodyParser.urlencoded({extended: false});
-
-mongoose.connect(URL_DB);
-db.on('error', console.error.bind(console, 'CONNECT DB ERROR:'));
-db.once('open', () => {console.log('CONNECT DB')});
-
 
 app.use((req, res, next) => {
   res.append('Access-Control-Allow-Origin', ['*']);
@@ -38,20 +37,6 @@ app.use((req, res, next) => {
 app.use("/api/user", userRout);
 app.use("/api/user/news", newsRout);
 app.use("/api/user/friends", friendsRout);
-
-//app.use((req, res, next) => {
-//  const error = new Error("Not found");
-//  error.status = 404;
-//  next(error);
-//});
-//app.use((error, req, res, next) => {
-//  res.status(error.status || 500);
-//  res.json({
-//    error: {
-//      message: error.message
-//    }
-//  });
-//});
 
 app.listen(PORT, () => {
   console.log(`listening on port ${ PORT }`);

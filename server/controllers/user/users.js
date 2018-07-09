@@ -6,30 +6,26 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../../model/User/userSchema');
 const CONST = require( '../../constants' );
 const { PORT, URL_DB, secret } = CONST;
-const { validateEmail, validateName, validateMiddleName, validateGender, validateAge } = require('../../validate');
+const {
+  validateEmail, validateName, validateMiddleName, validateGender, validateAge
+} = require( '../../validate' );
 
 
 exports.getUser = (req, res, next) => {
   User.findOne({
     _id: req.user.payload.userId
   }).then(user => {
+
     res.send(user);
-  }).catch(err => {
-    console.log(err);
-  })
+  } ).catch( err =>{
+    console.log( err );
+  } )
 };
 
 exports.userAdd = (req, res, next) => {
   const form = new formidable.IncomingForm();
-
-  form.parse(req, (err, fields, files) => {
-    if(err) {
-      res.status(400).send(err);
-      return;
-    }
-
-    const {email, age, first, middle, surname, gender, photo} = fields;
-    console.log( email, age, first, middle, surname, gender, photo );
+  form.parse( req, ( err, {email, age, first, middle, surname, gender, photo}, files ) =>{
+    err ? res.status( 400 ).end() : null;
 
     const isReadyGender = validator.isLength(gender, {min: 4, max: 6});
     const isReadyEmail = validator.isEmail(email);
@@ -53,8 +49,9 @@ exports.userAdd = (req, res, next) => {
       const hash = bcrypt.hashSync(psw, 10);
 
       User.findOne({
-        email: fields.email.toLocaleLowerCase()
+        email: email.toLocaleLowerCase()
       }).then(user => {
+
         if(user){
           res.json({message: 'email busy'})
         } else {
@@ -77,12 +74,15 @@ exports.userAdd = (req, res, next) => {
                 password: psw
               })
             });
-          })
-          .catch(err => {
-            console.log('/api/user__ERROR ADD USER--->', err);
-          });
+          } ).catch( err =>{
+            console.log( err );
+          } ).catch( err =>{
+            console.log( err );
+          } );
         }
-      });
+      } ).catch( err =>{
+        console.log( err );
+      } )
     } else{
       res.status(400).send('Validation error');
       return;
@@ -93,7 +93,7 @@ exports.userAdd = (req, res, next) => {
 exports.userEdit = (req, res, next) => {
   const form = new formidable.IncomingForm();
   form.parse(req, (err, { email, age, first, middle, surname, gender, photo }, files) => {
-    err ? (res.status(400).send({messege: err})) : null;
+    err ? res.status( 400 ).end() : null;
     let resultsValidate = [], resultErrors = [];
 
     const emailValid = approve.value(email, validateEmail);
@@ -124,13 +124,13 @@ exports.userEdit = (req, res, next) => {
       if(users.length >= 1 && String( users[0]._id ) !== req.user.payload.userId){
         res.send({field: 'email', message: 'Email is busy!', success: false});
       } else {
-        User.findOneAndUpdate(
-          { _id: req.user.payload.userId },
+        User.findOneAndUpdate( {_id: req.user.payload.userId},
           {
             name: first,
             email: email.toLocaleLowerCase(),
             age, surname, middle, gender, photo
           }).then(user => {
+
             User.findOne({_id: user._id}).then(user => {
               res.send({user, success: true});
             }).catch(err => { console.log( err ) })
@@ -142,12 +142,8 @@ exports.userEdit = (req, res, next) => {
 
 exports.usersSearch = (req, res, next) => {
   const form = new formidable.IncomingForm();
-
   form.parse(req, (err, fields, files) => {
-    if(err){
-      res.status(400).send(err);
-      return;
-    }
+    err ? res.status( 400 ).end() : null;
 
     User.find({
       name: new RegExp( fields.search , 'i' )
@@ -160,10 +156,9 @@ exports.usersSearch = (req, res, next) => {
         }
       })
       res.send(data);
-    }).catch(err => {
+    } ).catch( err =>{
       console.log( err );
-    })
-
+    } )
   });
 };
 
@@ -190,7 +185,7 @@ exports.userSignIn = (req, res, next) => {
         });
       }
     }
-  }).catch( err => {
+  } ).catch( err =>{
     console.log( err );
-  })
+  } )
 };

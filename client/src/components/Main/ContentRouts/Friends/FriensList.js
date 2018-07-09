@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { Button, Feed, Icon, Image } from 'semantic-ui-react';
 
-const FriendList = ({ friends, friendRemove }) => {
+const FriendList = ( {friends, friendRemove, configLang} ) =>{
+
   return friends.map( ( user, i ) => {
     return ( <Feed className='ListFriends' key={i}>
       <div className='ListItemFriend'>
@@ -29,7 +30,9 @@ const FriendList = ({ friends, friendRemove }) => {
               <Button
                 data-id={user._id}
                 className='btnRemoveFriend'
-                color='teal' content='View'/>
+                color='teal'
+                content={configLang.view}
+              />
               <Link to={{
                 pathname: '/viewprofile/',
                 user: user
@@ -39,7 +42,7 @@ const FriendList = ({ friends, friendRemove }) => {
               data-id={user._id}
               onClick={ friendRemove }
               className='btnRemoveFriend'
-              color='red' content='Remove friend'/>
+              color='red' content={configLang.remove}/>
           </Feed.Extra>
         </Feed.Event>
       </div>

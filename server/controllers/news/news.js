@@ -3,36 +3,31 @@ const { User } = require('../../model/User/userSchema');
 
 exports.setNews = (req, res, next) => {
   const form = new formidable.IncomingForm();
-  form.parse(req, (err, fields, files) =>{
-    const { post, photos } = fields;
-
+  form.parse( req, ( err, {post, photos}, files ) =>{
     User.findOne({
       _id: req.user.payload.userId
     }).then(user => {
 
       User.findOneAndUpdate({ _id: req.user.payload.userId }, {
         $push: {posts: {
-            author: `${user.name} ${user.surname}`,
-            avatar: user.photo, post, photo: photos
-          }}
-
+            author: `${user.name} ${user.surname}`, avatar: user.photo, post, photo: photos
+          }
+        }
       }).then(user => {
 
         User.find({
           _id : {  $in :  user.friends  }
         }).then(newUser => {
-
           res.send(newUser);
-        }).catch(err => {
+        } ).catch( err =>{
           console.log( err );
-        })
-      }).catch(err => {
+        } )
+      } ).catch( err =>{
         console.log( err );
-      })
-    }).catch(err => {
+      } )
+    } ).catch( err =>{
       console.log( err );
-    })
-
+    } )
   });
 };
 
@@ -43,6 +38,7 @@ exports.getNews = (req, res, next) => {
     User.find({
       _id : {  $in :  user.friends  }
     }).then(users => {
+
       const allPosts = [];
       users.forEach(friend => {
         friend.posts.forEach(friendP => { allPosts.push(friendP) })
@@ -51,11 +47,11 @@ exports.getNews = (req, res, next) => {
       res.send({
         allPosts,
         success: true
-      })
-    }).catch(err => {
+      } );
+    } ).catch( err =>{
       console.log( err );
-    })
-  }).catch(err => {
+    } )
+  } ).catch( err =>{
     console.log( err );
-  })
+  } )
 };

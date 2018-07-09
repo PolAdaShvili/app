@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import { Input, Button, Menu, Icon, Label, Form } from 'semantic-ui-react';
-
+import { Button, Form, Icon, Input, Label, Menu } from 'semantic-ui-react';
 
 class LoginMenu extends Component{
   constructor(props){
@@ -33,9 +32,8 @@ class LoginMenu extends Component{
     })
     .then(res => {
       const { success, err_login, err_password, token } = res.data;
-
-      err_login ? this.setState({errorLogin:err_login}) : this.setState({errorLogin:false});
-      err_password ? this.setState({errorPassword:err_password}) : this.setState({errorPassword:err_password});
+      err_login ? this.setState( {errorLogin: this.props.configLang.loginValid} ) : this.setState( {errorLogin: false} );
+      err_password ? this.setState( {errorPassword: this.props.configLang.passwordValid} ) : this.setState( {errorPassword: err_password} );
 
       if(success) {
         localStorage.setItem('token', res.data.token );
@@ -45,7 +43,7 @@ class LoginMenu extends Component{
   }
 
   render(){
-    const { signUser, addUser } = this.props;
+    const {signUser, addUser, configLang} = this.props;
 
     return (
       <Menu
@@ -54,13 +52,13 @@ class LoginMenu extends Component{
       >
         <Menu.Item name='sign' className='sign'>
           <Icon name='sign in'/>
-          Sign in
+          {configLang.sing}
         </Menu.Item>
         <Form>
         <Menu.Item>
           <Input
             name='login'
-            placeholder='Enter email'
+            placeholder={configLang.placeHolderLogin}
             onChange={this.authHandler}
           />
           {this.state.errorLogin ? <Label basic color='red' pointing>
@@ -70,7 +68,7 @@ class LoginMenu extends Component{
         <Menu.Item>
           <Input
             name='password'
-            placeholder='enter password'
+            placeholder={configLang.placeHolderPassword}
             onChange={this.authHandler}
           />
           {this.state.errorPassword ? <Label basic color='red' pointing>
@@ -81,7 +79,7 @@ class LoginMenu extends Component{
           <Button
             fluid
             primary
-            content='Sign in'
+            content={configLang.sing}
             color='teal'
             onClick={ this.clickAuthUser }
           />

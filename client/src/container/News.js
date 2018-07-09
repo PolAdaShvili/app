@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import NewsComponent from '../components/Main/ContentRouts/News/News';
 
-
 class News extends Component {
   constructor(props){
     super(props);
@@ -54,10 +53,11 @@ class News extends Component {
 
   render(){
     const { allPosts,viewAddPost } = this.state;
+    const {configLang} = this.props;
 
     return (
       <NewsComponent
-        handleViewAddPost={ this.handleViewAddPost }
+        handleViewAddPost={this.handleViewAddPost} configLang={configLang}
         allPosts={ allPosts } getFiles={ this.getFiles } viewAddPost={ viewAddPost }
         handleSendPost={ this.handleSendPost } handleTextArea={ this.handleTextArea }
       />

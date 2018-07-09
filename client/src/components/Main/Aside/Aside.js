@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import LoginMenu from './LoginMenu';
 import UserControlMenu from './UserControlMenu';
 
-
-const Aside = ({ auth, signUser, addUser }) => {
+const Aside = ( {auth, signUser, addUser, configLang} ) =>{
   return  ( <div className='Aside'>
-    { auth ? <UserControlMenu /> : <LoginMenu signUser={ signUser } addUser={ addUser } /> }
+    {auth ? <UserControlMenu configLang={configLang}/> :
+      <LoginMenu configLang={configLang} signUser={signUser} addUser={addUser}/>}
   </div>)
 }
 

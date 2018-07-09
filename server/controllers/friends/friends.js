@@ -3,30 +3,29 @@ const { User } = require('../../model/User/userSchema');
 
 exports.friendsAdd = (req, res, next) => {
   const form = new formidable.IncomingForm();
-  form.parse(req, (err, fields, files) =>{
-    const {friends} = fields;
-
+  form.parse( req, ( err, {friendId}, files ) =>{
     User.findOne({
-      _id: friends
+      _id: friendId
     }).then(user => {
-      if(user && friends.length === 24){
+      if ( user && friendId.length === 24 ) {
         User.findOneAndUpdate({ _id: req.user.payload.userId }, {
-          $push: { friends: friends }
+          $push: {friends: friendId}
         }).then(user => {
+
           User.findOne({
             _id: req.user.payload.userId
           }).then(newUser => {
             res.send(newUser);
-          }).catch(err => {
-            console.log( err );
-          })
-        }).catch(err => {
-          console.log( err );
-        })
+          } ).catch( err =>{
+            console.log( err )
+          } )
+        } ).catch( err =>{
+          console.log( err )
+        } )
       }
-    }).catch(err => {
-      console.log( err );
-    })
+    } ).catch( err =>{
+      console.log( err )
+    } );
 
   });
 };
@@ -35,6 +34,7 @@ exports.getFriends = (req, res, next) => {
   User.findOne({
     _id: req.user.payload.userId
   }).then(user => {
+
     User.find({
       _id : {  $in :  user.friends  }
     }).then(users => {
@@ -42,19 +42,18 @@ exports.getFriends = (req, res, next) => {
         users,
         success: true
       });
-    }).catch(err => {
-      console.log( err );
-    })
-  }).catch(err => {
-    console.log( err );
-  })
+    } ).catch( err =>{
+      console.log( err )
+    } )
+  } ).catch( err =>{
+    console.log( err )
+  } );
+
 };
 
 exports.friendDelete = (req, res, next) => {
   const form = new formidable.IncomingForm();
-
-  form.parse(req, (err, fields, files) =>{
-    const {friend} = fields;
+  form.parse( req, ( err, {friend}, files ) =>{
 
     User.findOneAndUpdate({ _id: req.user.payload.userId }, {
       $pull: { friends: friend }
@@ -64,9 +63,9 @@ exports.friendDelete = (req, res, next) => {
       }).then(newUser => {
         res.send(newUser);
       })
-    }).catch(err => {
+    } ).catch( err =>{
       console.log( err );
-    })
+    } )
 
   });
 };

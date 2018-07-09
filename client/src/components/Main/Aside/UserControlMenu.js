@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import { Menu, Icon } from 'semantic-ui-react';
-
+import { Icon, Menu } from 'semantic-ui-react';
 
 class UserControlMenu extends Component{
   constructor(props){
@@ -20,6 +19,7 @@ class UserControlMenu extends Component{
 
   render(){
     const { activeItem } = this.state;
+    const {configLang} = this.props;
 
     return (
       <Menu
@@ -34,7 +34,7 @@ class UserControlMenu extends Component{
             onClick={this.handleItemClickItem}
           >
             <Icon name='user' />
-            My account
+            {configLang.account}
           </Menu.Item>
           <Link to='/account' className='Link' />
         </div>
@@ -45,7 +45,7 @@ class UserControlMenu extends Component{
             onClick={this.handleItemClickItem}
           >
             <Icon name='group' />
-            Friends
+            {configLang.friend}
           </Menu.Item>
           <Link to='/friends' className='Link' />
         </div>
@@ -56,7 +56,7 @@ class UserControlMenu extends Component{
             onClick={this.handleItemClickItem}
           >
             <Icon name='search' />
-            Search people
+            {configLang.search}
           </Menu.Item>
           <Link to='/people' className='Link' />
         </div>
@@ -67,7 +67,7 @@ class UserControlMenu extends Component{
             onClick={this.handleItemClickItem}
           >
             <Icon name='file alternate'/>
-            News feed
+            {configLang.news}
           </Menu.Item>
           <Link to='/news' className='Link' />
         </div>
@@ -78,7 +78,7 @@ class UserControlMenu extends Component{
             onClick={this.handleItemClickItem}
           >
             <Icon name='settings'/>
-            Settings
+            {configLang.setting}
           </Menu.Item>
           <Link to='/setting' className='Link' />
         </div>
