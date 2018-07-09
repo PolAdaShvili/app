@@ -69,8 +69,7 @@ export const lang = {
         remove: 'Remove friend',
         deleteModalTitle: 'Delete friend',
         deleteModalBody: 'Do you want to delete a friend ?',
-        no: 'No!',
-        yes: 'Yes!',
+        no: 'No!', yes: 'Yes!', age: 'Age', male: 'Male', female: 'Female'
       }, search: {
         placeHolderSearch: 'Search...',
         addFriend: 'Add friend',
@@ -153,8 +152,7 @@ export const lang = {
         remove: 'Удалить друга',
         deleteModalTitle: 'Удаление друга',
         deleteModalBody: 'Вы точно хотите удалить друга?',
-        no: 'Нет!',
-        yes: 'Да!',
+        no: 'Нет!', yes: 'Да!', age: 'Возраст', male: 'Мужской', female: 'Женский'
       }, search: {
         placeHolderSearch: 'Поиск...',
         addFriend: 'Добавить друга',
@@ -237,8 +235,7 @@ export const lang = {
         remove: 'Видалення друга',
         deleteModalTitle: 'Видалити друга',
         deleteModalBody: 'Ви точно бажаєте видалити друга?',
-        no: 'Ні!',
-        yes: 'Так!',
+        no: 'Ні!', yes: 'Так!', age: 'Вік', male: 'Чоловік', female: 'Жінка'
       }, search: {
         placeHolderSearch: 'Пошук...',
         addFriend: 'Додати друга',

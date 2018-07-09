@@ -18,9 +18,9 @@ const FriendList = ( {friends, friendRemove, configLang} ) =>{
               {`${user.name}  ${user.surname}`}
               <Feed.Meta>
                 <div className='age'>
-                  {`Age: ${user.age }`}
+                  {`${ configLang.age }: ${user.age }`}
                   <Icon name={user.gender}/>
-                  {user.gender}
+                  {user.gender === 'male' ? configLang.male : configLang.female}
                 </div>
               </Feed.Meta>
             </Feed.Summary>
