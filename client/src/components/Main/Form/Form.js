@@ -19,10 +19,10 @@ class FormControl extends Component {
     this.clickRegister = this.clickRegister.bind(this);
     this.clickModalReg = this.clickModalReg.bind(this);
     this.handlerInput = this.handlerInput.bind(this);
-    FormControl.handlerSelect = FormControl.handlerSelect.bind(this);
+    this.handlerSelect = this.handlerSelect.bind(this);
   }
 
-  static handlerSelect(e){
+  handlerSelect(e){
     e.preventDefault();
     if(e.target.getAttribute('gender') === 'male' || e.target.getAttribute('gender') === 'female'){
       setValidClass(e);
@@ -114,12 +114,12 @@ class FormControl extends Component {
               <Form.Group grouped size='mini'>
                 <label className='label-for-select'>Select gender</label>
                 <div className='selects'>
-                  <Button.Group>
+                  <Button.Group role='button'>
                     <Button color='blue' gender='male' size='mini' role='none' className='gender male'
-                            onClick={FormControl.handlerSelect}>Male</Button>
+                            onClick={this.handlerSelect}>Male</Button>
                     <Button.Or/>
                     <Button color='pink' gender='female' size='mini' role='none' className='gender female'
-                            onClick={FormControl.handlerSelect}>Female</Button>
+                            onClick={this.handlerSelect}>Female</Button>
                   </Button.Group>
                 </div>
               </Form.Group>

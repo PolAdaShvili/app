@@ -25,8 +25,8 @@
     .btnHome {
       height: 75%;
       margin-top: 5px;
-      color: black;
-      background-color: $accentColor-2;
+      color: white;
+      background-color: $btnPrimaryColor;
     }
     .LinkHome {
       opacity: 0;
@@ -37,10 +37,10 @@
     }
   }
   .btnExit{
-    color: black !important;
+    color: white !important;
     height: 75%;
     margin-top: 5px;
-    background-color: $accentColor-2 !important;
+    background-color: $btnPrimaryColor !important;
   }
   .headerContainer {
     display: flex;
@@ -48,7 +48,7 @@
     font-family: Lato, sans-serif;
     justify-content: space-between;
   }
-  .lang-box {
+  .lang-box  {
     top: 5px;
     right: 25px;
     position: absolute;

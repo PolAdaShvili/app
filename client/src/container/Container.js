@@ -111,20 +111,14 @@ const mapDispatchToProps = dispatch => {
      browserHistory.push({pathname: './'});
    },
    addFriend: payload => {
-     dispatch(addFriendActions({
-       friend: payload
-     }))
+     dispatch(addFriendActions({payload}))
      const formDta = new FormData;
-     formDta.append('friend', payload)
+     formDta.append('friends', payload)
      axios({
        method: 'put', url: '/api/user/friend',
        headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' ) },
        data: formDta
-     }).then(res => {
-       console.log( 'RES---',res )
-     }).catch(err => {
-       console.log( err )
-     })
+     }).catch(err => { console.log( err ) })
    },
    exitUser: () => {
      dispatch(exitUserActions({}));

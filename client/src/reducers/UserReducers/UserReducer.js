@@ -15,7 +15,8 @@ const addUserReducer = ( state = initialState, action ) => {
         userInfo: action.payload
       });
     case ADD_FRIEND:
-      state.userInfo.user.friends.push(action.payload.payload)
+      const { payload } = action.payload;
+      state.userInfo.user.friends.push(payload)
       return Object.assign({}, state);
     case EXIT_USER:
       return Object.assign({}, state, {

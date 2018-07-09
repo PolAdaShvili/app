@@ -29,10 +29,11 @@
     }
   }
   .ListUser{
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: black;
     background: #ffe3aa;
     border-radius: 25px;
+    padding: .5em;
 
 
     .ListItem{
@@ -52,14 +53,22 @@
       &:hover{
         cursor: pointer;
         position: relative;
-        background-color: #dd4b39;
+        background-color: #d89736;
       }
       .ItemActions{
-        margin-left: auto;
+        display: flex;
+
+        .btnAddFriend{
+          width: 150px;
+          margin-right: 5%;
+          align-self: center;
+        }
       }
       .content{
+        display: flex;
+        flex-grow: 1;
         align-self: center;
-        margin-left: 50px;
+        margin-left: 5%;
 
         .age{
           margin-top: 20px;

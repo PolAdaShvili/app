@@ -70,16 +70,23 @@ app.get('/api/user/auth', authenticate, (req, res) => {
 app.post('/api/user/search', authenticate, (req, res) => {
   const form = new formidable.IncomingForm();
 
-  form.parse(req, (err, { search }, files) => {
+  form.parse(req, (err, fields, files) => {
     if(err){
       res.status(400).send(err);
       return;
     }
 
     User.find({
-      name: new RegExp( search , 'i' )
+      name: new RegExp( fields.search , 'i' )
     }).then(users => {
-      res.send(users);
+      const data = users.splice(0, 50).filter(item => {
+        if(String(item._id) === req.user.payload.userId){
+          return false;
+        } else {
+          return true;
+        }
+      })
+      res.send(data);
     }).catch(err => {
       console.log( err );
     })
@@ -156,8 +163,9 @@ app.put('/api/user/friend', authenticate, (req, res) => {
   const form = new formidable.IncomingForm();
 
   form.parse(req, (err, fields, files) =>{
+    const {friends} = fields;
     User.findOneAndUpdate({ _id: req.user.payload.userId }, {
-      $push: { friends: fields.friend }
+      $push: { friends: friends }
     }).then(user => {
       User.findOne({
         _id: req.user.payload.userId
