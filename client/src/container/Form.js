@@ -41,7 +41,9 @@ class FormControl extends Component {
     e.preventDefault();
     const {photo} = this.state;
     const formData = new FormData();
-    const userField = Object.keys(this.state).filter(field => { return field !== 'modal' && field !== 'middle' && field !== 'err' });
+    const userField = Object.keys(this.state).filter(field => {
+      return field !== 'modal' && field !== 'middle' && field !== 'err'  && field !=='photoInfo'
+    });
     const requiredFields = userField.every(field => this.state[field]);
 
     if ( requiredFields && photo && photo !== 'photo is big' ) {
@@ -73,9 +75,9 @@ class FormControl extends Component {
     }
   }
   getFiles(files){
-    parseInt( files.size ) > 1 && parseInt( files.size ) < 5000 ?
-      this.setState({ photo: files.base64 }) :
-      this.setState({ photo: 'photo is big' });
+    parseInt( files.size ) < 4 ? this.setState({ photoInfo: 'small', photo: '' }) :
+      (parseInt( files.size ) > 500 &&  parseInt( files.size ) > 40) ?
+        this.setState({ photoInfo: 'big', photo: '' }) : this.setState({ photo: files.base64, photoInfo: false });
   }
   clickModalReg(){
     const data = this.state.modal;
@@ -85,14 +87,14 @@ class FormControl extends Component {
 
   render(){
     const {configLang } = this.props;
-    const { modal, err, email, photo } = this.state;
+    const { modal, err, email, photo, photoInfo } = this.state;
 
     return (
       <FormComponent
       modal={ modal } configLang={ configLang } handlerInput={ this.handlerInput }
       clickModalReg={ this.clickModalReg } handlerSelect={ this.handlerSelect }
       email={ email } photo={ photo } getFiles={ this.getFiles } err={ err }
-      clickRegister={ this.clickRegister }
+      clickRegister={ this.clickRegister } photoInfo={ photoInfo }
       />
     )
   }

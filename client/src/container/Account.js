@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import axios from "axios/index";
+import { connect } from 'react-redux';
 import { regExp } from '../constants';
-import { setErrValidClass, setValidClass, validate, validateEmail, validateNames } from '../validateFunc';
+import { setErrValidClass, setValidClass, validate, validateNames } from '../validateFunc';
 import AccountComponent from '../components/Main/ContentRouts/Account/Account';
+import NewPost from '../components/Main/ContentRouts/Account/NewPost';
+import ViewPosts from '../components/Main/ContentRouts/Account/ViewMyPosts';
 
-const approve = require( 'approvejs' );
 
 class Account extends Component {
   constructor( props ){
@@ -12,30 +14,62 @@ class Account extends Component {
     this.state = {
       mode: 'view'
     };
+
+    this.getPosts = this.getPosts.bind( this );
     this.getFiles = this.getFiles.bind( this );
-    this.validateEmail = this.validateEmail.bind( this );
-    this.handleGender = this.handleGender.bind( this );
-    this.validateChangeInput = this.validateChangeInput.bind( this );
+    this.sendPost = this.sendPost.bind( this );
+    this.deletePost = this.deletePost.bind( this );
     this.saveOnClick = this.saveOnClick.bind( this );
     this.modeOnclick = this.modeOnclick.bind( this );
+    this.handleGender = this.handleGender.bind( this );
+    this.uploadPhotos = this.uploadPhotos.bind( this );
+    this.validateEmail = this.validateEmail.bind( this );
+    this.handleChangePost = this.handleChangePost.bind( this );
+    this.validateChangeInput = this.validateChangeInput.bind( this );
   }
   componentDidMount(){
     const user = this.props.user;
-    if ( user ) {
-      this.setState( {
-        first: user.name,
-        surname: user.surname,
-        email: user.email,
-        gender: user.gender,
-        age: user.age,
-        photo: user.photo,
-        middle: user.middle
-      } )
-    }
+    user ? (this.setState({
+      first: user.name,
+      surname: user.surname,
+      email: user.email,
+      gender: user.gender,
+      age: user.age,
+      photo: user.photo,
+      middle: user.middle
+    }), this.getPosts() ) : null
   }
 
+  getPosts(){
+    if( this.props.user ) {
+      axios({
+        method: 'get', url: '/api/posts',
+        headers: {'Content-Type': 'application/json', authorization: localStorage.getItem( 'token' )}
+      }).then(res => {
+        this.props.setNews(res.data);
+      })
+    }
+  }
+  sendPost(){
+    const { postBody, postPhotos } = this.state;
+    const payload ={ postBody, postPhotos };
+
+    axios({
+      method: 'post', url: '/api/posts', data: payload,
+      headers: {'Content-Type': 'application/json', authorization: localStorage.getItem( 'token' )}
+    }).then(res => {this.props.setNews(res.data);})
+    .catch(err => { console.log( err ); });
+  }
   getFiles( files ){
-    parseInt( files.size ) > 1 && parseInt( files.size ) < 5000 ? this.setState( {photo: files.base64} ) : this.setState( {photo: 'photo is big'} );
+    parseInt( files.size ) < 4 ? this.setState({ photoInfo: 'small', photo: files.base64 }) :
+      (parseInt( files.size ) > 500 &&  parseInt( files.size ) > 40) ?
+        this.setState({ photoInfo: 'big', photo: files.base64 }) : this.setState({ photo: files.base64, photoInfo: false });
+  }
+  uploadPhotos( files ){
+    this.setState({postPhotos: files});
+  }
+  handleChangePost(e){
+    this.setState({ postBody: e.target.value });
   }
   validateChangeInput( e ){
     const {type, value, name} = e.target;
@@ -59,6 +93,10 @@ class Account extends Component {
   }
   modeOnclick( e ){
     this.setState( {mode: this.state.mode === 'view' ? 'edit' : 'view'} );
+  }
+  deletePost(e){
+    const postID = e.target.getAttribute('data-post');
+    console.log( postID );
   }
   saveOnClick(){
     const dataUser = Object.assign( {}, this.state );
@@ -96,16 +134,25 @@ class Account extends Component {
   }
 
   render(){
-    const {user, configLang} = this.props;
-    const {mode, gender, photo, emailBusy, firstErr, surnameErr, middleErr} = this.state;
+    const { user, configLang, posts } = this.props;
+    const { mode, gender, photo, emailBusy, firstErr, surnameErr, middleErr, myPosts } = this.state;
 
-    return (<div><AccountComponent
-      getFiles={ this.getFiles } modeOnclick={ this.modeOnclick }
-      validateChangeInput={ this.validateChangeInput } firstErr={ firstErr }
-      surnameErr={surnameErr} handleGender={this.handleGender} middleErr={middleErr}
-      validateEmail={this.validateEmail} emailBusy={emailBusy} configLang={configLang}
-      user={user} mode={mode} gender={gender} photo={photo} saveOnClick={this.saveOnClick}
-    /></div>)
+    return ( <div className='WrapperAccount'>
+      <AccountComponent
+        getFiles={ this.getFiles } modeOnclick={ this.modeOnclick }
+        validateChangeInput={ this.validateChangeInput } firstErr={ firstErr }
+        surnameErr={ surnameErr } handleGender={this.handleGender} middleErr={ middleErr }
+        validateEmail={ this.validateEmail } emailBusy={ emailBusy } configLang={ configLang }
+        user={ user } mode={ mode } gender={ gender } photo={ photo } saveOnClick={ this.saveOnClick }
+      />
+      <NewPost
+        user={ user } sendPost={ this.sendPost }
+        handleChangePost={ this.handleChangePost } uploadPhotos={ this.uploadPhotos }
+      />
+       <ViewPosts
+       user={ user } deletePost={ this.deletePost }
+      />
+    </div>)
   }
 }
 

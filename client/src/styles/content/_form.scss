@@ -1,18 +1,30 @@
 @import "../const";
 
 .FormBox {
-  height: 450px;
-  max-width: 450px;
-  width: 35%;
-  padding: 15px;
+  height:max-content;
+  min-width: 450px;
+  width: 450px;
+  padding: 25px;
   line-height: 1.2;
   margin: 25px auto 0;
   border-radius: 15px;
   background: #263238;
   box-shadow: 0 7px 20px 5px rgba(50, 50, 50, 0.75);
 
+  div{
+    label{
+      &::after{
+        font-size: 13px;
+        margin: -.3em 0 0 .3em;
+        content: '*';
+        color: red !important;
+      }
+    }
+  }
+
   .above{
-    margin-left: 15%;
+    width: 100%;
+    text-align: center;
   }
   .fileField{
     width: 100%;
@@ -21,7 +33,7 @@
   }
   .Form{
     input[type=file] {
-      top: 15px;
+      top: 10px;
       width: 100%;
       height: 100%;
       z-index: 10;
@@ -29,7 +41,7 @@
       opacity: 0;
     }
     label{
-      color: white !important;
+      color: $textColor-1 !important;
     }
     .field{
       & label {
@@ -56,10 +68,11 @@
     }
     .gender {
       height: 30px;
-      width: 60%;
+      width: 90px;
       z-index: 1;
       margin-top: 5px;
       left: 10px;
+      font-size: 10px;
 
       .or{
         margin-bottom: 8px;
@@ -74,6 +87,11 @@
         margin-left: 5px;
       }
     }
+    .two {
+      position: relative;
+      bottom: 7px;
+      margin: 0;
+    }
     .ui .buttons {
       position: relative;
     }
@@ -87,7 +105,6 @@
     }
     .middle{
       position: relative;
-      bottom: 4px;
     }
     .buttonBox {
       position: relative;
@@ -99,24 +116,43 @@
         margin-bottom: 30px;
       }
     }
-    .field label::after, .label-for-select .label-for-select:after,::after :not(.middle)::after {
-      margin: -.3em 0 0 .3em;
-      content: '*';
-      color: $femaleAccentColor;
+  }
+  .selectAvatar{
+    width: 100%;
+    background: transparent;
+    color: transparent;
+    margin-top: 1%;
+    position: relative;
+    .photoLabelRequred{
+      position: absolute;
+      left: 0;
+      color: $textColor-1;
+      &::after{
+        margin: -.3em 0 0 .3em;
+        font-size: 13px;
+        content: '*';
+        color: red !important;
+      }
     }
   }
   .mailBox{
     .label{
-      margin-left: 40%;
+      width: 100%;
     }
   }
+  .purle{
+    background: #833668;
+  }
   .buttonBox {
+    width: 105%;
+    right: 3%;
     position: relative;
     .dowLand{
-      color: darkorange;
+      width: 100%;
+      color: $textColor-1;
       z-index: 5;
       position: relative;
-      top: 15px;
+      top: 10px;
       margin-bottom: 30px;
     }
     input[type=file] {
@@ -130,7 +166,6 @@
   }
   .Submit{
     position: relative;
-    margin-top: 25px;
     margin-bottom: 0;
   }
 }

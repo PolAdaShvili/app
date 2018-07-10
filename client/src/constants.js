@@ -4,6 +4,7 @@ export const EXIT_USER = 'EXIT_USER';
 export const ADD_FRIEND = 'ADD_FRIEND';
 export const REMOVE_FRIEND = 'REMOVE_FRIEND';
 export const SET_NEWS = 'SET_NEWS';
+export const GET_NEWS = 'GET_NEWS';
 export const USERS_FROM_DB = 'http://localhost:3001/api/users';
 export const HOST_URL = 'http://localhost:3000';
 
@@ -46,14 +47,21 @@ export const lang = {
         surname: 'Last Name',
         email: 'Email',
         gender: {
-          title: 'gender',
+          title: 'Gender',
           male: 'Male',
           female: 'Female'
         },
         age: 'Age',
         file: 'Upload file',
-        button: 'Create account'
-      }, account: {
+        button: 'Create account',
+        selectPhotoLabel: 'Select photo',
+        err: 'Selected photo or enter requred fields!',
+        emailBusy: 'Email is busy!',
+        photoSmall: 'The photo is small! minimum size 4kb.',
+        photoBig: 'The photo is big! maximum size 500kb.',
+        photoNormal: 'Upload a photo!'
+      },
+      account: {
         email: 'Email',
         first: 'First name',
         surname: 'Surname',
@@ -63,14 +71,16 @@ export const lang = {
         save: 'Save',
         nameErr: 'Not valid name',
         emailBusy: 'Email is busy!'
-      }, friends: {
+      },
+      friends: {
         placeHolderSearch: 'Search...',
         view: 'View',
         remove: 'Remove friend',
         deleteModalTitle: 'Delete friend',
         deleteModalBody: 'Do you want to delete a friend ?',
         no: 'No!', yes: 'Yes!', age: 'Age', male: 'Male', female: 'Female'
-      }, search: {
+      },
+      search: {
         placeHolderSearch: 'Search...',
         addFriend: 'Add friend',
         friend: 'You friend',
@@ -78,13 +88,15 @@ export const lang = {
         female: 'Female',
         age: 'Age',
         view: 'View'
-      }, news: {
+      },
+      news: {
         placeHolderPost: 'New Post...',
         btnAddPost: 'Add post',
         btnAddPhoto: 'Add photo',
         btnSendPost: 'Send post',
         btnClosePost: 'Close'
-      }, viewUser: {
+      },
+      viewUser: {
         btnBack: 'Back',
         email: 'Email',
         first: 'First name',
@@ -110,7 +122,8 @@ export const lang = {
         ua: 'Украинский',
         ru: 'Русский'
       }
-    }, aside: {
+    },
+    aside: {
       account: 'Аккаунт',
       friend: 'Друзья',
       search: 'Поиск',
@@ -135,8 +148,15 @@ export const lang = {
         },
         age: 'Возраст',
         file: 'Загрузить фото',
-        button: 'Создать аккаунт'
-      }, account: {
+        button: 'Создать аккаунт',
+        selectPhotoLabel: 'Выберите фотографию!',
+        err: 'Заповніть всі обов\'язкові поля та вибери фотографію!',
+        emailBusy: 'Почтовый адресс занят',
+        photoSmall: 'Фотография маленькая! минимальный размер 4кб.',
+        photoBig: 'Фотография большая! максимальный размер 500кб.',
+        photoNormal: 'Загрузить фотографию!'
+      },
+      account: {
         email: 'Почта',
         first: 'Имя',
         surname: 'Фамилия',
@@ -146,14 +166,16 @@ export const lang = {
         save: 'Сохранить',
         nameErr: 'Имя не валидно',
         emailBusy: 'Почтовый адресс занят'
-      }, friends: {
+      },
+      friends: {
         placeHolderSearch: 'Поиск...',
         view: 'Просмотр',
         remove: 'Удалить друга',
         deleteModalTitle: 'Удаление друга',
         deleteModalBody: 'Вы точно хотите удалить друга?',
         no: 'Нет!', yes: 'Да!', age: 'Возраст', male: 'Мужской', female: 'Женский'
-      }, search: {
+      },
+      search: {
         placeHolderSearch: 'Поиск...',
         addFriend: 'Добавить друга',
         friend: 'Вы друзья',
@@ -161,13 +183,15 @@ export const lang = {
         female: 'Женский',
         age: 'Возраст',
         view: 'Просмотр'
-      }, news: {
+      },
+      news: {
         placeHolderPost: 'Новый пост...',
         btnAddPost: 'Добавить пост',
         btnAddPhoto: 'Добавить фотографию',
         btnSendPost: 'Отравить пост',
         btnClosePost: 'Закрыть'
-      }, viewUser: {
+      },
+      viewUser: {
         btnBack: 'Назад',
         email: 'Почта',
         first: 'Имя',
@@ -193,7 +217,8 @@ export const lang = {
         ua: 'Український',
         ru: 'Російський'
       }
-    }, aside: {
+    },
+    aside: {
       account: 'Аккаунт',
       friend: 'Друзі',
       search: 'Пошук',
@@ -218,8 +243,15 @@ export const lang = {
         },
         age: 'Вік',
         file: 'Додати зображення',
-        button: 'Стваорити аккаунт'
-      }, account: {
+        button: 'Стваорити аккаунт',
+        selectPhotoLabel: 'Виберіть фотографию!',
+        err: 'Заповніть всі обов\'язкові поля та вибери фотографію!',
+        emailBusy: 'Електронна пошта зайнята!',
+        photoSmall: 'Фотографія маленька! мінімальний розмір 4кб.',
+        photoBig: 'Фотографія велика! максимальний розмір 500kb.',
+        photoNormal: 'Завантажити фотографію!'
+      },
+      account: {
         email: 'Пошта',
         first: 'Ім\'я',
         surname: 'Прізвище',
@@ -229,14 +261,16 @@ export const lang = {
         save: 'Зберигти',
         nameErr: 'Авторизація не пройшла',
         emailBusy: 'Електронна пошта зайнята!'
-      }, friends: {
+      },
+      friends: {
         placeHolderSearch: 'Пошук...',
         view: 'Перегляд',
         remove: 'Видалення друга',
         deleteModalTitle: 'Видалити друга',
         deleteModalBody: 'Ви точно бажаєте видалити друга?',
         no: 'Ні!', yes: 'Так!', age: 'Вік', male: 'Чоловік', female: 'Жінка'
-      }, search: {
+      },
+      search: {
         placeHolderSearch: 'Пошук...',
         addFriend: 'Додати друга',
         friend: 'Вы друзi',
@@ -244,13 +278,15 @@ export const lang = {
         female: 'Жінка',
         age: 'Вік',
         view: 'Перегляд'
-      }, news: {
+      },
+      news: {
         placeHolderPost: 'Нове повідомлення...',
         btnAddPost: 'Додати новину',
         btnAddPhoto: 'Додати фотографію',
         btnSendPost: 'Відправити повідомлення',
         btnClosePost: 'Закрити'
-      }, viewUser: {
+      },
+      viewUser: {
         btnBack: 'Назад',
         email: 'Пошта',
         first: 'Ім\'я',

@@ -7,17 +7,17 @@ import Account from './Account';
 import Friends from './Friends';
 import ViewUser from './ViewUser';
 import News from './News';
-import SearchPeople from './SearchPeople';
 import Setting from "./Setting";
+import Aside from './Aside';
+import SearchPeople from './SearchPeople';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import Aside from '../components/Main/Aside/Aside';
 import { langReducer } from "../actions/changeLang";
 import { HOST_URL } from '../constants';
 import browserHistory from '../browserHistory'
-import {
-  addFriendActions, addUserReducer, exitUserActions, removeFriendAction, setNewsAction
-} from '../actions/addUser';
+import { addFriendActions, addUserReducer, exitUserActions,
+  removeFriendAction, setNewsAction } from '../actions/addUser';
+
 
 class Container extends Component{
   constructor(props){
@@ -41,7 +41,7 @@ class Container extends Component{
 
   render(){
     const { translations, setLang, exitUser, addUser, auth, user,
-      signUser, friends, addFriend, removeFriend, setNews } = this.props;
+      signUser, friends, addFriend, removeFriend, setNews, posts } = this.props;
 
     return (
       <div className='App'>
@@ -52,10 +52,10 @@ class Container extends Component{
           exit={ exitUser }
         />
         <div className='Content'>
-          {location.href !== `${ HOST_URL }/registration` ? <Aside auth={auth}
-                                                                   addUser={addUser}
-                                                                   configLang={translations.aside}/> :
-            null}
+          { location.href !== `${ HOST_URL }/registration` ?
+            <Aside auth={auth}
+                   addUser={addUser}
+                   configLang={translations.aside}/> : null }
           <Switch>
             <Route
               exact
@@ -65,8 +65,9 @@ class Container extends Component{
             <Route
               path='/account'
               render={() => <Account
+                setPost={this.props.setPosts}
                 configLang={translations.main.account}
-                user={user} addUser={addUser}/>}
+                user={user} setNews={this.props.setNews} addUser={addUser} posts={posts}/>}
             />
             <Route
               path='/friends'
@@ -106,6 +107,7 @@ class Container extends Component{
 
 const mapStateToProps = state => {
   return {
+    posts: state.addUser.userInfo.posts,
     user: state.addUser.userInfo.user,
     auth: state.addUser.authorization,
     userInfo: state.addUser,
@@ -149,7 +151,7 @@ const mapDispatchToProps = dispatch => {
    },
    setNews: payload => {
      console.log( '---step-1----',payload );
-     dispatch(setNewsAction({payload}))
+     dispatch(setNewsAction(payload))
    },
    exitUser: () => {
      dispatch(exitUserActions({}));

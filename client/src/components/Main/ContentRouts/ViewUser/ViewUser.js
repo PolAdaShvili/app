@@ -3,7 +3,8 @@ import { Button, Form, Icon, Image, Label, Segment } from 'semantic-ui-react';
 import FieldInputs from '../Account/FieldInputs';
 
 const ViewUserComponent = ( {history, user, configLang} ) =>{
-  return ( <div className='ViewUser'>
+  return ( <div className='WrapperAccount'>
+    <div className='ViewUser'>
     <div className="backBox" onClick={history.goBack}>
       <Button
         size='mini'
@@ -67,7 +68,8 @@ const ViewUserComponent = ( {history, user, configLang} ) =>{
         </div>
       </div> : null }
     </Form>
-  </div> )
+  </div>
+  </div>)
 };
 
 export default ViewUserComponent;

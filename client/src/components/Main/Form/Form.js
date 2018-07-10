@@ -1,4 +1,4 @@
-import React,{ Component } from 'react';
+import React from 'react';
 import { Button,Form, Label } from 'semantic-ui-react';
 import FileBase64 from 'react-file-base64';
 import Input from './Input';
@@ -6,14 +6,14 @@ import ModalSuccessRegitration from './ModalSuccessRegitration';
 
 
 const FormComponent = ({ modal, configLang, handlerInput, clickModalReg, handlerSelect,
-  email, photo, getFiles, clickRegister, err }) => {
+  email, photo, getFiles, clickRegister, err, photoInfo }) => {
   return ( <div className='form-wrapper'>
     {modal ? <ModalSuccessRegitration
       psw={ modal.psw }
       login={ modal.email }
       eventClick={ clickModalReg }
     /> : <div className='FormBox'>
-      <Form className='Form' size='mini' encType="multipart/form-data" >
+      <Form className='Form' size='mini' encType="multipart/form-data"  >
         <Input
           label={ configLang.name }
           name='first'
@@ -26,17 +26,18 @@ const FormComponent = ({ modal, configLang, handlerInput, clickModalReg, handler
           label={ configLang.surname }
           placeHolder={ configLang.surname }
           onChange={ handlerInput }
+          autoComlete='off'
         />
         <Form.Group widths={2}>
           <Form.Group grouped size='mini'>
-            <label className='label-for-select'>Select gender</label>
+            <label className='label-for-select'>{ configLang.gender.title }</label>
             <div className='selects'>
               <Button.Group role='button'>
                 <Button color='blue' gender='male' size='mini' role='none' className='gender male'
-                        onClick={ handlerSelect }>Male</Button>
+                        onClick={ handlerSelect } content={ configLang.gender.male } />
                 <Button.Or/>
                 <Button color='pink' gender='female' size='mini' role='none' className='gender female'
-                        onClick={ handlerSelect }>Female</Button>
+                        onClick={ handlerSelect } content={ configLang.gender.female } />
               </Button.Group>
             </div>
           </Form.Group>
@@ -68,19 +69,25 @@ const FormComponent = ({ modal, configLang, handlerInput, clickModalReg, handler
             onChange={ handlerInput }
           />
           {email === 'email busy' ? <Label basic color='red' size='mini' pointing='above'>
-            Email is busy!
+              { configLang.emailBusy }
           </Label> : null}
         </div>
       </Form>
+      <Label className='selectAvatar'> { configLang.selectPhotoLabel }
+      <span className='photoLabelRequred'>{ configLang.selectPhotoLabel }</span>
       <form className='buttonBox' encType="multipart/form-data" method='post'>
-        { photo === 'photo is big' ?
-          <Button fluid icon='download' className='dowLand' content={'photo is big'}/> :
-          <Button fluid icon='download' className='dowLand' content={'upload photo'}/> }
+        {
+          photoInfo === 'small' ?
+            <Button fluid color='grey' icon='download' className='dowLand err' content={ configLang.photoSmall } /> :
+            photoInfo === 'big' ? <Button fluid color='grey' icon='download' className='dowLand err' content={ configLang.photoBig }/> :
+              <Button fluid icon='download' className='dowLand purle' content={ configLang.photoNormal }/>
+        }
         <FileBase64
           multiple={ false }
           onDone={ getFiles }
         />
       </form>
+      </Label>
       <Button
         type='submit'
         fluid color='blue'
@@ -88,11 +95,11 @@ const FormComponent = ({ modal, configLang, handlerInput, clickModalReg, handler
         className='Submit'
         onClick={ clickRegister }
       >
-        {configLang.button}
+        { configLang.button }
       </Button>
       {
         err ? <Label basic color='red' size='small' pointing='above'>
-          {err}
+          { configLang.err }
         </Label> : null
       }
     </div>}

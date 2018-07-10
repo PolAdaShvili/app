@@ -4,7 +4,8 @@ import { ADD_USER, EXIT_USER, ADD_FRIEND, REMOVE_FRIEND, SET_NEWS } from '../../
 const initialState = {
   authorization: false,
   userInfo: {},
-  friends: []
+  friends: [],
+  posts: []
 };
 
 const addUserReducer = ( state = initialState, action ) => {
@@ -28,7 +29,7 @@ const addUserReducer = ( state = initialState, action ) => {
         userInfo: {}
       });
     case SET_NEWS:
-      state.userInfo.user.news = action.payload;
+      state.userInfo.posts = action.payload;
       return Object.assign({}, state)
     default :
       return state;

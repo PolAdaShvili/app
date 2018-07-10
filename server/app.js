@@ -18,14 +18,13 @@ const app = express();
 const db = mongoose.connection;
 mongoose.connect( URL_DB );
 db.on( 'error', console.error.bind( console, 'CONNECT DB ERROR:' ) );
-db.once( 'open', () =>{
-  console.log( 'CONNECT DB' )
-} );
+db.once( 'open', () =>{ console.log( 'CONNECT DB' )});
 
 app.use(cors());
 app.use('/static', express.static(__dirname + '/public'));
 app.use(morgan("dev"));
-app.use( bodyParser.json() );
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use((req, res, next) => {
   res.append('Access-Control-Allow-Origin', ['*']);
@@ -34,6 +33,10 @@ app.use((req, res, next) => {
   next();
 });
 
+///   NewRouts!!!
+app.use("/api/posts", newsRout);
+
+///   OldRouts!!!
 app.use("/api/user", userRout);
 app.use("/api/user/news", newsRout);
 app.use("/api/user/friends", friendsRout);

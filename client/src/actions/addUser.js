@@ -13,7 +13,7 @@ export function removeFriendAction( {payload} ) {
   return { type: REMOVE_FRIEND, payload };
 }
 
-export function setNewsAction( {payload} ) {
+export function setNewsAction( payload ) {
   return { type: SET_NEWS, payload };
 }
 
