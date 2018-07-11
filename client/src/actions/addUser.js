@@ -17,6 +17,10 @@ export function setNewsAction( payload ) {
   return { type: SET_NEWS, payload };
 }
 
+export function getNews(payload) {
+  return { type: GET_NEWS };
+}
+
 export function exitUserActions() {
   return { type: EXIT_USER };
 }

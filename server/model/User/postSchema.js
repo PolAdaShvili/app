@@ -7,10 +7,11 @@ const postSchema = mongoose.Schema({
     post: [{
       postBody: String,
       postPhotos: Array,
+      postBody: String,
       date:{ type: Date, default: Date.now() }
     }]
   }],
-  friends: Array
+  friends: Array,
 });
 
 const Post = mongoose.model('Post', postSchema);

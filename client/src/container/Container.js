@@ -150,7 +150,6 @@ const mapDispatchToProps = dispatch => {
      }).catch(err => { console.log( err ) })
    },
    setNews: payload => {
-     console.log( '---step-1----',payload );
      dispatch(setNewsAction(payload))
    },
    exitUser: () => {

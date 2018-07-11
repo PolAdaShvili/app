@@ -2,7 +2,7 @@
 
 .ViewUser{
   width: 75%;
-  max-height: 75%;
+  max-height: max-content !important;
   display: flex;
   padding: 50px;
   margin: 25px 0 50px 0;
@@ -12,12 +12,25 @@
   box-shadow: 10px 10px 5px 0px #495867 !important;
 
 
+  .field{
+    position: relative;
 
+    & input{
+      background-color: #ffe3aa !important;
+    }
+
+    .label{
+      width: 30%;
+      margin-left: 35%;
+      text-align: center;
+      background-color: $textColor-1;
+    }
+  }
   .backBox{
     height: 50px;
-    left: 10px;
+    right: 10px;
     top: 10px;
-    position: absolute;
+    //position: absolute;
 
     .back{
       color: white;

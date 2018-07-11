@@ -5,7 +5,7 @@ const initialState = {
   authorization: false,
   userInfo: {},
   friends: [],
-  posts: []
+  //posts: []
 };
 
 const addUserReducer = ( state = initialState, action ) => {

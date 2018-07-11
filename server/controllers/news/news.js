@@ -11,7 +11,7 @@ exports.getPosts = (req, res, next) => {
     Post.findOne({
       userId: String(user._id)
     }).then(posts => {
-      res.send({ posts })
+      posts ? res.send({ posts }) : null;
 
     }).catch(err => { console.log( err ); });
   }).catch(err => { console.log( err ); });
@@ -57,6 +57,24 @@ exports.setPost = (req, res, next) => {
     }).catch(err => { console.log( err ); });
   }).catch(err => { console.log( err ); });
 
+};
+//    DELETE
+exports.deletePost = (req, res, next) => {
+  const { postsID, postID } = req.body;
+
+  Post.findOne({
+    _id: postsID
+  }).then(posts => {
+    Posts.findOneAndUpdate({_id: postsID}).then(post => {
+
+    }).catch(err => console.log(err));
+  }).catch(err => {console.log( err );})
+
+  res.send({
+    postsID,
+    postID
+  });
+  return;
 };
 
 

@@ -23,6 +23,7 @@ const ViewUserComponent = ( {history, user, configLang} ) =>{
         <div className='infoUserBox'>
           <div className='mail'>
             <FieldInputs
+              mode='view'
               type='email'
               fieldName='email'
               val={ user.email }
@@ -32,11 +33,13 @@ const ViewUserComponent = ( {history, user, configLang} ) =>{
 
           <div className='nameBox'>
             <FieldInputs
+              mode='view'
               fieldName='first'
               val={ user.name }
               fieldTitle={configLang.first}
             />
             <FieldInputs
+              mode='view'
               fieldName='surname'
               val={ user.surname }
               fieldTitle={configLang.surname}
@@ -44,6 +47,7 @@ const ViewUserComponent = ( {history, user, configLang} ) =>{
           </div>
           <div className="middle">
             <FieldInputs
+              mode='view'
               fieldName='middle'
               val={ user.middle }
               fieldTitle={configLang.middle}
@@ -52,6 +56,7 @@ const ViewUserComponent = ( {history, user, configLang} ) =>{
           <div className="additionally">
             <div className='age'>
               <FieldInputs
+                mode='view'
                 corner={ true }
                 fieldName='age'
                 val={ user.age }
