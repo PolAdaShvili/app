@@ -8,7 +8,7 @@ router.get('/', auth, newsControllers.getPosts);
 //    POST
 router.post('/', auth, newsControllers.setPost);
 //    DELETE
-//router.delete('/', auth, newsControllers.deletePost);
+router.delete('/', auth, newsControllers.deletePost);
 
 
 /////  OldRouts!!!  ///////////////////////////

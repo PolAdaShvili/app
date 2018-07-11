@@ -11,7 +11,7 @@ exports.getPosts = (req, res, next) => {
     Post.findOne({
       userId: String(user._id)
     }).then(posts => {
-      posts ? res.send({ posts }) : null;
+      posts ? res.send({ posts }) : res.end();
 
     }).catch(err => { console.log( err ); });
   }).catch(err => { console.log( err ); });
@@ -65,19 +65,12 @@ exports.deletePost = (req, res, next) => {
   Post.findOne({
     _id: postsID
   }).then(posts => {
-    Posts.findOneAndUpdate({_id: postsID}).then(post => {
-
-    }).catch(err => console.log(err));
+    console.log( posts.posts );
+    res.send({
+        posts
+      });
   }).catch(err => {console.log( err );})
-
-  res.send({
-    postsID,
-    postID
-  });
-  return;
 };
-
-
 
 
 //    OldRouts!!! +++
