@@ -61,6 +61,9 @@
       font-size: 1rem;
       border-radius: 50%;
       background-color: transparent;
+      .ui.button:active{
+        background: none !important;
+      }
 
       i {
         opacity: 1;

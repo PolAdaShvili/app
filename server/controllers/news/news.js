@@ -61,14 +61,14 @@ exports.setPost = (req, res, next) => {
 //    DELETE
 exports.deletePost = (req, res, next) => {
   const { postsID, postID } = req.body;
-
-  Post.findOne({
-    _id: postsID
-  }).then(posts => {
-    console.log( posts.posts );
-    res.send({
-        posts
-      });
+  Post.findOneAndUpdate({_id: postsID},{
+    $pull: {posts: { _id:  postID} }
+  }).then(post => {
+    Post.findOne({
+      _id: postsID
+    }).then(posts => {
+      res.send({posts});
+    }).catch(err => {console.log( err );})
   }).catch(err => {console.log( err );})
 };
 

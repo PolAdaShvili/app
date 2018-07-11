@@ -4,8 +4,7 @@ import { ADD_USER, EXIT_USER, ADD_FRIEND, REMOVE_FRIEND, SET_NEWS } from '../../
 const initialState = {
   authorization: false,
   userInfo: {},
-  friends: [],
-  //posts: []
+  friends: []
 };
 
 const addUserReducer = ( state = initialState, action ) => {

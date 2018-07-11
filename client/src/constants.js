@@ -4,7 +4,7 @@ export const EXIT_USER = 'EXIT_USER';
 export const ADD_FRIEND = 'ADD_FRIEND';
 export const REMOVE_FRIEND = 'REMOVE_FRIEND';
 export const SET_NEWS = 'SET_NEWS';
-export const GET_MY_POSTS = 'GET_MY_POSTS';
+export const DELETE_POST = 'DELETE_POST';
 export const USERS_FROM_DB = 'http://localhost:3001/api/users';
 export const HOST_URL = 'http://localhost:3000';
 

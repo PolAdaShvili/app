@@ -23,10 +23,6 @@ const ViewPosts = ({ posts, user, deletePost }) =>{
                       data-post={_id}/></Feed.Extra>
                   </Feed.Summary>
                   <Feed.Meta>
-                    <Feed.Like>
-                      <Icon name='like' />
-                      0 Likes
-                    </Feed.Like>
                     <Feed.Date>{date}</Feed.Date>
                   </Feed.Meta>
                 </Feed.Content>

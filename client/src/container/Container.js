@@ -16,7 +16,7 @@ import { langReducer } from "../actions/changeLang";
 import { HOST_URL } from '../constants';
 import browserHistory from '../browserHistory'
 import { addFriendActions, addUserReducer, exitUserActions,
-  removeFriendAction, setNewsAction } from '../actions/addUser';
+  removeFriendAction, setPostAction, deletePostAction } from '../actions/addUser';
 
 
 class Container extends Component{
@@ -66,7 +66,7 @@ class Container extends Component{
               path='/account'
               render={() => <Account
                 setPost={this.props.setPosts}
-                configLang={translations.main.account}
+                configLang={translations.main.account} deletePost={ this.props.deletePost }
                 user={user} setNews={this.props.setNews} addUser={addUser} posts={posts}/>}
             />
             <Route
@@ -150,7 +150,7 @@ const mapDispatchToProps = dispatch => {
      }).catch(err => { console.log( err ) })
    },
    setNews: payload => {
-     dispatch(setNewsAction(payload))
+     dispatch(setPostAction(payload))
    },
    exitUser: () => {
      dispatch(exitUserActions({}));

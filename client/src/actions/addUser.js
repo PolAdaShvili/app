@@ -1,4 +1,5 @@
-import { ADD_USER, EXIT_USER, ADD_FRIEND, REMOVE_FRIEND, SET_NEWS } from '../constants';
+import { ADD_USER, EXIT_USER, ADD_FRIEND, REMOVE_FRIEND,
+  SET_NEWS, DELETE_POST } from '../constants';
 
 
 export function addUserReducer( payload ) {
@@ -13,12 +14,8 @@ export function removeFriendAction( {payload} ) {
   return { type: REMOVE_FRIEND, payload };
 }
 
-export function setNewsAction( payload ) {
+export function setPostAction( payload ) {
   return { type: SET_NEWS, payload };
-}
-
-export function getNews(payload) {
-  return { type: GET_NEWS };
 }
 
 export function exitUserActions() {

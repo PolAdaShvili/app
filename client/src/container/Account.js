@@ -46,7 +46,6 @@ class Account extends Component {
         method: 'get', url: '/api/posts',
         headers: {'Content-Type': 'application/json', authorization: localStorage.getItem( 'token' )}
       }).then(res => {
-        console.log( res.data );
         res.data ? (this.props.setNews(res.data), this.setState({postsID: res.data.posts._id})) : null;
       })
     }
@@ -99,7 +98,14 @@ class Account extends Component {
   }
   deletePost(e){
     const postID = e.target.getAttribute('data-post');
-    console.log( postID );
+    const postsID = this.state.postsID;
+    const payload ={ postsID, postID };
+    axios({
+      method: 'delete', url: '/api/posts', data: payload,
+      headers: {'Content-Type': 'application/json', authorization: localStorage.getItem( 'token' )}
+    }).then(res => {
+      this.props.setNews(res.data);
+    })
   }
   saveOnClick(){
     const dataUser = Object.assign( {}, this.state );
