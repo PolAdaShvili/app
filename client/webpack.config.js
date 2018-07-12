@@ -10,7 +10,7 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'My App',
+      title: 'React social app',
       template: './src/index.html'
     }),
     new webpack.HotModuleReplacementPlugin()

@@ -40,11 +40,9 @@ exports.getAllPosts =  (req, res, next) => {
         })
 
         allPosts.sort(sortFunction);
-
         res.send({
           allPosts
         });
-
       })
 
     }).catch(err => { console.log( err ); });

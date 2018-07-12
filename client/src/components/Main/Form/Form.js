@@ -75,7 +75,7 @@ const FormComponent = ({ modal, configLang, handlerInput, clickModalReg, handler
       </Form>
       <Label className='selectAvatar'> { configLang.selectPhotoLabel }
       <span className='photoLabelRequred'>{ configLang.selectPhotoLabel }</span>
-      <form className='buttonBox' encType="multipart/form-data" method='post'>
+      <div className='buttonBox'>
         {
           photoInfo === 'small' ?
             <Button fluid color='grey' icon='download' className='dowLand err' content={ configLang.photoSmall } /> :
@@ -86,7 +86,7 @@ const FormComponent = ({ modal, configLang, handlerInput, clickModalReg, handler
           multiple={ false }
           onDone={ getFiles }
         />
-      </form>
+      </div>
       </Label>
       <Button
         type='submit'

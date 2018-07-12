@@ -4,11 +4,11 @@ import { Button } from 'semantic-ui-react';
 const LogoReact = () => {
   return (
     <div className='logoReact'>
-      <Button>
+      <button>
         <div/>
         <div/>
         <div/>
-      </Button>
+      </button>
     </div>
   )
 };

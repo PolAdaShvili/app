@@ -8,8 +8,7 @@ const ViewPosts = ({ posts, user, deletePost, configLang, getDateNews }) =>{
     {posts ? <div className="Posts">
       {posts ? posts.posts.posts.map(({post, _id }, i) => {
         const { postBody, postPhotos, date } = post[0];
-        return (
-          <div className='Post' key={i}>
+        return ( <div className='Post' key={i}>
             <Feed>
               <Feed.Event>
                 <Feed.Label image={ user.photo } />

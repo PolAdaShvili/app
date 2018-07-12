@@ -56,7 +56,7 @@ export const lang = {
         button: 'Create account',
         selectPhotoLabel: 'Select photo',
         err: 'Selected photo or enter requred fields!',
-        emailBusy: 'Email is busy!',
+        emailBusy: 'Email is already in use!',
         photoSmall: 'The photo is small! minimum size 4kb.',
         photoBig: 'The photo is big! maximum size 500kb.',
         photoNormal: 'Upload a photo!'

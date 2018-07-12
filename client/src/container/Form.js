@@ -59,15 +59,14 @@ class FormControl extends Component {
       .then( res => {
         if(res.data.message === 'email busy') {
           this.setState({ email: res.data.message });
+        } else if(res.data.message === 'validator-err'){
+          this.setState({ email: 'Email is already in use!' });
         } else {
           localStorage.setItem('token', res.data.token);
           const data = Object.assign({}, res.data.user, {psw: res.data.password});
           this.setState({modal: data});
         }
-      })
-      .catch( err => {
-        console.log( 'post_ERRORS_/API/user/___Form--->', err );
-      });
+      }).catch( err => {console.log( err)});
 
     } else {
       this.setState({ err: 'Selected photo or enter requred fields!' });

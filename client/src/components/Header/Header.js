@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Divider, Container, Button } from 'semantic-ui-react';
+import { Container, Button } from 'semantic-ui-react';
 import LangDropDown from './LangDropdown';
 import LogoReact from './LogoReact';
 
@@ -11,36 +11,17 @@ const Header = ({ configLang, setLang, auth, exit }) => {
       <LogoReact />
       <Container className='headerContainer'>
         <div className='homeBox'>
-          <Button
-            size='mini'
-            content={ configLang.btnHome }
-            color='violet'
-            className='btnHome'
-          />
-          <Link to='/' className='LinkHome' >HOME</Link>
+          <Button size='mini' className='btnHome' content={ configLang.btnHome }/>
+          <Link to='/' className='LinkHome'/>
         </div>
-        {auth ? <Button
-          role='button'
-          color='yellow'
-          size='mini'
-          onClick={exit}
-          className='btnExit'
-          content={ configLang.btnExit }
-        /> : <div className='regBox'>
-          <Button
-            color='google plus'
-            size='mini'
-            className='btnReg'
-            content={ configLang.btnReg }
-          />
-          <Link to='/registration' className='LinkReg' >Reg</Link>
-        </div>}
+        {auth ? <Button role='button' size='mini' onClick={exit}
+          className='btnExit' content={ configLang.btnExit }/> :
+          <div className='regBox'>
+            <Button size='mini' color='google plus' className='btnReg' content={ configLang.btnReg }/>
+            <Link to='/registration' className='LinkReg'/>
+          </div>}
       </Container>
-      <LangDropDown
-        configLang={ configLang.langParams }
-        setLang={ setLang }
-      />
-      <Divider />
+      <LangDropDown configLang={ configLang.langParams } setLang={ setLang }/>
     </header>
   )
 };
