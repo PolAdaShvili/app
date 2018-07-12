@@ -1,0 +1,148 @@
+@import "../const";
+
+
+.WrapperNews{
+  width: 75%;
+  position: relative;
+  margin: 25px 0 50px 0;
+  .News{
+    width: 100%;
+    min-height: max-content;
+    margin: 25px 0 25px 0;
+    padding: 0 50px 0 50px;
+    border-radius: 25px;
+    background-color: $accentColorMain;
+    position: relative;
+    box-shadow: 10px 10px 5px 0px #495867 !important;
+    .Posts{
+      background: $accentColorMain;
+      padding: 25px;
+      border-radius: 25px;
+      position: relative;
+      box-shadow: none !important;
+
+      .meta{
+        position: absolute;
+        right: 25px;
+        .date{
+          color: black !important;
+        }
+      }
+      .Post{
+        padding: 15px;
+        position: relative;
+        margin-bottom: 15px;
+        border-radius: 25px;
+        background: #ffe3aa;
+
+
+        &:last-child{
+          margin-bottom: 50px;
+        }
+        .deletePost{
+          position: absolute;
+          right: 25px;
+          &:hover::after{
+            content: 'Delete post?';
+          }
+          &:hover::after .deletePost{
+            background: green;
+          }
+        }
+      }
+    }
+  }
+  .NewPost{
+    position: relative;
+    border-radius: 25px;
+    margin-top: 25px;
+    padding: 10px;
+    background: $accentColorMain;
+    margin-bottom: 25px;
+    box-shadow: 10px 10px 5px 0px #495867 !important;
+    .aside{
+      position: absolute !important;
+      left: 50px;
+    }
+
+    textarea{
+      height: 9rem !important;
+      max-height: 15rem;
+      background-color: #ffe3aa;
+    }
+    .titlePost{
+      position: relative;
+      font-size: 25px;
+    }
+    .photo{
+      position: absolute;
+      top: 130px;
+      left: 25px;
+
+      .avatarBox{
+        position: relative;
+
+        .btnUploadPhotos{
+          width: 50px;
+          height: 50px;
+          color: white;
+          background: #833668;
+
+
+          & .photo {
+            left: -5px;
+            top: 5px;
+            font-size: 33px;
+            position: relative;
+          }
+        }
+        input[type=file]{
+          width: 50px;
+          position: absolute;
+          height: 100%;
+          cursor: pointer;
+          opacity: 0;
+          z-index: 9;
+        }
+      }
+    }
+    .comments{
+      margin: 0 auto;
+      max-width: 90%;
+    }
+    .author{
+      color: $textColor-1 !important;
+      position: relative;
+      right: 90px;
+    }
+    .sendPost{
+      position: absolute;
+      right: 25px;
+      height: 125px;
+      width: 50px;
+      color: white;
+      background: #833668;
+      top: 55px;
+      i {
+        font-size: 30px;
+        position: relative;
+        right: 8px;
+      }
+    }
+    .titlePost{
+      color: $textColor-1;
+    }
+    .comment{
+      margin-bottom: 25px;
+      position: static;
+    }
+    .form{
+      right: 25px;
+    }
+    .avatar{
+      top: 50px;
+      left: 25px;
+      width: 50px !important;
+    }
+  }
+}

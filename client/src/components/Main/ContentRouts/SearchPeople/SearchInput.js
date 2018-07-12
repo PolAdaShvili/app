@@ -1,16 +1,15 @@
 import React from 'react';
-import { Segment, Input } from 'semantic-ui-react';
+import { Input } from 'semantic-ui-react';
 
-
-const SearchInput = ({ eventSearch }) => (
+const SearchInput = ( {eventSearch, configLang} ) =>{
+  return (
     <Input
       fluid
       icon='search'
       className='search_input'
-      placeholder='Search...'
+      placeholder={configLang.placeHolderSearch}
       onChange={ eventSearch }
-      iconPosition='left'
-    />
-);
+      iconPosition='left'/> )
+};
 
 export default SearchInput;

@@ -1,7 +1,8 @@
 @import "../const";
 
 .Aside{
-  max-height: 75%;
+  max-height: max-content;
+  min-width: 15%;
   width: 15%;
   margin: 25px 50px 50px 0;
 
@@ -11,15 +12,22 @@
   }
 
   .userControlMenu, .LoginMenu {
-    width: 15%;
     height: 100%;
+    width: 100% !important;
     margin-top: 25px;
     color: $accentColor-2 !important;
     border-radius: 0 25px 25px 0;
     background-color: $accentColorMain !important;
     box-shadow: 10px 10px 5px 0px #495867 !important;
 
-    & a{
+    form{
+      margin-right: 25px;
+    }
+    .sign{
+      margin-right: 25px;
+    }
+    & .item{
+      margin-left: 25px;
       color: $textColor-1 !important;
     }
   }
@@ -48,10 +56,12 @@
 
     .item{
       margin-bottom: 20px;
+
     }
     .label{
       width: 100%;
     }
+    color: $textColor-1 !important;
   }
 }
 

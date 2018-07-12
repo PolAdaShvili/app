@@ -1,5 +1,6 @@
-import { CHANGE_LANG } from '../constants';
-import { lang } from '../constants';
+import { CHANGE_LANG, lang } from '../constants';
+
+
 
 const initialState = {
   fixedLang: 'gb',

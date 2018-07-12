@@ -12,6 +12,7 @@ const LangDropDown = ({ configLang, setLang }) => {
     <div className='lang-box'>
       <Dropdown
         icon='globe'
+        labeled
         direction='left'
         button className='lang'>
         <Dropdown.Menu>
