@@ -92,10 +92,10 @@ class Container extends Component{
               path='/viewprofile'
               render={() => <ViewUser configLang={translations.main.viewUser}/>}
             />
-            <Route
-              path='/setting'
-              render={() => <Setting/>}
-            />
+            {/*<Route*/}
+              {/*path='/setting'*/}
+              {/*render={() => <Setting/>}*/}
+            {/*/>*/}
           </Switch>
         </div>
         <Footer

@@ -74,18 +74,12 @@ exports.userAdd = (req, res, next) => {
                 password: psw
               })
             });
-          } ).catch( err =>{
-            console.log( err );
-          } ).catch( err =>{
-            console.log( err );
-          } );
+          } ).catch( err =>{console.log( err )
+          }).catch( err =>{console.log( err )});
         }
-      } ).catch( err =>{
-        console.log( err );
-      } )
+      } ).catch( err =>{console.log( err )});
     } else{
-      res.status(400).send('Validation error');
-      return;
+      res.json({message: 'email busy'})
     }
   });
 };

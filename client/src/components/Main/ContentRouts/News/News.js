@@ -3,10 +3,11 @@ import { Button, Icon, Feed, Image, Divider } from 'semantic-ui-react';
 
 const NewsComponent = ({ posts, getDateNews, configLang }) =>{
   return (  <div className='News'>
-  <div className="Posts">
     {posts ? posts.allPosts.map( ({ postPhotos, postBody, date, userId, _id, avatar, author }, i ) => {
-      return (<div className='Post' key={i}>
+      return (<div className="Posts" key={i}>
+        <div className='Post'>
         <Feed>
+
           <Feed.Event>
             <Feed.Label image={ avatar} />
             <Feed.Content>
@@ -32,9 +33,9 @@ const NewsComponent = ({ posts, getDateNews, configLang }) =>{
               </div> })}
           </div> : null}
         </div>
-      </div>)
+        </div>
+      </div> )
     }) : null}
-  </div>
   </div> )
 };
 

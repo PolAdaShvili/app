@@ -25,7 +25,6 @@ class Account extends Component {
     this.handleGender = this.handleGender.bind( this );
     this.uploadPhotos = this.uploadPhotos.bind( this );
     this.changeLangDate = this.changeLangDate.bind( this );
-    this.validateEmail = this.validateEmail.bind( this );
     this.handleChangePost = this.handleChangePost.bind( this );
     this.validateChangeInput = this.validateChangeInput.bind( this );
   }
@@ -96,13 +95,6 @@ class Account extends Component {
     } else {
       validate( regExp, name, value ) ? ( setValidClass( e ), this.setState( {[ name ]: value} ) ) : ( setErrValidClass( e ), this.setState( {[ name ]: ''} ) );
     }
-  }
-  validateEmail( e ){
-    const emailValid = approve.value( e.target.value, validateEmail );
-    emailValid.approved ? ( this.setState( {
-      email: e.target.value,
-      emailBusy: false
-    } ), setValidClass( e ) ) : ( this.setState( {email: e.target.value} ), setErrValidClass( e ) );
   }
   modeOnclick( e ){
     this.setState( {mode: this.state.mode === 'view' ? 'edit' : 'view'} );

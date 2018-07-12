@@ -4,7 +4,7 @@ import { Button, Form, Icon, Image, Label, Segment } from 'semantic-ui-react';
 import FieldInputs from './FieldInputs';
 import NewPost from './NewPost';
 
-const AccountComponent = ({user, mode, gender, photo, getFiles, modeOnclick, validateEmail, emailBusy,
+const AccountComponent = ({user, mode, gender, photo, getFiles, modeOnclick, emailBusy,
   validateChangeInput, firstErr, surnameErr, middleErr, handleGender, saveOnClick, configLang } ) =>{
   return ( <div className='Account'>
       <div className='myPage'>
@@ -29,7 +29,7 @@ const AccountComponent = ({user, mode, gender, photo, getFiles, modeOnclick, val
                   fieldName='email'
                   val={user.email}
                   fieldTitle={configLang.email}
-                  eventHandler={validateEmail}
+                  eventHandler={validateChangeInput}
                 />
                 {emailBusy ? <Label
                   content={configLang.emailBusy}

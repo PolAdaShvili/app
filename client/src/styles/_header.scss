@@ -4,70 +4,70 @@
   min-height: 50px;
   display: flex;
   background-color: $accentColorMain;
-  .regBox {
-    position: relative;
 
-    .btnReg {
-      height: 75%;
-      margin-top: 5px;
-    }
-    .LinkReg {
-      opacity: 0;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      position: absolute;
-    }
-  }
-  .homeBox{
-    position: relative;
-
-    .btnHome {
-      height: 75%;
-      margin-top: 5px;
-      color: white;
-      background-color: $btnPrimaryColor;
-    }
-    .LinkHome {
-      opacity: 0;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      position: absolute;
-    }
-  }
-  .btnExit{
-    color: white !important;
-    height: 75%;
-    margin-top: 5px;
-    background-color: $btnPrimaryColor !important;
-  }
   .headerContainer {
     display: flex;
     color: $text-color;
     font-family: Lato, sans-serif;
     justify-content: space-between;
+
+    .regBox {
+      position: relative;
+
+      .btnReg {
+        height: 75%;
+        margin-top: 5px;
+      }
+      .LinkReg {
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        position: absolute;
+      }
+    }
+    .homeBox{
+      position: relative;
+
+      .btnHome {
+        height: 75%;
+        margin-top: 5px;
+        color: white;
+        background-color: $btnPrimaryColor;
+      }
+      .LinkHome {
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        position: absolute;
+      }
+    }
+    .btnExit{
+      color: white !important;
+      height: 75%;
+      margin-top: 5px;
+      background-color: $btnPrimaryColor !important;
+    }
   }
   .lang-box  {
     top: 15px;
     right: 25px;
     position: absolute;
 
-    .ui .menu > .header {
-      text-transform: none;
-    }
     .lang {
       color: $text-color;
       font-size: 1rem;
       border-radius: 50%;
       background-color: transparent;
+
       .ui.button:active{
         background: none !important;
       }
 
-      i {
-        opacity: 1;
-      }
+    }
+    .ui .menu > .header {
+      text-transform: none;
     }
   }
   .logoReact {
@@ -81,6 +81,9 @@
       transition-delay: 100ms;
       transform: scale(0.9, 0.9);
       transition: all 200ms cubic-bezier(.61, .01, .42, 1);
+      &:focus{
+        outline-color: transparent !important;
+      }
 
       div {
         bottom: 18px;
@@ -112,6 +115,7 @@
         }
       }
     }
+
     @keyframes ball {
       0% {
         left: -20%;

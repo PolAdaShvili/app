@@ -19,8 +19,7 @@ const NewPost = ({ user, uploadPhotos, handleChangePost, sendPost, configLang })
             <Comment.Author as='a'>{ `${user.name} ${user.surname}` }</Comment.Author>
             <span className='titlePost'>{ configLang.createPost }</span>
             <Form reply>
-              <TextArea
-                autoHeight className='textArea'
+              <TextArea autoHeight className='textArea'
                 placeholder={ configLang.createPost } onChange={ handleChangePost } />
             </Form>
             <Button icon='paper plane' className='sendPost' animated='vertical' onClick={ sendPost }/>
