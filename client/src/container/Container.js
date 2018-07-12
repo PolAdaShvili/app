@@ -15,9 +15,9 @@ import Footer from '../components/Footer/Footer';
 import { langReducer } from "../actions/changeLang";
 import { HOST_URL } from '../constants';
 import browserHistory from '../browserHistory'
-import { addFriendActions, addUserReducer, exitUserActions,
-  removeFriendAction, setPostAction, deletePostAction } from '../actions/addUser';
-
+import {
+  addFriendActions, addUserReducer, deletePostAction, exitUserActions, removeFriendAction, setPostAction
+} from '../actions/addUser';
 
 class Container extends Component{
   constructor(props){
