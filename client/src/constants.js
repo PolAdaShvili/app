@@ -70,7 +70,9 @@ export const lang = {
         age: 'Age',
         save: 'Save',
         nameErr: 'Not valid name',
-        emailBusy: 'Email is busy!'
+        emailBusy: 'Email is busy!',
+        author: 'Author: ',
+        createPost: 'Creating posts'
       },
       friends: {
         placeHolderSearch: 'Search...',
@@ -90,11 +92,8 @@ export const lang = {
         view: 'View'
       },
       news: {
-        placeHolderPost: 'New Post...',
-        btnAddPost: 'Add post',
-        btnAddPhoto: 'Add photo',
-        btnSendPost: 'Send post',
-        btnClosePost: 'Close'
+        author: 'Author: ',
+        createPost: 'Creating posts'
       },
       viewUser: {
         btnBack: 'Back',
@@ -165,7 +164,9 @@ export const lang = {
         age: 'Возраст',
         save: 'Сохранить',
         nameErr: 'Имя не валидно',
-        emailBusy: 'Почтовый адресс занят'
+        emailBusy: 'Почтовый адресс занят',
+        author: 'Автор: ',
+        createPost: 'Создать пост'
       },
       friends: {
         placeHolderSearch: 'Поиск...',
@@ -185,11 +186,8 @@ export const lang = {
         view: 'Просмотр'
       },
       news: {
-        placeHolderPost: 'Новый пост...',
-        btnAddPost: 'Добавить пост',
-        btnAddPhoto: 'Добавить фотографию',
-        btnSendPost: 'Отравить пост',
-        btnClosePost: 'Закрыть'
+        author: 'Автор: ',
+        createPost: 'Создать пост'
       },
       viewUser: {
         btnBack: 'Назад',
@@ -260,7 +258,9 @@ export const lang = {
         age: 'Вік',
         save: 'Зберигти',
         nameErr: 'Авторизація не пройшла',
-        emailBusy: 'Електронна пошта зайнята!'
+        emailBusy: 'Електронна пошта зайнята!',
+        author: 'Автор: ',
+        createPost: 'Створти повідомлення'
       },
       friends: {
         placeHolderSearch: 'Пошук...',
@@ -280,11 +280,8 @@ export const lang = {
         view: 'Перегляд'
       },
       news: {
-        placeHolderPost: 'Нове повідомлення...',
-        btnAddPost: 'Додати новину',
-        btnAddPhoto: 'Додати фотографію',
-        btnSendPost: 'Відправити повідомлення',
-        btnClosePost: 'Закрити'
+        author: 'Автор: ',
+        createPost: 'Створти повідомлення'
       },
       viewUser: {
         btnBack: 'Назад',

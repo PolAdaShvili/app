@@ -1,6 +1,7 @@
 import { CHANGE_LANG, lang } from '../constants';
 
 
+
 const initialState = {
   fixedLang: 'gb',
   translations: lang['gb']

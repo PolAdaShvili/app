@@ -2,19 +2,18 @@
 
 .SearchPeople{
   width: 75%;
-  max-height: 75%;
+  height: max-content;
   display: flex;
   margin: 25px 0 50px 0;
   padding: 0 50px 0 50px;
   border-radius: 25px;
   background-color: $accentColorMain;
   position: relative;
-  overflow-y: scroll;
   box-shadow: 10px 10px 5px 0px #495867 !important;
-
 
   .SearchInputBlock{
     width: 100%;
+    margin-bottom: 25px;
     .search_input{
       font-size: 1.5rem;
       margin-top: 25px;
@@ -111,6 +110,5 @@
       border-radius: 50%;
     }
   }
-
 }
 

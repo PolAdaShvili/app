@@ -36,12 +36,13 @@ class Container extends Component{
       }).catch(err => {
         console.log( err );
       })
+
     }
   }
 
   render(){
     const { translations, setLang, exitUser, addUser, auth, user,
-      signUser, friends, addFriend, removeFriend, setNews, posts } = this.props;
+      signUser, friends, addFriend, removeFriend, setNews, posts, fixedLang } = this.props;
 
     return (
       <div className='App'>
@@ -65,7 +66,7 @@ class Container extends Component{
             <Route
               path='/account'
               render={() => <Account
-                setPost={this.props.setPosts}
+                setPost={this.props.setPosts} fixedLang={ fixedLang }
                 configLang={translations.main.account} deletePost={ this.props.deletePost }
                 user={user} setNews={this.props.setNews} addUser={addUser} posts={posts}/>}
             />
@@ -84,8 +85,8 @@ class Container extends Component{
             <Route
               path='/news'
               render={() => <News
-                configLang={translations.main.news}
-                setNews={setNews} user={this.props.user}/>}
+                user={user} fixedLang={ fixedLang }
+                configLang={translations.main.news} setNews={ setNews } />}
             />
             <Route
               path='/viewprofile'
@@ -111,6 +112,7 @@ const mapStateToProps = state => {
     user: state.addUser.userInfo.user,
     auth: state.addUser.authorization,
     userInfo: state.addUser,
+    fixedLang: state.changeLang.fixedLang,
     translations: state.changeLang.translations
   }
 };

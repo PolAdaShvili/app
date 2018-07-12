@@ -3,7 +3,7 @@ import FileBase64 from 'react-file-base64';
 import { Button, Feed, Image, Input, Comment, Form, Icon, TextArea } from 'semantic-ui-react';
 import FieldInputs from './FieldInputs';
 
-const NewPost = ({ user, uploadPhotos, handleChangePost, sendPost }) =>{
+const NewPost = ({ user, uploadPhotos, handleChangePost, sendPost, configLang }) =>{
   return (<div>
     {user ? <div className='NewPost'>
       <Comment.Group>
@@ -17,11 +17,11 @@ const NewPost = ({ user, uploadPhotos, handleChangePost, sendPost }) =>{
           </div>
           <Comment.Content>
             <Comment.Author as='a'>{ `${user.name} ${user.surname}` }</Comment.Author>
-            <span className='titlePost'>Creating posts</span>
+            <span className='titlePost'>{ configLang.createPost }</span>
             <Form reply>
               <TextArea
                 autoHeight className='textArea'
-                placeholder='Creating new post...' onChange={ handleChangePost } />
+                placeholder={ configLang.createPost } onChange={ handleChangePost } />
             </Form>
             <Button icon='paper plane' className='sendPost' animated='vertical' onClick={ sendPost }/>
           </Comment.Content>

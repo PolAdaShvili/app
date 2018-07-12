@@ -268,38 +268,46 @@
       width: 50px !important;
     }
   }
-}
-
-.Posts{
-  background: $accentColorMain;
-  padding: 25px;
-  border-radius: 25px;
-  position: relative;
-  box-shadow: 10px 10px 5px 0px #495867 !important;
-
-  .Post{
-    padding: 15px;
-    position: relative;
-    margin-bottom: 15px;
+  .Posts{
+    background: $accentColorMain;
+    padding: 25px;
     border-radius: 25px;
-    background: #ffe3aa;
-    &:last-child{
-      margin-bottom: 50px;
-    }
-    .deletePost{
-      position: absolute;
-      right: 25px;
-      &:hover::after{
-        content: 'Delete post?';
-      }
-      &:hover::after .deletePost{
-        background: green;
-      }
-    }
+    position: relative;
+    box-shadow: 10px 10px 5px 0px #495867 !important;
 
-    .date{
-      position: absolute;
-      right: 25px;
+    .Post{
+      padding: 15px;
+      position: relative;
+      margin-bottom: 15px;
+      border-radius: 25px;
+      background: #ffe3aa;
+      .meta{
+        position: absolute;
+        right: 25px;
+        .date{
+          color: black !important;
+        }
+      }
+      &:last-child{
+        margin-bottom: 50px;
+      }
+      .deletePost{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        height: 25px;
+        &:hover::after{
+          content: 'Delete post?';
+        }
+        &:hover::after .deletePost{
+          background: green;
+        }
+      }
+
+      .date{
+        position: absolute;
+        right: 25px;
+      }
     }
   }
 }

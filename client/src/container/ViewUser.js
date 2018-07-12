@@ -8,7 +8,7 @@ class ViewUser extends Component{
     const {ownProps, configLang} = this.props;
     const { user } = ownProps.location;
     return ( <ViewUserComponent
-      configLang={configLang}
+      configLang={ configLang }
       user={user} history={history}/> )
   }
 }

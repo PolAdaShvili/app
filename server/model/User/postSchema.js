@@ -3,15 +3,17 @@ const mongoose = require('mongoose');
 
 const postSchema = mongoose.Schema({
   userId: String,
+  avatar: String,
   posts: [{
     post: [{
+      avatar: String,
+      author: String,
+      userId: String,
       postBody: String,
       postPhotos: Array,
-      postBody: String,
       date:{ type: Date, default: Date.now() }
     }]
-  }],
-  friends: Array,
+  }]
 });
 
 const Post = mongoose.model('Post', postSchema);

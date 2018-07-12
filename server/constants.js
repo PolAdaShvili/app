@@ -9,10 +9,17 @@ const regExp = {
   age:  /^(100|[1-9]?[1-9])$/
 };
 
+function sortFunction(a,b){
+  var dateA = new Date(a.date).getTime();
+  var dateB = new Date(b.date).getTime();
+  return dateA < dateB ? 1 : -1;
+};
+
 module.exports = {
   PORT,
   URL_DB,
   URL_USERS,
   regExp,
-  secret
+  secret,
+  sortFunction
 };

@@ -38,7 +38,6 @@ app.use("/api/posts", newsRout);
 
 ///   OldRouts!!!
 app.use("/api/user", userRout);
-app.use("/api/user/news", newsRout);
 app.use("/api/user/friends", friendsRout);
 
 app.listen(PORT, () => {

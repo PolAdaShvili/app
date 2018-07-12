@@ -3,10 +3,10 @@ import { Button, Form, Icon, Feed, Image, Divider } from 'semantic-ui-react';
 import { connect } from "react-redux";
 
 
-const ViewPosts = ({ posts, user, deletePost }) =>{
+const ViewPosts = ({ posts, user, deletePost, configLang, getDateNews }) =>{
   return ( <div className='WrapperMyPosts'>
     {posts ? <div className="Posts">
-      {posts ? posts.posts.posts.map(({post, _id}, i) => {
+      {posts ? posts.posts.posts.map(({post, _id }, i) => {
         const { postBody, postPhotos, date } = post[0];
         return (
           <div className='Post' key={i}>
@@ -15,15 +15,16 @@ const ViewPosts = ({ posts, user, deletePost }) =>{
                 <Feed.Label image={ user.photo } />
                 <Feed.Content>
                   <Feed.Summary>
-                    Author: <strong>{`${user.name} ${user.surname}`}</strong>
+                    { configLang.author }<strong>{`${user.name} ${user.surname}`}</strong>
                     <Feed.Extra><Button
                       onClick={ deletePost }
                       content='X'
+                      role='button'
                       negative className='deletePost'
                       data-post={_id}/></Feed.Extra>
                   </Feed.Summary>
                   <Feed.Meta>
-                    <Feed.Date>{date}</Feed.Date>
+                    <Feed.Date>{ getDateNews(date) }</Feed.Date>
                   </Feed.Meta>
                 </Feed.Content>
               </Feed.Event>
@@ -51,5 +52,6 @@ const mapStateToProps = state => {
     posts: state.addUser.userInfo.posts
   }
 }
+
 
 export default connect(mapStateToProps)(ViewPosts);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios/index";
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { regExp } from '../constants';
 import { setErrValidClass, setValidClass, validate, validateNames } from '../validateFunc';
@@ -23,6 +24,7 @@ class Account extends Component {
     this.modeOnclick = this.modeOnclick.bind( this );
     this.handleGender = this.handleGender.bind( this );
     this.uploadPhotos = this.uploadPhotos.bind( this );
+    this.changeLangDate = this.changeLangDate.bind( this );
     this.validateEmail = this.validateEmail.bind( this );
     this.handleChangePost = this.handleChangePost.bind( this );
     this.validateChangeInput = this.validateChangeInput.bind( this );
@@ -59,8 +61,17 @@ class Account extends Component {
       headers: {'Content-Type': 'application/json', authorization: localStorage.getItem( 'token' )}
     }).then(res => {
       this.props.setNews(res.data);
+      this.setState({postsID: res.data.posts._id});
     })
     .catch(err => { console.log( err ); });
+  }
+  changeLangDate(date){
+    const { fixedLang } = this.props;
+    fixedLang === 'gb' ? moment.locale('en') :
+      fixedLang === 'ua' ? moment.locale('uk'):
+        fixedLang ==='ru' ? moment.locale('ru') : null;
+
+    if (fixedLang) return moment(date).fromNow();
   }
   getFiles( files ){
     parseInt( files.size ) < 4 ? this.setState({ photoInfo: 'small', photo: files.base64 }) :
@@ -145,7 +156,6 @@ class Account extends Component {
   render(){
     const { user, configLang, posts } = this.props;
     const { mode, gender, photo, emailBusy, firstErr, surnameErr, middleErr, myPosts } = this.state;
-
     return ( <div className='WrapperAccount'>
       <AccountComponent
         getFiles={ this.getFiles } modeOnclick={ this.modeOnclick }
@@ -155,11 +165,12 @@ class Account extends Component {
         user={ user } mode={ mode } gender={ gender } photo={ photo } saveOnClick={ this.saveOnClick }
       />
       <NewPost
-        user={ user } sendPost={ this.sendPost }
+        user={ user } sendPost={ this.sendPost } configLang={ configLang }
         handleChangePost={ this.handleChangePost } uploadPhotos={ this.uploadPhotos }
       />
        <ViewPosts
        user={ user } deletePost={ this.deletePost }
+       configLang={ configLang } getDateNews={ this.changeLangDate }
       />
     </div>)
   }

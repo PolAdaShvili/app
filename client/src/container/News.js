@@ -1,66 +1,77 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import moment from 'moment';
+import NewPost from '../components/Main/ContentRouts/Account/NewPost';
 import NewsComponent from '../components/Main/ContentRouts/News/News';
+import { connect } from "react-redux";
 
 class News extends Component {
   constructor(props){
     super(props);
     this.state = {
-      viewAddPost: false,
-      allPosts: []
+      posts: false
     }
 
-    this.getFiles = this.getFiles.bind(this);
-    this.handleSendPost = this.handleSendPost.bind(this);
-    this.handleTextArea = this.handleTextArea.bind(this);
-    this.handleViewAddPost = this.handleViewAddPost.bind(this);
+    this.handleChangePost = this.handleChangePost.bind( this );
+    this.uploadPhotos = this.uploadPhotos.bind( this );
+    this.sendPost = this.sendPost.bind( this );
+    this.changeLangDate = this.changeLangDate.bind(this);
   }
   componentDidMount(){
-    this.props.user ? axios({
-      method: 'get', url: '/api/user/news',
-      headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' )},
-    }).then(res => {
-      this.setState({ allPosts: res.data.allPosts });
-    }).catch(err => {
-      console.log( err )
-    }) : null;
+    const { user } = this.props;
+    user ? this.getPosts() : null;
   }
-
-  handleViewAddPost(){
-    this.setState({viewAddPost:  !this.state.viewAddPost});
+  getPosts(){
+    if( this.props.user ) {
+      axios({
+        method: 'get', url: '/api/posts/all',
+        headers: {'Content-Type': 'application/json', authorization: localStorage.getItem( 'token' )}
+      }).then(res => {
+        console.log(res.data);
+        this.setState({posts: res.data});
+      })
+    }
   }
-  handleSendPost(){
-    const formData = new FormData;
-    formData.append('post', this.state.newPost);
-    formData.append('photos', this.state.newPhotoPost);
+  uploadPhotos( files ){
+    this.setState({postPhotos: files});
+  }
+  handleChangePost(e){
+    this.setState({ postBody: e.target.value });
+  }
+  sendPost(){
+    const { postBody, postPhotos } = this.state;
+    const payload ={ postBody, postPhotos };
 
     axios({
-      method: 'put', url: '/api/user/news',
-      headers: {'Content-Type': 'multipart/form-data', authorization: localStorage.getItem( 'token' )},
-      data: formData
+      method: 'post', url: '/api/posts', data: payload,
+      headers: {'Content-Type': 'application/json', authorization: localStorage.getItem( 'token' )}
     }).then(res => {
-      console.log( res.data );
-      this.setState({newPost: null, newPhotoPost: null});
-      //this.props.setNews( res.data.allPosts );
-    }).catch(err => { console.log( err ) })
+      this.getPosts();
+    })
+    .catch(err => { console.log( err ); });
   }
-  handleTextArea(e){
-    this.setState({newPost: e.target.value})
-  }
-  getFiles(files){
-    this.setState({ newPhotoPost: files.base64 });
+  changeLangDate(date){
+    const { fixedLang } = this.props;
+    fixedLang === 'gb' ? moment.locale('en') :
+      fixedLang === 'ua' ? moment.locale('uk'):
+        fixedLang ==='ru' ? moment.locale('ru') : null;
+
+    if (fixedLang) return moment(date).fromNow();
   }
 
   render(){
-    const { allPosts,viewAddPost } = this.state;
-    const {configLang} = this.props;
+    const { configLang, fixedLang, user } = this.props;
+    const { posts } = this.state;
 
-    return (
-      <NewsComponent
-        handleViewAddPost={this.handleViewAddPost} configLang={configLang}
-        allPosts={ allPosts } getFiles={ this.getFiles } viewAddPost={ viewAddPost }
-        handleSendPost={ this.handleSendPost } handleTextArea={ this.handleTextArea }
-      />
+    return ( <div className='WrapperNews'>
+        <NewPost
+          user={ user } sendPost={ this.sendPost } configLang={ configLang }
+          handleChangePost={ this.handleChangePost } uploadPhotos={ this.uploadPhotos }
+        />
+        <NewsComponent posts={ posts } configLang={ configLang }
+                       getDateNews={ this.changeLangDate }
+        />
+      </div>
     )
   }
 }
